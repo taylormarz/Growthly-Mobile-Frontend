@@ -34,7 +34,7 @@ export default function SignInScreen() {
   if (!fontsLoaded) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color={Colors.textSecond} />
+        <ActivityIndicator size="large" color={Colors.growthly_white} />
       </View>
     );
   }
@@ -87,7 +87,7 @@ export default function SignInScreen() {
       <TextInput
         style={[styles.input, styles.userInput]}
         placeholder="Email or Username"
-        placeholderTextColor={Colors.textSecond}
+        placeholderTextColor={Colors.growthly_white}
         value={emailOrUsername}
         onChangeText={handleEmailOrUsernameChange}
       />
@@ -96,7 +96,7 @@ export default function SignInScreen() {
       <TextInput
         style={[styles.input, styles.passInput]}
         placeholder="Password"
-        placeholderTextColor={Colors.textSecond}
+        placeholderTextColor={Colors.growthly_white}
         value={password}
         onChangeText={handlePasswordChange}
         secureTextEntry
