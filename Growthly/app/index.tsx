@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/signin-styles';
 
-// Functionality for signing in still needs to be further implemented, but general component creation is done + nav to create account screen
+// functionality for signing in still needs to be further implemented, but general component creation is done + nav to create account screen
 
 interface SignInScreenState {
   buttonOn: boolean;

@@ -45,7 +45,7 @@ export default function CreateAccountScreen() {
     );
   }
 
-  // For navigating back to sign in (index.jsx - applied to cancel button)
+  // for navigating back to sign in (index.jsx - applied to cancel button)
   const navigateToSignInScreen = () => {
     router.push('/');
   };
