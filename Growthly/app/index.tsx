@@ -1,11 +1,14 @@
-import { View, Image, Text, TextInput, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Colors } from '@/styles/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import InputField from '../app/components/InputField/InputField';
+import Button from '../app/components/Button/Button';
 import styles from '@/styles/signin-styles';
 
-// functionality for signing in still needs to be further implemented, but general component creation is done + nav to create account screen
+// TO-DO:
+// implement remember signin information
 
 interface SignInScreenState {
   buttonOn: boolean;
@@ -15,6 +18,7 @@ interface SignInScreenState {
 
 export default function SignInScreen() {
   const [state, setState] = useState<SignInScreenState>({
+    // setting remember user info to off, unless user checks radio button
     buttonOn: false,
     emailOrUsername: '',
     password: '',
@@ -22,6 +26,7 @@ export default function SignInScreen() {
 
   const { buttonOn, emailOrUsername, password } = state;
 
+  // fonts being used in Growthly branding
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('../assets/fonts/Inter_28pt-Bold.ttf'),
     'Inter-Medium': require('../assets/fonts/Inter_28pt-Medium.ttf'),
@@ -31,14 +36,16 @@ export default function SignInScreen() {
 
   const router = useRouter();
 
+  // incase the imported fonts don't load immediately
   if (!fontsLoaded) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color={Colors.growthly_white} />
+        <ActivityIndicator size='large' color={Colors.growthly_white} />
       </View>
     );
-  }
+  };
 
+  // ********** NOTE FOR SELF: i still need to update this to actually remember user info *********
   const radioSelect = () => {
     setState(prevState => ({
       ...prevState,
@@ -46,6 +53,7 @@ export default function SignInScreen() {
     }));
   };
 
+  // hook for inputting email or username input fields
   const handleEmailOrUsernameChange = (newInput: string) => {
     setState(prevState => ({
       ...prevState,
@@ -53,6 +61,7 @@ export default function SignInScreen() {
     }));
   };
 
+  // hook for inputting password in pass input field
   const handlePasswordChange = (newPassword: string) => {
     setState(prevState => ({
       ...prevState,
@@ -60,46 +69,65 @@ export default function SignInScreen() {
     }));
   };
 
-  const handleSignIn = () => {
-    console.log("Sign In clicked");
-  };
+  // hook handles sign in for existing users
+  const handleSignIn = async () => {
+    try {
+      // contacts backend (deployed on railway)
+      const response = await fetch('https://growthly-backend.onrender.com/api/v1/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        // expected body params on the backend for sign in
+        body: JSON.stringify({
+          email_or_username: emailOrUsername,
+          password: password,
+        }),
+      });
 
+      // using this to show validation errors from backend
+      const responseData = await response.json();
+  
+      // if the user credentials are validated, the user is taken to dashboard
+      if (response.ok) {
+        console.log('Sign-in successful');
+        // transitions user on client side to dashboard
+        router.push('/screens/DashboardScreen');
+      } else {
+        // logging the error from customized error messages on backend
+        console.error('Sign-in failed: ', responseData);
+      }
+    } catch (error) {
+      console.error('Error during sign-in: ', error);
+    }
+  };    
+
+  // hook used for user to get to create account screen
   const navigateToCreateAccount = () => {
     router.push('/screens/CreateAccountScreen');
+  };
+
+  const navigateToForgotPassword = () => {
+    router.push('/screens/ForgotPasswordScreen');
   };
 
   return (
     <View style={styles.container}>
 
-      {/* Growthly logo */}
+      {/* Design at top of app */}
       <Image
         source={require('../assets/images/logo/growthly-logo-color.png')}
         style={styles.growthlyLogo}
       />
-
-      {/* Keyline 1 */}
       <View style={[styles.keyline, styles.keyline1]} />
-
-      {/* Header */}
       <Text style={styles.header}>Sign In</Text>
 
-      {/* Email or Username Input */}
-      <TextInput
-        style={[styles.input, styles.userInput]}
-        placeholder="Email or Username"
-        placeholderTextColor={Colors.growthly_white}
-        value={emailOrUsername}
-        onChangeText={handleEmailOrUsernameChange}
+      { /* Form field inputs (email/username and password) */ }
+      <InputField style={{ position: 'absolute', top: 299, left: 58}} placeholder='Email or Username' 
+        value={emailOrUsername} onChangeText={handleEmailOrUsernameChange} 
       />
-
-      {/* Password Input */}
-      <TextInput
-        style={[styles.input, styles.passInput]}
-        placeholder="Password"
-        placeholderTextColor={Colors.growthly_white}
-        value={password}
-        onChangeText={handlePasswordChange}
-        secureTextEntry
+      <InputField style={{ position: 'absolute', top: 389, left: 58}} placeholder='Password'
+        secureTextEntry={true} value={password} onChangeText={handlePasswordChange} 
       />
 
       {/* Radio Button */}
@@ -108,10 +136,8 @@ export default function SignInScreen() {
         <Text style={styles.radioText}>Remember Sign-In Information</Text>
       </TouchableOpacity>
 
-      {/* Submit Button */}
-      <TouchableOpacity onPress={handleSignIn} style={styles.submitButton}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
+      {/* Button */}
+      <Button title='Submit' onPress={handleSignIn} style={{top:559, left: 58}}/>
 
       {/* Keyline 2 */}
       <View style={[styles.keyline, styles.keyline2]}/>
@@ -122,8 +148,7 @@ export default function SignInScreen() {
       </TouchableOpacity>
 
       {/* Forgot Password Button */}
-      <Text style={[styles.createText, styles.forgotPass]}>Forgot Password?</Text>
-
+      <Text onPress={navigateToForgotPassword} style={[styles.createText, styles.forgotPass]}>Forgot Password?</Text>
     </View>
   );
-}
+};
