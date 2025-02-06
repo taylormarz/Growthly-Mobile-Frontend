@@ -58,12 +58,6 @@ const styles = StyleSheet.create({
     color: Colors.growthly_white,
     backgroundColor: Colors.growthly_inputblue,
   },
-  userInput: {
-    top: 299,
-  },
-  passInput: {
-    top: 389,
-  },
   radioButtonContainer: {
     position: 'absolute',
     top: 479,
@@ -88,17 +82,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Light',
     letterSpacing: 1,
     color: Colors.growthly_white,
-  },
-  submitButton: {
-    position: 'absolute',
-    top: 559,
-    left: 58,
-    width: 310,
-    height: 60,
-    borderRadius: 15,
-    backgroundColor: Colors.growthly_green,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   buttonText: {
     fontSize: 20,
