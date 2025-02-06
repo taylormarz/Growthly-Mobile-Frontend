@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '../styles/colours';
+import { Colors } from './colors';
 
 const styles = StyleSheet.create({
+  // repeat styles, move to general style sheet
   container: {
     flex: 1,
     justifyContent: 'center',

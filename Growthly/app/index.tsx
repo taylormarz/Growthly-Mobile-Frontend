@@ -1,9 +1,9 @@
 import { View, Image, Text, TextInput, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
-import { Colors } from '../styles/colours';
+import { Colors } from '@/styles/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import styles from '../styles/signin-styles';
+import styles from '@/styles/signin-styles';
 
 // Functionality for signing in still needs to be further implemented, but general component creation is done + nav to create account screen
 
@@ -65,7 +65,7 @@ export default function SignInScreen() {
   };
 
   const navigateToCreateAccount = () => {
-    router.push('/create-account');
+    router.push('/screens/CreateAccountScreen');
   };
 
   return (
