@@ -8,10 +8,7 @@ import Button from '../app/components/Button/Button';
 import styles from '@/styles/signin-styles';
 
 // TO-DO:
-// implement sign in functionality [DONE]
-// navigate to forgot password page when button clicked 
 // implement remember signin information
-// put export statement into forgotpasswordscreen.tsx to remove warning error
 
 interface SignInScreenState {
   buttonOn: boolean;
