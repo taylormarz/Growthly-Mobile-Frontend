@@ -1,18 +1,19 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '../styles/colours';
+import { Colors } from './colors';
 
 const styles = StyleSheet.create({
+  // repeat styles, move to general style sheet
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.growthly_darkblue,
   },
   loaderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.growthly_darkblue,
   },
   growthlyLogo: {
     position: 'absolute',
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontFamily: 'Inter-Bold',
     letterSpacing: 2,
-    color: Colors.textSecond,
+    color: Colors.growthly_white,
   },
   input: {
     position: 'absolute',
@@ -54,8 +55,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 16,
     fontFamily: 'Inter-Regular',
-    color: Colors.textSecond,
-    backgroundColor: Colors.inputFieldPrime,
+    color: Colors.growthly_white,
+    backgroundColor: Colors.growthly_inputblue,
   },
   userInput: {
     top: 299,
@@ -74,19 +75,19 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 5,
-    borderColor: Colors.textSecond,
-    backgroundColor: Colors.secondary,
+    borderColor: Colors.growthly_white,
+    backgroundColor: Colors.growthly_white,
   },
   radioActive: {
-    backgroundColor: Colors.buttonPrime,
-    borderColor: Colors.buttonPrime,
+    backgroundColor: Colors.growthly_green,
+    borderColor: Colors.growthly_green,
   },
   radioText: {
     marginLeft: 15,
     fontSize: 12,
     fontFamily: 'Inter-Light',
     letterSpacing: 1,
-    color: Colors.textSecond,
+    color: Colors.growthly_white,
   },
   submitButton: {
     position: 'absolute',
@@ -95,14 +96,14 @@ const styles = StyleSheet.create({
     width: 310,
     height: 60,
     borderRadius: 15,
-    backgroundColor: Colors.buttonPrime,
+    backgroundColor: Colors.growthly_green,
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonText: {
     fontSize: 20,
     fontFamily: 'Inter-Medium',
-    color: Colors.buttonTextPrime,
+    color: Colors.growthly_darkblue,
   },
   createButton: {
     position: 'absolute',
@@ -111,14 +112,14 @@ const styles = StyleSheet.create({
     width: 129,
     height: 36,
     borderRadius: 10,
-    backgroundColor: Colors.buttonSecond,
+    backgroundColor: Colors.growthly_teal,
     justifyContent: 'center',
     alignItems: 'center',
   },
   createText: {
     fontSize: 12,
     fontFamily: 'Inter-Regular',
-    color: Colors.buttonTextSecond,
+    color: Colors.growthly_white,
   },
   forgotPass: {
     position: 'absolute',
