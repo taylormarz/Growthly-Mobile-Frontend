@@ -1,4 +1,4 @@
-import { View, Image, Text, TextInput, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { View, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Colors } from '@/styles/colors';
 import { useState } from 'react';
@@ -7,10 +7,9 @@ import InputField from '../app/components/InputField/InputField';
 import Button from '../app/components/Button/Button';
 import styles from '@/styles/signin-styles';
 
-// functionality for signing in still needs to be further implemented, but general component creation is done + nav to create account screen
 // TO-DO:
 // implement sign in functionality [DONE]
-// navigate to forgot password page when button clicked
+// navigate to forgot password page when button clicked 
 // implement remember signin information
 // put export statement into forgotpasswordscreen.tsx to remove warning error
 
@@ -111,6 +110,10 @@ export default function SignInScreen() {
     router.push('/screens/CreateAccountScreen');
   };
 
+  const navigateToForgotPassword = () => {
+    router.push('/screens/ForgotPasswordScreen');
+  };
+
   return (
     <View style={styles.container}>
 
@@ -148,7 +151,7 @@ export default function SignInScreen() {
       </TouchableOpacity>
 
       {/* Forgot Password Button */}
-      <Text style={[styles.createText, styles.forgotPass]}>Forgot Password?</Text>
+      <Text onPress={navigateToForgotPassword} style={[styles.createText, styles.forgotPass]}>Forgot Password?</Text>
     </View>
   );
 };
