@@ -11,6 +11,7 @@ interface Props {
     secureTextEntry?: boolean;
 }
 
+// i keep reading about avoiding React.FC so i think i will refactor all components with a recommended alternative
 const InputField: React.FC<Props> = ({ style, placeholder, placeholderTextColor = '#EAEFF3', value, onChangeText, secureTextEntry }) => {
     return (
         <TextInput
