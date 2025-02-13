@@ -1,0 +1,38 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { router } from 'expo-router';
+import styles from '@/app/components/NavBar/NavBar.styles';
+
+const NavBar = () => {
+
+  return (
+    <View style={styles.navbar}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/DashboardScreen')}>
+        <Image source={require('@/assets/images/icons/home-icon.png')} style={styles.icon} />
+        <Text style={styles.iconLabel}>Home</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/LoansScreen')}>
+        <Image source={require('@/assets/images/icons/loan-icon.png')} style={styles.icon} />
+        <Text style={styles.iconLabel}>Loan</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/MatchesScreen')}>
+        <Image source={require('@/assets/images/icons/matches-icon.png')} style={styles.icon} />
+        <Text style={styles.iconLabel}>Matches</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/CreditScreen')}>
+        <Image source={require('@/assets/images/icons/credit-icon.png')} style={styles.icon} />
+        <Text style={styles.iconLabel}>Credit</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/SettingsScreen')}>
+        <Image source={require('@/assets/images/icons/setting-icon.png')} style={styles.icon} />
+        <Text style={styles.iconLabel}>Settings</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default NavBar;
