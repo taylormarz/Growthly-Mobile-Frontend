@@ -7,7 +7,7 @@ export default function SettingsScreen() {
     return (
         <View style={styles.screenContainer}>
             <View style={styles.contentContainer}>
-                <Text style={styles.headerText}>Setttings Screen</Text>
+                <Text style={styles.headerText}>Settings Screen</Text>
             </View>
             <NavBar />
         </View>
