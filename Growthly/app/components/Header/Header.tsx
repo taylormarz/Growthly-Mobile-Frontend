@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextStyle, View, Text } from 'react-native';
-import { useUser } from '@/app/context/UserContext';
+import { useUser } from '@/context/UserContext';
 import styles from './Header.styles';
 
 interface Props {

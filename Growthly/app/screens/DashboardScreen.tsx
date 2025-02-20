@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text} from 'react-native';
-import { useUser } from '../context/UserContext';
+import { useUser } from '../../context/UserContext';
 import styles from '@/styles/dashboard-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
@@ -11,7 +11,8 @@ const DashboardScreen = () => {
   return (
     <View style={styles.screenContainer}>
       <Header 
-        title={`Welcome, ${user}!`}
+      // guest in case data doesn't load (stops error)
+        title={`Welcome, ${user?.first_name || 'Guest'} !`}
         subtitle='Review account overview below.'
       />
       <View style={styles.contentContainer}>
