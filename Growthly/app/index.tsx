@@ -3,6 +3,8 @@ import { useFonts } from 'expo-font';
 import { Colors } from '@/styles/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import { useUser } from '@/context/UserContext'
+import * as SecureStore from 'expo-secure-store';
 import InputField from '../app/components/InputField/InputField';
 import Button from '../app/components/Button/Button';
 import styles from '@/styles/signin-styles';
@@ -25,6 +27,8 @@ export default function SignInScreen() {
   });
 
   const { buttonOn, emailOrUsername, password } = state;
+  const { setUserData } = useUser();
+  const router = useRouter();
 
   // fonts being used in Growthly branding
   const [fontsLoaded] = useFonts({
@@ -33,8 +37,6 @@ export default function SignInScreen() {
     'Inter-Regular': require('../assets/fonts/Inter_28pt-Regular.ttf'),
     'Inter-Light': require('../assets/fonts/Inter_28pt-Light.ttf'),
   });
-
-  const router = useRouter();
 
   // incase the imported fonts don't load immediately
   if (!fontsLoaded) {
@@ -72,35 +74,48 @@ export default function SignInScreen() {
   // hook handles sign in for existing users
   const handleSignIn = async () => {
     try {
-      // contacts backend (deployed on railway)
-      const response = await fetch('https://growthly-backend.onrender.com/api/v1/login', {
+      // Send login request
+      const response = await fetch('https://growthly-backend.onrender.com/api/v1/login/auth', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        // expected body params on the backend for sign in
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email_or_username: emailOrUsername,
           password: password,
+          login_validated: true,
         }),
       });
-
-      // using this to show validation errors from backend
+  
       const responseData = await response.json();
   
-      // if the user credentials are validated, the user is taken to dashboard
       if (response.ok) {
         console.log('Sign-in successful');
-        // transitions user on client side to dashboard
+        
+        const safeResDataStorage = {
+          first_name: responseData.first_name,
+          last_name: responseData.last_name,
+          email: responseData.email,
+          street_address: responseData.street_address,
+          phone_number: responseData.phone_number,
+          province: responseData.province,
+          postal_code: responseData.postal_code,
+          username: responseData.username,
+          user_type: responseData.user_type,
+        }
+  
+        // store user data from api call with secure storage, to be used for user context
+        await SecureStore.setItemAsync('userData', JSON.stringify(safeResDataStorage));
+        setUserData(safeResDataStorage);
+  
+        // route user to dashboard screen if signin successful
         router.push('/screens/DashboardScreen');
+
       } else {
-        // logging the error from customized error messages on backend
         console.error('Sign-in failed: ', responseData);
       }
     } catch (error) {
       console.error('Error during sign-in: ', error);
     }
-  };    
+  };      
 
   // hook used for user to get to create account screen
   const navigateToCreateAccount = () => {
