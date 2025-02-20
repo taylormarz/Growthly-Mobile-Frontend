@@ -24,6 +24,22 @@ const styles = StyleSheet.create({
     height: 450,
     top: 245,
     left: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoutButton: {
+    backgroundColor: Colors.growthly_green,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 8,
+    position: 'absolute',
+    top: 145,
+    left: 265,
+  },
+  logoutText: {
+    color: Colors.growthly_darkblue,
+    fontFamily: 'Inter-Medium',
+    fontSize: 15
   },
 });
 
