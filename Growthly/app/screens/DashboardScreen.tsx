@@ -15,8 +15,9 @@ const DashboardScreen = () => {
         title={`Welcome, ${user?.first_name || 'Guest'} !`}
         subtitle='Review account overview below.'
       />
-      <View style={styles.contentContainer}>
-        <Text style={styles.headerText}>Dashboard Screen</Text>
+      <Text style={styles.headerText}>Overview</Text>
+      <View style={styles.overviewContainer}>
+
       </View>
       <NavBar />
     </View>
