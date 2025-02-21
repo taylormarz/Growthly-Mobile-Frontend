@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.growthly_lightblue,
     borderRadius: 15,
     width: 350,
-    height: 450,
+    height: 470,
     top: 245,
     left: 40,
     justifyContent: 'center',
@@ -42,6 +42,9 @@ const styles = StyleSheet.create({
     color: Colors.growthly_darkblue,
     fontFamily: 'Inter-Medium',
     fontSize: 15
+  },
+  componentLast: {
+    marginBottom: 0,
   },
 });
 

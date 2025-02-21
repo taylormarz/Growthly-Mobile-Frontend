@@ -70,7 +70,8 @@ const DashboardScreen = () => {
           buttonText='View Details >'
           onPress={handleViewCredit}
         />
-        <OverviewComponent 
+        <OverviewComponent
+          style={styles.componentLast} 
           title='Bank Account'
           value='004-54689' // hard coded - same as above
           buttonText='Update Info >'
