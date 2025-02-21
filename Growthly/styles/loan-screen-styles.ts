@@ -116,6 +116,12 @@ const styles = StyleSheet.create({
         top: 327,
     },
 
+    keyline4: {
+        width: 300,
+        top: 390,
+        left: 65
+    },
+
     heading: {
         fontFamily: 'Inter-Bold',
         fontSize: 16,
@@ -238,6 +244,26 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'Inter-Bold',
         color: Colors.growthly_white
+    },
+
+    manageContainer: {
+        left: 40,
+        top: 245,
+        width: 350,
+        height: 225,
+        borderRadius: 15,
+        backgroundColor: Colors.growthly_lightblue,
+    },
+
+    manageContainerText1: {
+        fontFamily: 'Inter-Regular',
+        marginTop: 15,
+        padding: 25,
+        fontSize: 18
+    },
+
+    manageContainerText2: {
+        paddingTop: 0,
     }
 });
 

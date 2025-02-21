@@ -158,6 +158,14 @@ export default function LoansScreen() {
                 <TouchableOpacity style={styles.manageButtonActive}>
                     <Text style={styles.buttonText}>MANAGE</Text>
                 </TouchableOpacity>
+
+                <View style={styles.manageContainer}>
+                    <TouchableOpacity>
+                        <Text style={styles.manageContainerText1}>You currently have no loan history with Growthly.</Text>
+                        <Text style={[styles.manageContainerText1, styles.manageContainerText2]}>Apply for a loan to get started, or check your matches to accept a loan you’ve applied for.</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={[styles.keyline, styles.keyline4]} />
             </>
             ) : null}
 
