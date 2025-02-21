@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.growthly_green,
     paddingVertical: 15,
     paddingHorizontal: 30,
-    borderRadius: 8,
+    borderRadius: 15,
     position: 'absolute',
     top: 145,
     left: 265,

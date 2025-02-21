@@ -6,8 +6,8 @@ export const Colors = {
     growthly_lightblue: '#C0D8DF',
     growthly_green: '#93BA43',
     growthly_teal: '#0A748A',
+    growthly_teal2: '#9DC5CF',
     growthly_inputblue: '#1C405D',
     // use for components that need warning (ex. delete button)
     growthly_red: '#F82136',
-
 }
