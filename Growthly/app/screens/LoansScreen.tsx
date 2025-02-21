@@ -61,9 +61,9 @@ export default function LoansScreen() {
             <>
                 <Text style={styles.headerText}>Apply for Loan</Text>
                 <View style={styles.contentContainer}>
-                    <Text style={{ fontWeight: 'bold' }}>Warning:</Text>
-                    <Text>Active loans limit is: 2 - Total loan limit is: $2500</Text>
-                    <Text>Fixed Monthly Interest: Determined by Match</Text>
+                    <Text style={[styles.regularText, styles.regularText2]}>Warning:</Text>
+                    <Text style={styles.regularText}>Active loans limit is: 2 - Total loan limit is: $2500</Text>
+                    <Text style={styles.regularText}>Fixed Monthly Interest: Determined by Match</Text>
                 </View>
 
                 {/* tabs */}

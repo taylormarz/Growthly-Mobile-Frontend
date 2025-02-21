@@ -20,6 +20,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
+    regularText: {
+        color: Colors.growthly_darkblue
+    },
+
+    regularText2: {
+        fontFamily: 'Inter-Bold'
+    },
+
     applyButtonActive: {
         width: 130,
         paddingVertical: 15,
