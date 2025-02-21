@@ -13,14 +13,23 @@ export default function LoansScreen() {
     const { user } = useUser();
     const [currentStep, setCurrentStep] = useState(1);
     const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
+    const [selectedCycle, setSelectedCycle] = useState<string | null>(null);
+    // storing values for duration period (payback)
     const duration: Array<1 | 3 | 6 | 9 | 12> = [1, 3, 6, 9, 12];
+    const cycle: Array<'Monthly' | 'Biweekly'> = ['Monthly', 'Biweekly'];
+    // styles to position each duration button generated from loop
     const positionStyles: { [key in 1 | 3 | 6 | 9 | 12]: { left: number } } = {
         1: { left: 20 },
         3: { left: 88.75 },
         6: { left: 157.5 },
         9: { left: 226.5 },
-        12: { left: 295 },
-    };    
+        12: { left: 295 }
+    };
+    // styles for cycle btn positioning
+    const cyclePositions: {[ key in 'Monthly' | 'Biweekly']: {left: number}} = {
+        'Monthly': { left: 20},
+        'Biweekly': { left: 185}
+    };
 
     // hooks for switching between apply and manage
     const handleNextStep = () => {
@@ -31,10 +40,15 @@ export default function LoansScreen() {
         setCurrentStep(currentStep - 1);
     }
 
-    // radio button hook
+    // radio button hook for duration period
     const handleDurationSelect = (duration: number) => {
         setSelectedDuration(duration);
     };
+
+    // radio button hook for billing cycle
+    const handleCycleSelect = (cycle: string) => {
+        setSelectedCycle(cycle);
+    }
 
     return (
         <View style={styles.screenContainer}>
@@ -82,23 +96,29 @@ export default function LoansScreen() {
                     {/* billing cycle section */}
                     <View>
                         <Text style={[styles.heading, styles.h2]}>Select Billing Cycle:</Text>
-                        <View>
-                            <TouchableOpacity style={styles.monthlyButton}>
-                                <Text style={styles.cycleButtonText}>Monthly</Text>
+                        {cycle.map((cycleOption) => (
+                            <TouchableOpacity
+                                key={cycleOption}
+                                style={[
+                                    styles.cycleButton,
+                                    cyclePositions[cycleOption],
+                                    { top: 72 },
+                                    selectedCycle === cycleOption
+                                        ? { backgroundColor: Colors.growthly_green }
+                                        : {},
+                                ]}
+                                onPress={() => handleCycleSelect(cycleOption)}
+                            >
+                                <Text style={styles.cycleButtonText}>{cycleOption}</Text>
                             </TouchableOpacity>
-                        </View>
-                        <View>
-                            <TouchableOpacity style={styles.biweeklyButton}>
-                                <Text style={styles.cycleButtonText}>Biweekly</Text>
-                            </TouchableOpacity>
-                        </View>
+                        ))}
                         <View style={[styles.keyline, styles.keyline2]} />
                     </View>
 
-                    {/* Payback period section */}
+                    {/* payback period section */}
                     <View>
                         <Text style={[styles.heading, styles.h3]}>Select Payback Duration:</Text>
-                        {/* Duration Buttons */}
+                        {/* duration Buttons */}
                         {duration.map((dur) => (
                             <TouchableOpacity
                                 key={dur}

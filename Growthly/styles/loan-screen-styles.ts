@@ -164,6 +164,18 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center'
     },
 
+    cycleButton: {
+        position: 'absolute',
+        left: 20,
+        width: 145,
+        height: 45,
+        marginTop: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        backgroundColor: Colors.growthly_white
+    },
+
     monthlyButton: {
         position: 'absolute',
         top: 0,
