@@ -6,11 +6,12 @@ interface Props {
   value: string;
   buttonText: string;
   onPress: () => void;
+  style?: object;
 }
 
-const OverviewComponent = ({ title, value, buttonText, onPress }: Props) => {
+const OverviewComponent = ({ title, value, buttonText, onPress, style }: Props) => {
   return (
-    <View style={styles.component}>
+    <View style={[styles.component, style]}>
       {/* container for titles and button */}
       <View style={styles.container}>
         

@@ -4,12 +4,12 @@ import { Colors } from '@/styles/colors';
 
 const styles = StyleSheet.create({
   component: {
-    width: 285,
+    width: 300,
     height: 85,
     padding: 15,
     paddingLeft: 15,
     paddingRight: 15,
-    marginBottom: 15, // this needs to be not applied to last component (child?) NOTE:**** figure out later
+    marginBottom: 25,
     backgroundColor: Colors.growthly_white,
     borderRadius: 15,
   },
