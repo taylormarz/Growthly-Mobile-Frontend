@@ -15,7 +15,7 @@ const DashboardScreen = () => {
 
   // hook for logout button
   const handleLogout = () => {
-    router.push('../');
+    router.push('/');
   };
 
   // hook for loans page
