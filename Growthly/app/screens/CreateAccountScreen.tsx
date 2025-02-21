@@ -1,4 +1,4 @@
-import { View, Image, Text, ActivityIndicator } from 'react-native';
+import { View, Image, Text, ActivityIndicator, Alert } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Colors } from '@/styles/colors';
 import { useState } from 'react';
@@ -27,7 +27,6 @@ export default function CreateAccountScreen() {
   });
 
   const [currentStep, setCurrentStep] = useState(1);
-
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('../../assets/fonts/Inter_28pt-Bold.ttf'),
     'Inter-Medium': require('../../assets/fonts/Inter_28pt-Medium.ttf'),
@@ -65,7 +64,18 @@ export default function CreateAccountScreen() {
       });
   
       if (response.ok) {
-        router.push('/screens/DashboardScreen');
+        Alert.alert(
+          "New Account Created",
+          "Your account was created successfully!",
+          [
+            {
+              text: "Sign In",
+              onPress: () => {
+                router.push('../');
+              }
+            }
+          ]
+        );
       } else {
         const errorData = await response.json();
         console.error('Error creating account:', errorData);
@@ -168,4 +178,4 @@ export default function CreateAccountScreen() {
       ) : null}
     </View>
   );
-}
+};
