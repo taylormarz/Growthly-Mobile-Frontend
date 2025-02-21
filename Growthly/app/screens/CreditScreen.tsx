@@ -19,6 +19,7 @@ export default function CreditScreen() {
       
       <Text style={styles.headerText}>Credit Score</Text>
 
+      {/* container holding user credit score and label */}
       <View style={styles.scoreContainer}>
         <View style={styles.scoreTextLabelContainer}>
           <View style={styles.scoreTextWrapper}>
@@ -32,6 +33,47 @@ export default function CreditScreen() {
         <Text style={styles.scoreDescriptor}>You have a good credit score.</Text>
       </View>
 
+      <View style={styles.keyline} />
+
+      {/* all of these components needs to be made into a reusable component ****WILL DO LATER */}
+      {/* container holding credit score breakdown */}
+      <View style={styles.breakdownContainer}>
+        <View style={styles.detailComponent}>
+          <View style={styles.breakdownLabel}>
+              <Text style={styles.breakdownText}>Payment History</Text>
+              <Text style={styles.breakdownLabelText}>Going Great</Text>
+              <View style={styles.greenSquare} />
+          </View>
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.breakdownText}>100% - You’ve missed 0 payments</Text>
+          </View>
+        </View>
+
+        {/* container holding credit utilization breakdown */}
+        <View style={styles.detailComponent}>
+          <View style={styles.breakdownLabel}>
+              <Text style={[styles.breakdownText, styles.breakdownText2]}>Credit Utilization</Text>
+              <Text style={styles.breakdownLabelText}>Going Okay</Text>
+              <View style={styles.yellowSquare} />
+          </View>
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.breakdownText}>34% - Keep credit use under 30%</Text>
+          </View>
+        </View>
+
+        {/* container holding derogatory marks breakdown */}
+        <View style={styles.detailComponent}>
+          <View style={styles.breakdownLabel}>
+              <Text style={[styles.breakdownText, styles.breakdownText3]}>Derogatory Marks</Text>
+              <Text style={styles.breakdownLabelText}>Going Great</Text>
+              <View style={styles.greenSquare} />
+          </View>
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.breakdownText}>0 - No collections on account</Text>
+          </View>
+        </View>
+
+      </View>
       <NavBar />
     </View>
   );

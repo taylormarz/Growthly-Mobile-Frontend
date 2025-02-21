@@ -71,7 +71,85 @@ const styles = StyleSheet.create({
         color: Colors.growthly_darkblue,
     },
 
-    keyline: {},
+    keyline: {
+        position: 'absolute',
+        top: 425,
+        left: 60,
+        width: 310,
+        borderWidth: .25,
+        borderColor: Colors.growthly_darkblue,
+    },
+
+    breakdownContainer: {
+        left: 40,
+        top: 280,
+        width: 350,
+        height: 315,
+        borderRadius: 15,
+        backgroundColor: Colors.growthly_lightblue,
+        padding: 20,
+    },
+
+    detailComponent: {
+        width: 310,
+        height: 75,
+        padding: 10,
+        borderRadius: 10,
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        marginBottom: 25,
+        backgroundColor: Colors.growthly_white,
+    },    
+
+    breakdownText: {
+        paddingLeft: 10,
+        fontSize: 15,
+        fontFamily: 'Inter-Regular',
+        color: Colors.growthly_darkblue,
+        marginRight: 45,
+    },
+
+    breakdownText2: {
+        marginRight: 48,
+    },
+
+    breakdownText3: {
+        marginRight: 37,
+    },
+
+    breakdownLabel: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    
+    greenSquare: {
+        width: 15,
+        height: 15,
+        backgroundColor: 'green',
+        borderRadius: 5,
+        marginLeft: 10,
+    },
+
+    yellowSquare: {
+        width: 15,
+        height: 15,
+        backgroundColor: 'yellow',
+        borderRadius: 5,
+        marginLeft: 10,
+    },
+    
+    breakdownLabelText: {
+        fontSize: 15,
+        fontFamily: 'Inter-Regular',
+        color: Colors.growthly_darkblue,
+        textAlign: 'right',
+    },
+
+    descriptionContainer: {
+        marginTop: 5
+    }
 });
 
 export default styles;
