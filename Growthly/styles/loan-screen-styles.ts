@@ -20,6 +20,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 
+    regularText: {
+        color: Colors.growthly_darkblue
+    },
+
+    regularText2: {
+        fontFamily: 'Inter-Bold'
+    },
+
     applyButtonActive: {
         width: 130,
         paddingVertical: 15,
@@ -44,7 +52,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 145,
         left: 40,
-        borderWidth: .750 ,
+        borderWidth: .75 ,
         borderColor: Colors.growthly_darkblue,
         backgroundColor: Colors.growthly_white,
         justifyContent: 'center',
@@ -60,7 +68,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 145,
         left: 185,
-        borderWidth: 1,
+        borderWidth: .75,
         borderColor: Colors.growthly_darkblue,
         backgroundColor: Colors.growthly_green,
         justifyContent: 'center',
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 145,
         left: 185,
-        borderWidth: 1,
+        borderWidth: .75,
         borderColor: Colors.growthly_darkblue,
         backgroundColor: Colors.growthly_white,
         justifyContent: 'center',
