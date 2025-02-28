@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         width: 310,
         borderWidth: .25,
         borderColor: Colors.growthly_teal2,
-      },
+    },
 
     keyline2: {
         top: 140,

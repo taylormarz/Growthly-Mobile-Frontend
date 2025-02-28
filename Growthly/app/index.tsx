@@ -9,8 +9,6 @@ import InputField from '../app/components/InputField/InputField';
 import Button from '../app/components/Button/Button';
 import styles from '@/styles/signin-styles';
 
-// TO-DO:
-// implement remember signin information
 
 interface SignInScreenState {
   buttonOn: boolean;
