@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useUser } from '../../../context/UserContext';
 import { useRouter } from 'expo-router';
-import styles from '@/styles/dashboard-styles';
+import styles from '@/styles/Dashboard/dashboard-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
 import OverviewComponent from '../../components/OverviewComponent/OverviewComponent';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { useUser } from '../../../context/UserContext';
-import styles from '@/styles/credit-styles';
+import styles from '@/styles/Credit/credit-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
 

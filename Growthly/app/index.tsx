@@ -7,7 +7,7 @@ import { useUser } from '@/context/UserContext'
 import * as SecureStore from 'expo-secure-store';
 import InputField from '../app/components/InputField/InputField';
 import Button from '../app/components/Button/Button';
-import styles from '@/styles/signin-styles';
+import styles from '@/styles/Auth/signin-styles';
 
 
 interface SignInScreenState {

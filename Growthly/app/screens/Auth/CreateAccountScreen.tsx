@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import Button from '../../components/Button/Button'
 import InputField from '../../components/InputField/InputField';
-import styles from '../../../styles/create-account';
+import styles from '../../../styles/Auth/create-account';
 import React from 'react';
 
 // I still need to add in proper validation for all the form fields,

@@ -3,7 +3,7 @@ import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import { View, ActivityIndicator, Image, Text, StyleSheet } from 'react-native'; // stylesheet temp, remove after fixing comment below
 import { Colors } from '@/styles/ColorPalette/colors';
-import styles from '@/styles/signin-styles'; // i need to convert / combine signin and create account styles to be just global styles
+import styles from '@/styles/Auth/signin-styles'; // i need to convert / combine signin and create account styles to be just global styles
 //import styles from '@/styles/create-account';
 import InputField from '../../components/InputField/InputField';
 import Button from '../../components/Button/Button';
