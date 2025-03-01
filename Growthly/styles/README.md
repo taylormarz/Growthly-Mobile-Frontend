@@ -1,0 +1,2 @@
+All screen style sheets can be found in this folder, as well as the style sheet for the Growthly color palette.
+Style sheets for components are located in the component folder, stored with their component specific .tsx file.

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '@/styles/colors';
+import { Colors } from '@/styles/ColorPalette/colors';
 
 const styles = StyleSheet.create({
     screenContainer: {

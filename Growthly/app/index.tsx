@@ -1,6 +1,6 @@
 import { View, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
-import { Colors } from '@/styles/colors';
+import { Colors } from '@/styles/ColorPalette/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { useUser } from '@/context/UserContext'

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useUser } from '../../../../context/UserContext';
 import { useRouter } from 'expo-router';
-import styles from '@/styles/settings-styles';
+import styles from '@/styles/Settings/main/settings-styles';
 import Header from '@/app/components/Header/Header';
 import SettingButton from '../../../components/SecondaryButton/SettingButton';
 import NavBar from '@/app/components/NavBar/NavBar';
@@ -13,7 +13,7 @@ const { user } = useUser();
 const router = useRouter();
 
 const navigateToBankAccount = () => {
-    router.push('../screens/test')
+    router.push('../secondary/EditBank/EditBankScreen')
 }
 
     return (
