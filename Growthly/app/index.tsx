@@ -105,7 +105,7 @@ export default function SignInScreen() {
         setUserData(safeResDataStorage);
   
         // route user to dashboard screen if signin successful
-        router.push('/screens/DashboardScreen');
+        router.push('/screens/Dashboard/DashboardScreen');
 
       } else {
         console.error('Sign-in failed: ', responseData);
@@ -117,11 +117,11 @@ export default function SignInScreen() {
 
   // hook used for user to get to create account screen
   const navigateToCreateAccount = () => {
-    router.push('/screens/CreateAccountScreen');
+    router.push('/screens/Auth/CreateAccountScreen');
   };
 
   const navigateToForgotPassword = () => {
-    router.push('/screens/ForgotPasswordScreen');
+    router.push('/screens/Auth/ForgotPasswordScreen');
   };
 
   return (

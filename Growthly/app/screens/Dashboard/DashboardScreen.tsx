@@ -1,12 +1,12 @@
 // DashboardScreen.tsx
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../../context/UserContext';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/dashboard-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
-import OverviewComponent from '../components/OverviewComponent/OverviewComponent';
+import OverviewComponent from '../../components/OverviewComponent/OverviewComponent';
 
 const DashboardScreen = () => {
 
@@ -20,22 +20,22 @@ const DashboardScreen = () => {
 
   // hook for loans page
   const handleViewLoans = () => {
-    router.push('../screens/LoansScreen');
+    router.push('../Loans/LoansScreen');
   }
 
   // hook for match page
   const handleViewMatch = () => {
-    router.push('../screens/MatchesScreen');
+    router.push('../Matches/MatchesScreen');
   }
 
   // hook for credit page
   const handleViewCredit = () => {
-    router.push('../screens/CreditScreen');
+    router.push('../Credit/CreditScreen');
   }
 
   // hook for settings page
   const handleViewBankInfo = () => {
-    router.push('../screens/SettingsScreen');
+    router.push('../Settings/main/SettingsScreen');
   }
 
   return (

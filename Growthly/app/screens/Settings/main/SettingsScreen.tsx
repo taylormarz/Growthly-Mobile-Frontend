@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useUser } from '../../../context/UserContext';
+import { useUser } from '../../../../context/UserContext';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/settings-styles';
 import Header from '@/app/components/Header/Header';
-import SettingButton from '../../components/SecondaryButton/SettingButton';
+import SettingButton from '../../../components/SecondaryButton/SettingButton';
 import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function SettingsScreen() {
@@ -28,35 +28,11 @@ const navigateToBankAccount = () => {
                 <View>
                     <View>
                         {/* settings list */}
-                        <SettingButton 
-                            listItem='Edit Bank Account'
-                            buttonText='+'
-                            onPress={navigateToBankAccount}>
-                        </SettingButton>
-
-                        <SettingButton 
-                            listItem='Edit Email'
-                            buttonText='+'
-                            onPress={navigateToBankAccount}>
-                        </SettingButton>
-
-                        <SettingButton 
-                            listItem='Edit Address'
-                            buttonText='+'
-                            onPress={navigateToBankAccount}>
-                        </SettingButton>
-
-                        <SettingButton 
-                            listItem='Change Password'
-                            buttonText='+'
-                            onPress={navigateToBankAccount}>
-                        </SettingButton>
-
-                        <SettingButton 
-                            listItem='Contact Us'
-                            buttonText='+'
-                            onPress={navigateToBankAccount}>
-                        </SettingButton>
+                        <SettingButton listItem='Edit Bank Account' buttonText='+' onPress={navigateToBankAccount}></SettingButton>
+                        <SettingButton listItem='Edit Email'        buttonText='+' onPress={navigateToBankAccount}></SettingButton>
+                        <SettingButton listItem='Edit Address'      buttonText='+' onPress={navigateToBankAccount}></SettingButton>
+                        <SettingButton listItem='Change Password'   buttonText='+' onPress={navigateToBankAccount}></SettingButton>
+                        <SettingButton listItem='Contact Us'        buttonText='+' onPress={navigateToBankAccount}></SettingButton>
                         
                         {/* delete account button */}
                         <View>

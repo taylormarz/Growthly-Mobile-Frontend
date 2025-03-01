@@ -5,8 +5,8 @@ import { View, ActivityIndicator, Image, Text, StyleSheet } from 'react-native';
 import { Colors } from '@/styles/colors';
 import styles from '@/styles/signin-styles'; // i need to convert / combine signin and create account styles to be just global styles
 //import styles from '@/styles/create-account';
-import InputField from '../components/InputField/InputField';
-import Button from '../components/Button/Button';
+import InputField from '../../components/InputField/InputField';
+import Button from '../../components/Button/Button';
 
 interface ForgotPassScreenState {
     emailOrUsername: string;
