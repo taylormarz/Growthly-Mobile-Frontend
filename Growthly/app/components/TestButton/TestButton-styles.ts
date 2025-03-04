@@ -1,23 +1,29 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Colors } from '@/styles/ColorPalette/colors';
 
+const { width, height } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-  buttonContainer: {
+  inputContainer: {
     alignSelf: 'center',
-    width: '82%',
+    width: '80%',
     top: '27%',
     maxWidth: 350,
-    marginBottom: 30,
+    marginTop: 25,
   },
 
   button: {
-    position: 'absolute',
-    width: 310,
+    width: '100%',
     height: 60,
     borderRadius: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    fontSize: 16,
+    fontFamily: 'Inter-Regular',
+    color: Colors.growthly_white,
     backgroundColor: Colors.growthly_green,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   buttonText: {

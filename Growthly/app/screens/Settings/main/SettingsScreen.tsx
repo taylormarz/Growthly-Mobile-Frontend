@@ -49,7 +49,7 @@ const navigateToChangePass = () => {
                         {/* delete account button */}
                         <View>
                             <TouchableOpacity style={styles.deleteButton}>
-                                <Text style={styles.buttonText}>Delete Acccount</Text>
+                                <Text style={styles.buttonText}>Delete Account</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
