@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/Settings/secondary/edit-bank-styles';
 import Banner from '@/app/components/Banner/Banner';
 import NavBar from '@/app/components/NavBar/NavBar';
 
-export default function EditBankScreen() {
+export default function EditEmailScreen() {
 
     const router = useRouter();
 
@@ -17,8 +17,8 @@ export default function EditBankScreen() {
         <View style={styles.screenContainer}>
             {/* logo + cancel button banner */}
             <Banner
-                subheading='Add or Update Details Below'
-                heading='Bank Information'
+                subheading='Update Email and/or Username Below'
+                heading='Edit Email'
                 onPress={navigateBackToSettings}
             >
             </Banner>

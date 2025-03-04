@@ -16,6 +16,18 @@ const navigateToBankAccount = () => {
     router.push('../secondary/EditBank/EditBankScreen')
 }
 
+const navigateToSignInDetails = () => {
+    router.push('../secondary/EditEmail/EditEmailScreen')
+}
+
+const navigateToEditAddress = () => {
+    router.push('../secondary/EditAddress/EditAddressScreen')
+}
+
+const navigateToChangePass = () => {
+    router.push('../secondary/ChangePass/ChangePassScreen')
+}
+
     return (
         <View style={styles.screenContainer}>
             <Header
@@ -29,9 +41,9 @@ const navigateToBankAccount = () => {
                     <View>
                         {/* settings list */}
                         <SettingButton listItem='Edit Bank Account' buttonText='+' onPress={navigateToBankAccount}></SettingButton>
-                        <SettingButton listItem='Edit Email'        buttonText='+' onPress={navigateToBankAccount}></SettingButton>
-                        <SettingButton listItem='Edit Address'      buttonText='+' onPress={navigateToBankAccount}></SettingButton>
-                        <SettingButton listItem='Change Password'   buttonText='+' onPress={navigateToBankAccount}></SettingButton>
+                        <SettingButton listItem='Edit Email'        buttonText='+' onPress={navigateToSignInDetails}></SettingButton>
+                        <SettingButton listItem='Edit Address'      buttonText='+' onPress={navigateToEditAddress}></SettingButton>
+                        <SettingButton listItem='Change Password'   buttonText='+' onPress={navigateToChangePass}></SettingButton>
                         <SettingButton listItem='Contact Us'        buttonText='+' onPress={navigateToBankAccount}></SettingButton>
                         
                         {/* delete account button */}
