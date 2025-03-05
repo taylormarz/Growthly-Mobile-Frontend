@@ -30,7 +30,20 @@ export default function EditAddressScreen() {
             <Input placeholder='Address'></Input>
             <Input placeholder='Phone Number'></Input>
             <View style={styles.inputContainer}>
-                <DropdownMenu></DropdownMenu>
+                <DropdownMenu
+                    data={[
+                        { key: 'AB', value: 'AB' },
+                        { key: 'BC', value: 'BC' },
+                        { key: 'MB', value: 'MB' },
+                        { key: 'NB', value: 'NB' },
+                        { key: 'NS', value: 'NS' },
+                        { key: 'ON', value: 'ON' },
+                        { key: 'QC', value: 'QC' },
+                        { key: 'PE', value: 'PE' },
+                        { key: 'SK', value: 'SK' },
+                        { key: 'YK', value: 'YK' },
+                    ]}
+                />
                 <HalfInput placeholder='Postal Code'></HalfInput>
             </View>
 
