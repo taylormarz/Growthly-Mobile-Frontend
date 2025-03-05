@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         top: 225,
         color: Colors.growthly_darkblue,
         fontSize: 35,
-        fontWeight: 'bold',
+        fontFamily: 'Inter-Bold'
     },
 
     scoreContainer: {

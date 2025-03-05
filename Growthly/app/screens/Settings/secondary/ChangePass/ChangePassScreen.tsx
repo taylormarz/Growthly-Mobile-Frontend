@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/Settings/secondary/edit-bank-styles';
 import Banner from '@/app/components/Banner/Banner';
+import Input from '@/app/components/TestInput/TestInput'
 import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function EditEmailScreen() {
@@ -22,6 +23,9 @@ export default function EditEmailScreen() {
                 onPress={navigateBackToSettings}
             >
             </Banner>
+
+            <Input placeholder='Current Password'></Input>
+            <Input placeholder='New Password'></Input>
             <NavBar/>
         </View>
     );
