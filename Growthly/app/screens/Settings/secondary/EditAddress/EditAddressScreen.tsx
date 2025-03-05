@@ -32,16 +32,16 @@ export default function EditAddressScreen() {
             <View style={styles.inputContainer}>
                 <DropdownMenu
                     data={[
-                        { key: 'AB', value: 'AB' },
-                        { key: 'BC', value: 'BC' },
-                        { key: 'MB', value: 'MB' },
-                        { key: 'NB', value: 'NB' },
-                        { key: 'NS', value: 'NS' },
-                        { key: 'ON', value: 'ON' },
-                        { key: 'QC', value: 'QC' },
-                        { key: 'PE', value: 'PE' },
-                        { key: 'SK', value: 'SK' },
-                        { key: 'YK', value: 'YK' },
+                        { key: 'Alberta', value: 'AB' },
+                        { key: 'British Columbia', value: 'BC' },
+                        { key: 'Manitoba', value: 'MB' },
+                        { key: 'New Brunswick', value: 'NB' },
+                        { key: 'Nova Scotia', value: 'NS' },
+                        { key: 'Ontario', value: 'ON' },
+                        { key: 'Quebec', value: 'QC' },
+                        { key: 'Prince Edward Island', value: 'PE' },
+                        { key: 'Saskatchewan', value: 'SK' },
+                        { key: 'Yukon', value: 'YK' },
                     ]}
                 />
                 <HalfInput placeholder='Postal Code'></HalfInput>
