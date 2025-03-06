@@ -23,7 +23,7 @@ export default function MatchesScreen() {
     useEffect(() => {
         const findLoans = async () => {
             try {
-                const response = await fetch('https://growthly-backend.onrender.com/api/v1/borrower/loan/');
+                const response = await fetch('https://growthly-backend.onrender.com/api/v1/lender/loan/');
                 const data = await response.json();
                 setLoans(data);
             } catch (error) {
