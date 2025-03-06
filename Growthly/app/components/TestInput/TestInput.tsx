@@ -5,13 +5,14 @@ import styles from './TestInput-styles';
 
 interface Props {
     placeholder: string;
+    style?: object;
 }
 
-const Input = ({ placeholder }: Props) => {
+const Input = ({ placeholder, style }: Props) => {
     return (
         <View style={styles.inputContainer}>
             <TextInput
-                style={styles.input}
+                style={[styles.input, style]}
                 placeholder={placeholder}
                 placeholderTextColor={Colors.growthly_white}
             />

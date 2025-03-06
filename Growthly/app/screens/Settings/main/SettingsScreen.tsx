@@ -28,6 +28,10 @@ const navigateToChangePass = () => {
     router.push('../secondary/ChangePass/ChangePassScreen')
 }
 
+const navigateToContactUs = () => {
+    router.push('../secondary/Contact/ContactScreen')
+}
+
     return (
         <View style={styles.screenContainer}>
             <Header
@@ -44,7 +48,7 @@ const navigateToChangePass = () => {
                         <SettingButton listItem='Edit Email'        buttonText='+' onPress={navigateToSignInDetails}></SettingButton>
                         <SettingButton listItem='Edit Address'      buttonText='+' onPress={navigateToEditAddress}></SettingButton>
                         <SettingButton listItem='Change Password'   buttonText='+' onPress={navigateToChangePass}></SettingButton>
-                        <SettingButton listItem='Contact Us'        buttonText='+' onPress={navigateToBankAccount}></SettingButton>
+                        <SettingButton listItem='Contact Us'        buttonText='+' onPress={navigateToContactUs}></SettingButton>
                         
                         {/* delete account button */}
                         <View>
