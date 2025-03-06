@@ -36,6 +36,7 @@ export default function CreateAccountScreen() {
 
   const router = useRouter();
 
+  // note for self to make this global function
   if (!fontsLoaded) {
     return (
       <View style={styles.loaderContainer}>

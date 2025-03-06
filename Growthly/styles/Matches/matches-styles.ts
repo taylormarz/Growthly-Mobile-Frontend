@@ -42,6 +42,33 @@ const styles = StyleSheet.create({
         borderWidth: .25,
         borderColor: Colors.growthly_teal2,
     },
+
+    loanContainer: {
+        padding: 16,
+        marginVertical: 8,
+        backgroundColor: Colors.growthly_white,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: Colors.growthly_inputblue,
+      },
+    
+      loanText: {
+        fontSize: 16,
+        color: Colors.growthly_darkblue,
+        marginBottom: 4,
+      },
+
+      availableText: {
+        fontSize: 14,
+        color: Colors.growthly_green,
+        fontWeight: 'bold',
+      },
+    
+      unavailableText: {
+        fontSize: 14,
+        color: Colors.growthly_red,
+        fontWeight: 'bold',
+      },
 });
 
 export default styles;
