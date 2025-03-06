@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '@/styles/colors';
+import { Colors } from '@/styles/ColorPalette/colors';
 
 const styles = StyleSheet.create({
     // repeat style
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter-Regular',
         color: Colors.growthly_white,
     },
-        forgotPass: {
+    forgotPass: {
         position: 'absolute',
         top: 65,
         left: 330,

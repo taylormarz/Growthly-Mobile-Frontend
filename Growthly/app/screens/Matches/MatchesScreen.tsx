@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity} from 'react-native';
-import { Colors } from '@/styles/colors';
-import { useUser } from '../../context/UserContext';
-import styles from '@/styles/matches-styles';
+import { useUser } from '../../../context/UserContext';
+import styles from '@/styles/Matches/matches-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
 

@@ -1,22 +1,25 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "./colors";
+import { Colors } from "../ColorPalette/colors";
 
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
   },
+
   contentContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   headerText: {
     left: 40,
     top: 225,
     color: Colors.growthly_darkblue,
     fontSize: 35,
-    fontWeight: 'bold',
+    fontFamily: 'Inter-Bold'
   },
+  
   overviewContainer: {
     backgroundColor: Colors.growthly_lightblue,
     borderRadius: 15,
@@ -27,6 +30,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   logoutButton: {
     backgroundColor: Colors.growthly_green,
     paddingVertical: 15,
@@ -38,11 +42,13 @@ const styles = StyleSheet.create({
     top: 145,
     left: 265,
   },
+
   logoutText: {
     color: Colors.growthly_darkblue,
     fontFamily: 'Inter-Medium',
     fontSize: 15
   },
+  
   componentLast: {
     marginBottom: 0,
   },

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '@/styles/colors';
+import { Colors } from '@/styles/ColorPalette/colors';
 
 const styles = StyleSheet.create({
     screenContainer: {
@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         top: 225,
         color: Colors.growthly_darkblue,
         fontSize: 35,
-        fontWeight: 'bold',
+        fontFamily: 'Inter-Bold'
     },
 
     matchesContainer: {

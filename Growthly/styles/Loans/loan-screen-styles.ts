@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from './colors';
+import { Colors } from '../ColorPalette/colors';
 
 const styles = StyleSheet.create({
     screenContainer: {
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         top: 225,
         color: Colors.growthly_darkblue,
         fontSize: 35,
-        fontWeight: 'bold',
+        fontFamily: 'Inter-Bold'
     },
 
     regularText: {
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         width: 310,
         borderWidth: .25,
         borderColor: Colors.growthly_teal2,
-      },
+    },
 
     keyline2: {
         top: 140,

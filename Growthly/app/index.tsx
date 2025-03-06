@@ -1,16 +1,14 @@
 import { View, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useFonts } from 'expo-font';
-import { Colors } from '@/styles/colors';
+import { Colors } from '@/styles/ColorPalette/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { useUser } from '@/context/UserContext'
 import * as SecureStore from 'expo-secure-store';
 import InputField from '../app/components/InputField/InputField';
 import Button from '../app/components/Button/Button';
-import styles from '@/styles/signin-styles';
+import styles from '@/styles/Auth/signin-styles';
 
-// TO-DO:
-// implement remember signin information
 
 interface SignInScreenState {
   buttonOn: boolean;
@@ -107,7 +105,7 @@ export default function SignInScreen() {
         setUserData(safeResDataStorage);
   
         // route user to dashboard screen if signin successful
-        router.push('/screens/DashboardScreen');
+        router.push('/screens/Dashboard/DashboardScreen');
 
       } else {
         console.error('Sign-in failed: ', responseData);
@@ -119,11 +117,11 @@ export default function SignInScreen() {
 
   // hook used for user to get to create account screen
   const navigateToCreateAccount = () => {
-    router.push('/screens/CreateAccountScreen');
+    router.push('/screens/Auth/CreateAccountScreen');
   };
 
   const navigateToForgotPassword = () => {
-    router.push('/screens/ForgotPasswordScreen');
+    router.push('/screens/Auth/ForgotPasswordScreen');
   };
 
   return (

@@ -7,27 +7,27 @@ const NavBar = () => {
 
   return (
     <View style={styles.navbar}>
-      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/DashboardScreen')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/Dashboard/DashboardScreen')}>
         <Image source={require('@/assets/images/icons/home-icon.png')} style={styles.icon} />
         <Text style={styles.iconLabel}>Home</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/LoansScreen')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/Loans/LoansScreen')}>
         <Image source={require('@/assets/images/icons/loan-icon.png')} style={styles.icon} />
         <Text style={styles.iconLabel}>Loan</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/MatchesScreen')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/Matches/MatchesScreen')}>
         <Image source={require('@/assets/images/icons/matches-icon.png')} style={styles.icon} />
         <Text style={styles.iconLabel}>Matches</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/CreditScreen')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/Credit/CreditScreen')}>
         <Image source={require('@/assets/images/icons/credit-icon.png')} style={styles.icon} />
         <Text style={styles.iconLabel}>Credit</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/SettingsScreen')}>
+      <TouchableOpacity style={styles.iconContainer} onPress={() => router.push('/screens/Settings/main/SettingsScreen')}>
         <Image source={require('@/assets/images/icons/setting-icon.png')} style={styles.icon} />
         <Text style={styles.iconLabel}>Settings</Text>
       </TouchableOpacity>

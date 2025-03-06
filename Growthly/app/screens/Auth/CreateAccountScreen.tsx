@@ -1,11 +1,11 @@
 import { View, Image, Text, ActivityIndicator, Alert } from 'react-native';
 import { useFonts } from 'expo-font';
-import { Colors } from '@/styles/colors';
+import { Colors } from '@/styles/ColorPalette/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import Button from '../components/Button/Button'
-import InputField from '../components/InputField/InputField';
-import styles from '../../styles/create-account';
+import Button from '../../components/Button/Button'
+import InputField from '../../components/InputField/InputField';
+import styles from '../../../styles/Auth/create-account';
 import React from 'react';
 
 // I still need to add in proper validation for all the form fields,
@@ -28,10 +28,10 @@ export default function CreateAccountScreen() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const [fontsLoaded] = useFonts({
-    'Inter-Bold': require('../../assets/fonts/Inter_28pt-Bold.ttf'),
-    'Inter-Medium': require('../../assets/fonts/Inter_28pt-Medium.ttf'),
-    'Inter-Regular': require('../../assets/fonts/Inter_28pt-Regular.ttf'),
-    'Inter-Light': require('../../assets/fonts/Inter_28pt-Light.ttf'),
+    'Inter-Bold': require('../../../assets/fonts/Inter_28pt-Bold.ttf'),
+    'Inter-Medium': require('../../../assets/fonts/Inter_28pt-Medium.ttf'),
+    'Inter-Regular': require('../../../assets/fonts/Inter_28pt-Regular.ttf'),
+    'Inter-Light': require('../../../assets/fonts/Inter_28pt-Light.ttf'),
   });
 
   const router = useRouter();
@@ -88,7 +88,7 @@ export default function CreateAccountScreen() {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/images/logo/growthly-logo-color.png')}
+        source={require('../../../assets/images/logo/growthly-logo-color.png')}
         style={styles.growthlyLogo}
       />
 
