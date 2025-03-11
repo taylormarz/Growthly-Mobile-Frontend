@@ -4,17 +4,17 @@ import { Colors } from '@/styles/ColorPalette/colors';
 import styles from './HalfInput-styles';
 
 interface Props {
-    placeholder: string;
+  placeholder: string;
 }
 
 const HalfInput = ({ placeholder }: Props) => {
-    return (
-        <TextInput
-            style={styles.halfInput}
-            placeholder={placeholder}
-            placeholderTextColor={Colors.growthly_white}
-        />
-    );
+  return (
+    <TextInput
+      style={styles.halfInput}
+      placeholder={placeholder}
+      placeholderTextColor={Colors.growthly_white}
+    />
+  );
 };
 
 export default HalfInput;

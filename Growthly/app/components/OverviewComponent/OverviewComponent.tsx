@@ -9,12 +9,17 @@ interface Props {
   style?: object;
 }
 
-const OverviewComponent = ({ title, value, buttonText, onPress, style }: Props) => {
+const OverviewComponent = ({
+  title,
+  value,
+  buttonText,
+  onPress,
+  style,
+}: Props) => {
   return (
     <View style={[styles.component, style]}>
       {/* container for titles and button */}
       <View style={styles.container}>
-        
         {/* text */}
         <View style={styles.textBox}>
           <Text style={styles.title}>{title}</Text>
