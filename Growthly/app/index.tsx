@@ -1,14 +1,19 @@
-import { View, Image, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import { useFonts } from 'expo-font';
 import { Colors } from '@/styles/ColorPalette/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
-import { useUser } from '@/context/UserContext'
+import { useUser } from '@/context/UserContext';
 import * as SecureStore from 'expo-secure-store';
 import InputField from '../app/components/InputField/InputField';
 import Button from '../app/components/Button/Button';
 import styles from '@/styles/Auth/signin-styles';
-
 
 interface SignInScreenState {
   buttonOn: boolean;
@@ -40,14 +45,14 @@ export default function SignInScreen() {
   if (!fontsLoaded) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size='large' color={Colors.growthly_white} />
+        <ActivityIndicator size="large" color={Colors.growthly_white} />
       </View>
     );
-  };
+  }
 
   // ********** NOTE FOR SELF: i still need to update this to actually remember user info *********
   const radioSelect = () => {
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       buttonOn: !buttonOn,
     }));
@@ -55,7 +60,7 @@ export default function SignInScreen() {
 
   // hook for inputting email or username input fields
   const handleEmailOrUsernameChange = (newInput: string) => {
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       emailOrUsername: newInput,
     }));
@@ -63,7 +68,7 @@ export default function SignInScreen() {
 
   // hook for inputting password in pass input field
   const handlePasswordChange = (newPassword: string) => {
-    setState(prevState => ({
+    setState((prevState) => ({
       ...prevState,
       password: newPassword,
     }));
@@ -73,21 +78,24 @@ export default function SignInScreen() {
   const handleSignIn = async () => {
     try {
       // Send login request
-      const response = await fetch('https://growthly-backend.onrender.com/api/v1/login/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email_or_username: emailOrUsername,
-          password: password,
-          login_validated: true,
-        }),
-      });
-  
+      const response = await fetch(
+        'https://growthly-backend.onrender.com/api/v1/login/auth',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email_or_username: emailOrUsername,
+            password: password,
+            login_validated: true,
+          }),
+        },
+      );
+
       const responseData = await response.json();
-  
+
       if (response.ok) {
         console.log('Sign-in successful');
-        
+
         const safeResDataStorage = {
           first_name: responseData.first_name,
           last_name: responseData.last_name,
@@ -98,22 +106,24 @@ export default function SignInScreen() {
           postal_code: responseData.postal_code,
           username: responseData.username,
           user_type: responseData.user_type,
-        }
-  
+        };
+
         // store user data from api call with secure storage, to be used for user context
-        await SecureStore.setItemAsync('userData', JSON.stringify(safeResDataStorage));
+        await SecureStore.setItemAsync(
+          'userData',
+          JSON.stringify(safeResDataStorage),
+        );
         setUserData(safeResDataStorage);
-  
+
         // route user to dashboard screen if signin successful
         router.push('/screens/Dashboard/DashboardScreen');
-
       } else {
         console.error('Sign-in failed: ', responseData);
       }
     } catch (error) {
       console.error('Error during sign-in: ', error);
     }
-  };      
+  };
 
   // hook used for user to get to create account screen
   const navigateToCreateAccount = () => {
@@ -126,7 +136,6 @@ export default function SignInScreen() {
 
   return (
     <View style={styles.container}>
-
       {/* Design at top of app */}
       <Image
         source={require('../assets/images/logo/growthly-logo-color.png')}
@@ -135,33 +144,55 @@ export default function SignInScreen() {
       <View style={[styles.keyline, styles.keyline1]} />
       <Text style={styles.header}>Sign In</Text>
 
-      { /* Form field inputs (email/username and password) */ }
-      <InputField style={{ position: 'absolute', top: 299, left: 58}} placeholder='Email or Username' 
-        value={emailOrUsername} onChangeText={handleEmailOrUsernameChange} 
+      {/* Form field inputs (email/username and password) */}
+      <InputField
+        style={{ position: 'absolute', top: 299, left: 58 }}
+        placeholder="Email or Username"
+        value={emailOrUsername}
+        onChangeText={handleEmailOrUsernameChange}
       />
-      <InputField style={{ position: 'absolute', top: 389, left: 58}} placeholder='Password'
-        secureTextEntry={true} value={password} onChangeText={handlePasswordChange} 
+      <InputField
+        style={{ position: 'absolute', top: 389, left: 58 }}
+        placeholder="Password"
+        secureTextEntry={true}
+        value={password}
+        onChangeText={handlePasswordChange}
       />
 
       {/* Radio Button */}
-      <TouchableOpacity onPress={radioSelect} style={styles.radioButtonContainer}>
+      <TouchableOpacity
+        onPress={radioSelect}
+        style={styles.radioButtonContainer}
+      >
         <View style={[styles.radioDefault, buttonOn && styles.radioActive]} />
         <Text style={styles.radioText}>Remember Sign-In Information</Text>
       </TouchableOpacity>
 
       {/* Button */}
-      <Button title='Submit' onPress={handleSignIn} style={{top:559, left: 58}}/>
+      <Button
+        title="Submit"
+        onPress={handleSignIn}
+        style={{ top: 559, left: 58 }}
+      />
 
       {/* Keyline 2 */}
-      <View style={[styles.keyline, styles.keyline2]}/>
+      <View style={[styles.keyline, styles.keyline2]} />
 
       {/* Create Account Button */}
-      <TouchableOpacity onPress={navigateToCreateAccount} style={styles.createButton}>
+      <TouchableOpacity
+        onPress={navigateToCreateAccount}
+        style={styles.createButton}
+      >
         <Text style={styles.createText}>Create Account</Text>
       </TouchableOpacity>
 
       {/* Forgot Password Button */}
-      <Text onPress={navigateToForgotPassword} style={[styles.createText, styles.forgotPass]}>Forgot Password?</Text>
+      <Text
+        onPress={navigateToForgotPassword}
+        style={[styles.createText, styles.forgotPass]}
+      >
+        Forgot Password?
+      </Text>
     </View>
   );
-};
+}

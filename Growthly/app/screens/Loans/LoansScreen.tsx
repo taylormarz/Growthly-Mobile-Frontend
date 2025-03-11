@@ -1,174 +1,253 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import { useUser } from '../../../context/UserContext';
-import { useState } from 'react';
+import { useLoanApp } from '../../../context/LoanAppContext';
+import { useRouter } from 'expo-router';
 import { Colors } from '@/styles/ColorPalette/colors';
 import styles from '@/styles/Loans/loan-screen-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function LoansScreen() {
+  const { user } = useUser();
+  const { saveLoanData } = useLoanApp()!;
+  const router = useRouter();
 
-    const { user } = useUser();
-    const [currentStep, setCurrentStep] = useState(1);
-    const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
-    const [selectedCycle, setSelectedCycle] = useState<string | null>(null);
-    // storing values for duration period (payback)
-    const duration: Array<1 | 3 | 6 | 9 | 12> = [1, 3, 6, 9, 12];
-    const cycle: Array<'Monthly' | 'Biweekly'> = ['Monthly', 'Biweekly'];
-    // styles to position each duration button generated from loop
-    const positionStyles: { [key in 1 | 3 | 6 | 9 | 12]: { left: number } } = {
-        1: { left: 20 },
-        3: { left: 88.75 },
-        6: { left: 157.5 },
-        9: { left: 226.5 },
-        12: { left: 295 }
-    };
-    // styles for cycle btn positioning
-    const cyclePositions: {[ key in 'Monthly' | 'Biweekly']: {left: number}} = {
-        'Monthly': { left: 20},
-        'Biweekly': { left: 185}
+  const [currentStep, setCurrentStep] = useState(1);
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+  const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
+  const [selectedCycle, setSelectedCycle] = useState<string | null>(null);
+
+  // storing values for duration period (payback)
+  const duration: Array<1 | 3 | 6 | 9 | 12> = [1, 3, 6, 9, 12];
+  const cycle: Array<'Monthly' | 'Biweekly'> = ['Monthly', 'Biweekly'];
+
+  // styles to position each duration button generated from loop
+  const positionStyles: { [key in 1 | 3 | 6 | 9 | 12]: { left: number } } = {
+    1: { left: 20 },
+    3: { left: 88.75 },
+    6: { left: 157.5 },
+    9: { left: 226.5 },
+    12: { left: 295 },
+  };
+
+  // styles for cycle btn positioning
+  const cyclePositions: { [key in 'Monthly' | 'Biweekly']: { left: number } } =
+    {
+      Monthly: { left: 20 },
+      Biweekly: { left: 185 },
     };
 
-    // hooks for switching between apply and manage
-    const handleNextStep = () => {
-        setCurrentStep(currentStep + 1);
-    };
-    // goes back in the steps so user can toggle between apply and manage
-    const handleBackStep = () => {
-        setCurrentStep(currentStep - 1);
+  // hooks for switching between apply and manage
+  const handleNextStep = () => {
+    setCurrentStep(currentStep + 1);
+  };
+
+  // goes back in the steps so user can toggle between apply and manage
+  const handleBackStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleAmountChange = (text: string) => {
+    const value = parseFloat(text);
+    setSelectedAmount(isNaN(value) ? null : value);
+  };
+
+  // radio button hook for duration period
+  const handleDurationSelect = (duration: number) => {
+    setSelectedDuration(duration);
+  };
+
+  // radio button hook for billing cycle
+  const handleCycleSelect = (cycle: string) => {
+    setSelectedCycle(cycle);
+  };
+
+  const handleApply = () => {
+    if (
+      selectedAmount !== null &&
+      selectedDuration !== null &&
+      selectedCycle !== null
+    ) {
+      saveLoanData({
+        amount: selectedAmount,
+        length_of_loan: selectedDuration,
+        payment_cycle: selectedCycle,
+      });
+      alert('Your loan application has been submitted!');
+      router.push('/screens/Matches/MatchesScreen');
+    } else {
+      // Handle the case where some data is missing (like showing an alert)
+      alert('Please complete all fields.');
     }
+  };
 
-    // radio button hook for duration period
-    const handleDurationSelect = (duration: number) => {
-        setSelectedDuration(duration);
-    };
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.screenContainer}>
+        <Header
+          title={`${user?.first_name || 'Guest'}, you have 0 active loan(s). `}
+          subtitle="Apply for loans and manage them below."
+        />
 
-    // radio button hook for billing cycle
-    const handleCycleSelect = (cycle: string) => {
-        setSelectedCycle(cycle);
-    }
+        {/* step 1 renders apply for loan tab */}
+        {currentStep === 1 ? (
+          <>
+            <Text style={styles.headerText}>Apply for Loan</Text>
+            <View style={styles.contentContainer}>
+              <Text style={[styles.regularText, styles.regularText2]}>
+                Warning:
+              </Text>
+              <Text style={styles.regularText}>
+                Active loans limit is: 2 - Total loan limit is: $2500
+              </Text>
+              <Text style={styles.regularText}>
+                Fixed Monthly Interest: Determined by Match
+              </Text>
+            </View>
 
-    return (
-        <View style={styles.screenContainer}>
-            <Header 
-                title={`${user?.first_name || 'Guest'}, you have 0 active loan(s). `}
-                subtitle='Apply for loans and manage them below.'
-            />
+            {/* Tabs */}
+            <TouchableOpacity style={styles.applyButtonActive}>
+              <Text style={styles.buttonText}>APPLY</Text>
+            </TouchableOpacity>
 
-            {/* step 1 renders apply for loan tab */}
-            { currentStep === 1 ? (
-            <>
-                <Text style={styles.headerText}>Apply for Loan</Text>
-                <View style={styles.contentContainer}>
-                    <Text style={[styles.regularText, styles.regularText2]}>Warning:</Text>
-                    <Text style={styles.regularText}>Active loans limit is: 2 - Total loan limit is: $2500</Text>
-                    <Text style={styles.regularText}>Fixed Monthly Interest: Determined by Match</Text>
-                </View>
+            <TouchableOpacity
+              style={styles.manageButtonDisabled}
+              onPress={handleNextStep}
+            >
+              <Text style={styles.buttonText}>MANAGE</Text>
+            </TouchableOpacity>
 
-                {/* tabs */}
-                <TouchableOpacity style={styles.applyButtonActive}>
-                    <Text style={styles.buttonText}>APPLY</Text>
+            {/* loan application container */}
+            <View style={styles.applyContainer}>
+              {/* loan total section */}
+              <View>
+                <Text style={[styles.heading, styles.h1]}>
+                  Enter Total for Loan:
+                </Text>
+                <TouchableOpacity
+                  style={[styles.inputContainer, styles.fieldContainer1]}
+                >
+                  <TextInput
+                    placeholder="$0.00"
+                    textAlign="left"
+                    placeholderTextColor={Colors.growthly_darkblue}
+                    textAlignVertical="center"
+                    style={styles.inputField}
+                    keyboardType="numeric"
+                    value={selectedAmount ? selectedAmount.toString() : ''}
+                    onChangeText={handleAmountChange}
+                  />
                 </TouchableOpacity>
+                <View style={styles.keyline} />
+              </View>
 
-                <TouchableOpacity style={styles.manageButtonDisabled} onPress={handleNextStep}>
-                    <Text style={styles.buttonText}>MANAGE</Text>
+              {/* billing cycle section */}
+              <View>
+                <Text style={[styles.heading, styles.h2]}>
+                  Select Billing Cycle:
+                </Text>
+                {cycle.map((cycleOption) => (
+                  <TouchableOpacity
+                    key={cycleOption}
+                    style={[
+                      styles.cycleButton,
+                      cyclePositions[cycleOption],
+                      { top: 72 },
+                      selectedCycle === cycleOption
+                        ? { backgroundColor: Colors.growthly_green }
+                        : {},
+                    ]}
+                    onPress={() => handleCycleSelect(cycleOption)}
+                  >
+                    <Text style={styles.cycleButtonText}>{cycleOption}</Text>
+                  </TouchableOpacity>
+                ))}
+                <View style={[styles.keyline, styles.keyline2]} />
+              </View>
+
+              {/* payback period section */}
+              <View>
+                <Text style={[styles.heading, styles.h3]}>
+                  Select Payback Duration:
+                </Text>
+                {duration.map((dur) => (
+                  <TouchableOpacity
+                    key={dur}
+                    style={[
+                      styles.durationButton,
+                      positionStyles[dur],
+                      { top: 105 },
+                      selectedDuration === dur
+                        ? { backgroundColor: Colors.growthly_green }
+                        : {},
+                    ]}
+                    onPress={() => handleDurationSelect(dur)}
+                  >
+                    <Text style={styles.cycleButtonText}>{dur}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+              <View style={[styles.keyline, styles.keyline3]} />
+
+              {/* Apply Button */}
+              <View>
+                <TouchableOpacity
+                  style={styles.applyButton}
+                  onPress={handleApply}
+                >
+                  <Text style={styles.applyButtonText}>Apply</Text>
                 </TouchableOpacity>
+              </View>
+            </View>
+          </>
+        ) : null}
 
-                {/* application container */}
-                <View style={styles.applyContainer}>
-                    {/* loan total section */}
-                    <View>
-                        <Text style={[styles.heading, styles.h1]}>Enter Total for Loan:</Text>
-                        <TouchableOpacity style={[styles.inputContainer, styles.fieldContainer1]}>
-                            <TextInput 
-                                placeholder='$0.00'
-                                textAlign='left'
-                                placeholderTextColor={Colors.growthly_darkblue}
-                                textAlignVertical='center'
-                                style={styles.inputField}
-                            />
-                        </TouchableOpacity>
-                        <View style={styles.keyline} />
-                    </View>
+        {/* step 2 renders manage loan tab */}
+        {currentStep === 2 ? (
+          <>
+            <Text style={styles.headerText}>Manage Loan</Text>
 
-                    {/* billing cycle section */}
-                    <View>
-                        <Text style={[styles.heading, styles.h2]}>Select Billing Cycle:</Text>
-                        {cycle.map((cycleOption) => (
-                            <TouchableOpacity
-                                key={cycleOption}
-                                style={[
-                                    styles.cycleButton,
-                                    cyclePositions[cycleOption],
-                                    { top: 72 },
-                                    selectedCycle === cycleOption
-                                        ? { backgroundColor: Colors.growthly_green }
-                                        : {},
-                                ]}
-                                onPress={() => handleCycleSelect(cycleOption)}
-                            >
-                                <Text style={styles.cycleButtonText}>{cycleOption}</Text>
-                            </TouchableOpacity>
-                        ))}
-                        <View style={[styles.keyline, styles.keyline2]} />
-                    </View>
+            <TouchableOpacity
+              style={styles.applyButtonDisabled}
+              onPress={handleBackStep}
+            >
+              <Text style={styles.buttonText}>APPLY</Text>
+            </TouchableOpacity>
 
-                    {/* payback period section */}
-                    <View>
-                        <Text style={[styles.heading, styles.h3]}>Select Payback Duration:</Text>
-                        {/* duration Buttons */}
-                        {duration.map((dur) => (
-                            <TouchableOpacity
-                                key={dur}
-                                style={[
-                                    styles.durationButton,
-                                    positionStyles[dur],
-                                    { top: 105 },
-                                    selectedDuration === dur ? { backgroundColor: Colors.growthly_green } : {},
-                                ]}
-                                onPress={() => handleDurationSelect(dur)}
-                            >
-                                <Text style={styles.cycleButtonText}>{dur}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                    <View style={[styles.keyline, styles.keyline3]} />
+            <TouchableOpacity style={styles.manageButtonActive}>
+              <Text style={styles.buttonText}>MANAGE</Text>
+            </TouchableOpacity>
 
-                    {/* apply button */}
-                    <View>
-                        <TouchableOpacity style={styles.applyButton}>
-                            <Text style={styles.applyButtonText}>Apply</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </>
-            ) : null}
+            <View style={styles.manageContainer}>
+              <TouchableOpacity>
+                <Text style={styles.manageContainerText1}>
+                  You currently have no loan history with Growthly.
+                </Text>
+                <Text
+                  style={[
+                    styles.manageContainerText1,
+                    styles.manageContainerText2,
+                  ]}
+                >
+                  Apply for a loan to get started, or check your matches to
+                  accept a loan you’ve applied for.
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.keyline, styles.keyline4]} />
+          </>
+        ) : null}
 
-            {/* step 2 renders manage loan tab */}
-            { currentStep === 2 ? (
-            <>
-                <Text style={styles.headerText}>Manage Loan</Text>
-
-                <TouchableOpacity style={styles.applyButtonDisabled} onPress={handleBackStep}>
-                    <Text style={styles.buttonText}>APPLY</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.manageButtonActive}>
-                    <Text style={styles.buttonText}>MANAGE</Text>
-                </TouchableOpacity>
-
-                <View style={styles.manageContainer}>
-                    <TouchableOpacity>
-                        <Text style={styles.manageContainerText1}>You currently have no loan history with Growthly.</Text>
-                        <Text style={[styles.manageContainerText1, styles.manageContainerText2]}>Apply for a loan to get started, or check your matches to accept a loan you’ve applied for.</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={[styles.keyline, styles.keyline4]} />
-            </>
-            ) : null}
-
-            <NavBar />
-        </View>
-    );
-};
+        <NavBar />
+      </View>
+    </TouchableWithoutFeedback>
+  );
+}

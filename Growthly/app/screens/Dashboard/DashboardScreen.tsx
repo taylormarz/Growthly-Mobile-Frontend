@@ -9,7 +9,6 @@ import NavBar from '@/app/components/NavBar/NavBar';
 import OverviewComponent from '../../components/OverviewComponent/OverviewComponent';
 
 const DashboardScreen = () => {
-
   const { user } = useUser();
   const router = useRouter();
 
@@ -21,30 +20,30 @@ const DashboardScreen = () => {
   // hook for loans page
   const handleViewLoans = () => {
     router.push('../Loans/LoansScreen');
-  }
+  };
 
   // hook for match page
   const handleViewMatch = () => {
     router.push('../Matches/MatchesScreen');
-  }
+  };
 
   // hook for credit page
   const handleViewCredit = () => {
     router.push('../Credit/CreditScreen');
-  }
+  };
 
   // hook for settings page
   const handleViewBankInfo = () => {
     router.push('../Settings/main/SettingsScreen');
-  }
+  };
 
   return (
     <View style={styles.screenContainer}>
-      <Header 
+      <Header
         title={`Welcome, ${user?.first_name || 'Guest'}!`}
-        subtitle='Review account overview below.'
+        subtitle="Review account overview below."
       />
-      
+
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutText}>LOGOUT</Text>
       </TouchableOpacity>
@@ -53,28 +52,28 @@ const DashboardScreen = () => {
 
       <View style={styles.overviewContainer}>
         <OverviewComponent
-          title='Active Loans'
-          value='0 Active Loan' // hard coded this for now but i will switch out once i set up a context for loans
-          buttonText='View Loans >'
+          title="Active Loans"
+          value="0 Active Loan" // hard coded this for now but i will switch out once i set up a context for loans
+          buttonText="View Loans >"
           onPress={handleViewLoans}
         />
-        <OverviewComponent 
-          title='Matches'
-          value='0 Matches' // hard coded - same as above
-          buttonText='View Match >'
+        <OverviewComponent
+          title="Matches"
+          value="0 Matches" // hard coded - same as above
+          buttonText="View Match >"
           onPress={handleViewMatch}
         />
         <OverviewComponent
-          title='Credit Score'
-          value='715 / 900' // hard coded - same as above
-          buttonText='View Details >'
+          title="Credit Score"
+          value="715 / 900" // hard coded - same as above
+          buttonText="View Details >"
           onPress={handleViewCredit}
         />
         <OverviewComponent
-          style={styles.componentLast} 
-          title='Bank Account'
-          value='004-54689' // hard coded - same as above
-          buttonText='Update Info >'
+          style={styles.componentLast}
+          title="Bank Account"
+          value="004-54689" // hard coded - same as above
+          buttonText="Update Info >"
           onPress={handleViewBankInfo}
         />
       </View>

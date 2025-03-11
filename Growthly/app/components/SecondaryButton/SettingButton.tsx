@@ -10,17 +10,17 @@ interface Props {
 const SettingButton = ({ listItem, buttonText, onPress }: Props) => {
   return (
     <View>
-        <View style={styles.settingComponent}>
-            <View>
-                <Text style={styles.settingContainerText}>{listItem}</Text>
-            </View>
-            <View>
-                <TouchableOpacity style={styles.settingButton} onPress={onPress}>
-                    <Text style={styles.buttonText}>{buttonText}</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.keyline}></View>
+      <View style={styles.settingComponent}>
+        <View>
+          <Text style={styles.settingContainerText}>{listItem}</Text>
         </View>
+        <View>
+          <TouchableOpacity style={styles.settingButton} onPress={onPress}>
+            <Text style={styles.buttonText}>{buttonText}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.keyline}></View>
+      </View>
     </View>
   );
 };

@@ -9,12 +9,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.growthly_darkblue,
   },
+
   loaderContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.growthly_darkblue,
   },
+
   growthlyLogo: {
     position: 'absolute',
     top: 129,
@@ -22,6 +24,7 @@ const styles = StyleSheet.create({
     width: 107,
     height: 24,
   },
+
   keyline: {
     position: 'absolute',
     top: 177,
@@ -30,12 +33,15 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#184B65',
   },
+
   keyline1: {
     top: 177,
   },
+
   keyline2: {
     top: 679,
   },
+
   header: {
     position: 'absolute',
     top: 230,
@@ -45,6 +51,7 @@ const styles = StyleSheet.create({
     letterSpacing: 2,
     color: Colors.growthly_white,
   },
+
   input: {
     position: 'absolute',
     left: 58,
@@ -58,6 +65,7 @@ const styles = StyleSheet.create({
     color: Colors.growthly_white,
     backgroundColor: Colors.growthly_inputblue,
   },
+
   radioButtonContainer: {
     position: 'absolute',
     top: 479,
@@ -65,6 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+
   radioDefault: {
     width: 20,
     height: 20,
@@ -72,10 +81,12 @@ const styles = StyleSheet.create({
     borderColor: Colors.growthly_white,
     backgroundColor: Colors.growthly_white,
   },
+
   radioActive: {
     backgroundColor: Colors.growthly_green,
     borderColor: Colors.growthly_green,
   },
+
   radioText: {
     marginLeft: 15,
     fontSize: 12,
@@ -83,11 +94,13 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     color: Colors.growthly_white,
   },
+
   buttonText: {
     fontSize: 20,
     fontFamily: 'Inter-Medium',
     color: Colors.growthly_darkblue,
   },
+
   createButton: {
     position: 'absolute',
     top: 709,
@@ -99,11 +112,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   createText: {
     fontSize: 12,
     fontFamily: 'Inter-Regular',
     color: Colors.growthly_white,
   },
+
   forgotPass: {
     position: 'absolute',
     top: 720,
