@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput } from 'react-native';
 import { Colors } from '@/styles/ColorPalette/colors';
 import styles from './HalfInput-styles';
 
