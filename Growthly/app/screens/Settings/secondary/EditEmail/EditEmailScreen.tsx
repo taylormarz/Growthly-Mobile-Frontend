@@ -1,8 +1,10 @@
 import React, { 
   useState,
-} 
-from 'react';
-import { View } from 'react-native';
+} from 'react';
+import { 
+  View, 
+  Keyboard 
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { useUser } from '@/context/UserContext';
 import styles from '@/styles/Settings/secondary/edit-bank-styles';
@@ -27,8 +29,11 @@ export default function EditEmailScreen() {
     if (!user?._id) return;
 
     try {
+      // added so user can see toast (keyboard was blocking it so unclear is edit was successful)
+      Keyboard.dismiss();
+
       // sends req to endpoint to update user then stores sever res
-      const response = await fetch(`https://growthly-backend.onrender.com/api/v1/user/${user._id}`,
+      const response = await fetch(`https://growthly-backend.onrender.com/api/v1/users/${user._id}`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -36,15 +41,25 @@ export default function EditEmailScreen() {
         }
       );
 
-      // if backend response is not okay, shows error message
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        throw new Error(errorResponse.message || 'Error updating email/username');
+      // store response from backend (good or bad)
+      const backendResponseText = await response.text();
+      console.log(backendResponseText)
+
+      // if backend response is not okay, show what the backend response way
+      if (!response.ok) { 
+        throw new Error(`Error updating email/username: ${backendResponseText} `);
       }
 
       // get the updated data from backend res
-      const updatedUser = await response.json();
-      // update user context with data from response obj
+      let updatedUser;
+      try {
+        updatedUser = JSON.parse(backendResponseText);
+      } catch {
+        console.log('Response is not JSON, assuming success message.');
+        updatedUser = { ...user, email, username };
+      }
+
+      // update user context
       setUserData(updatedUser)
 
       // success toast for user
@@ -82,11 +97,11 @@ export default function EditEmailScreen() {
       {/* data for user coming from user context */}
       <Input 
         placeholder={user?.email || 'Email'}
-        //onChangeText={setEmail}
+        onChangeText={setEmail}
       />
       <Input 
         placeholder={user?.username || 'Username'}
-        //onChangeText={setUsername}
+        onChangeText={setUsername}
       />
       <TestButton
         title='Confirm Changes'
