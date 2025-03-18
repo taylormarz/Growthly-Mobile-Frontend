@@ -6,15 +6,17 @@ import styles from './TestInput-styles';
 interface Props {
   placeholder: string;
   style?: object;
+  onChangeText?: (text: string) => void;
 }
 
-const Input = ({ placeholder, style }: Props) => {
+const Input = ({ placeholder, style, onChangeText }: Props) => {
   return (
     <View style={styles.inputContainer}>
       <TextInput
         style={[styles.input, style]}
         placeholder={placeholder}
         placeholderTextColor={Colors.growthly_white}
+        onChangeText={onChangeText}
       />
     </View>
   );
