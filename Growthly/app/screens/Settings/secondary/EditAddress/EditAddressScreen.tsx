@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useUser } from '@/context/UserContext';
 import styles from '@/styles/Settings/secondary/edit-address-styles';
 import Banner from '@/app/components/Banner/Banner';
 import Input from '@/app/components/TestInput/TestInput';
@@ -11,6 +12,8 @@ import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function EditAddressScreen() {
   const router = useRouter();
+  // user context
+  const { user } = useUser();
 
   const navigateBackToSettings = () => {
     router.push('../../main/SettingsScreen');
@@ -20,13 +23,13 @@ export default function EditAddressScreen() {
     <View style={styles.screenContainer}>
       {/* logo + cancel button banner */}
       <Banner
-        subheading="Update Address Below"
-        heading="Edit Address"
+        subheading='Update Address Below'
+        heading='Edit Address'
         onPress={navigateBackToSettings}
       ></Banner>
 
-      <Input placeholder="Address"></Input>
-      <Input placeholder="Phone Number"></Input>
+      <Input placeholder={user?.street_address || 'Address'}/>
+      <Input placeholder={user?.phone_number || 'Phone Number'}/>
       <View style={styles.inputContainer}>
         <DropdownMenu
           data={[
@@ -42,11 +45,11 @@ export default function EditAddressScreen() {
             { key: 'Yukon', value: 'YK' },
           ]}
         />
-        <HalfInput placeholder="Postal Code"></HalfInput>
+        <HalfInput placeholder={user?.postal_code || 'Postal Code'}/>
       </View>
 
       <TestButton
-        title="Confirm Changes"
+        title='Confirm Changes'
         onPress={navigateBackToSettings}
       ></TestButton>
 
