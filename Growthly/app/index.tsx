@@ -97,6 +97,7 @@ export default function SignInScreen() {
         console.log('Sign-in successful');
 
         const safeResDataStorage = {
+          _id: responseData._id,
           first_name: responseData.first_name,
           last_name: responseData.last_name,
           email: responseData.email,

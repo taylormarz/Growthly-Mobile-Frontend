@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -24,6 +24,8 @@ export default function LoansScreen() {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
   const [selectedCycle, setSelectedCycle] = useState<string | null>(null);
+  const [currentLoan, setCurrentLoan] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // storing values for duration period (payback)
   const duration: Array<1 | 3 | 6 | 9 | 12> = [1, 3, 6, 9, 12];
@@ -38,23 +40,56 @@ export default function LoansScreen() {
     12: { left: 295 },
   };
 
-  // styles for cycle btn positioning
+  // styles for cycle button positioning
   const cyclePositions: { [key in 'Monthly' | 'Biweekly']: { left: number } } =
     {
       Monthly: { left: 20 },
       Biweekly: { left: 185 },
     };
 
+  // call to backend to check if user has any loans attached to them
+  const fetchCurrentLoan = async () => {
+    try {
+      const response = await fetch(
+        `https://growthly-backend.onrender.com/api/v1/borrower/loan/`,
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('error:', errorText);
+        throw new Error('Failed to fetch the current loans.');
+      }
+
+      const data = await response.json();
+
+      // filter and show loans with borrow id that matches user id
+      const userLoans = data.filter(
+        (loan: any) => loan.borrower_id === user?._id,
+      );
+
+      if (userLoans.length > 0) {
+        setCurrentLoan(userLoans);
+      } else {
+        setCurrentLoan([]);
+      }
+    } catch (error) {
+      console.error('Error checking user for existing loans:', error);
+    }
+  };
+
   // hooks for switching between apply and manage
   const handleNextStep = () => {
-    setCurrentStep(currentStep + 1);
+    setCurrentStep(2);
+    fetchCurrentLoan();
   };
 
   // goes back in the steps so user can toggle between apply and manage
   const handleBackStep = () => {
     setCurrentStep(currentStep - 1);
+    fetchCurrentLoan();
   };
 
+  // lets user change value inside loan total + converts from string to float
   const handleAmountChange = (text: string) => {
     const value = parseFloat(text);
     setSelectedAmount(isNaN(value) ? null : value);
@@ -70,21 +105,25 @@ export default function LoansScreen() {
     setSelectedCycle(cycle);
   };
 
+  // apply functionality for loan, saves data from loan params user chooses and stores in loan app context
   const handleApply = () => {
     if (
       selectedAmount !== null &&
       selectedDuration !== null &&
       selectedCycle !== null
     ) {
+      // this is where the data is getting saved to the context
       saveLoanData({
         amount: selectedAmount,
         length_of_loan: selectedDuration,
         payment_cycle: selectedCycle,
       });
+      // popup to confirm to user loan application has been submitted
       alert('Your loan application has been submitted!');
+      // lets user view available matches
       router.push('/screens/Matches/MatchesScreen');
     } else {
-      // Handle the case where some data is missing (like showing an alert)
+      // validation incase user leaves field blank
       alert('Please complete all fields.');
     }
   };
@@ -97,7 +136,7 @@ export default function LoansScreen() {
           subtitle="Apply for loans and manage them below."
         />
 
-        {/* step 1 renders apply for loan tab */}
+        {/* step 1 - renders apply for loan tab */}
         {currentStep === 1 ? (
           <>
             <Text style={styles.headerText}>Apply for Loan</Text>
@@ -113,7 +152,7 @@ export default function LoansScreen() {
               </Text>
             </View>
 
-            {/* Tabs */}
+            {/* tabs */}
             <TouchableOpacity style={styles.applyButtonActive}>
               <Text style={styles.buttonText}>APPLY</Text>
             </TouchableOpacity>
@@ -197,7 +236,7 @@ export default function LoansScreen() {
               </View>
               <View style={[styles.keyline, styles.keyline3]} />
 
-              {/* Apply Button */}
+              {/* apply button */}
               <View>
                 <TouchableOpacity
                   style={styles.applyButton}
@@ -210,8 +249,8 @@ export default function LoansScreen() {
           </>
         ) : null}
 
-        {/* step 2 renders manage loan tab */}
-        {currentStep === 2 ? (
+        {/* step 2 - renders manage loan tab */}
+        {currentStep === 2 && (
           <>
             <Text style={styles.headerText}>Manage Loan</Text>
 
@@ -227,24 +266,49 @@ export default function LoansScreen() {
             </TouchableOpacity>
 
             <View style={styles.manageContainer}>
-              <TouchableOpacity>
-                <Text style={styles.manageContainerText1}>
-                  You currently have no loan history with Growthly.
-                </Text>
-                <Text
-                  style={[
-                    styles.manageContainerText1,
-                    styles.manageContainerText2,
-                  ]}
-                >
-                  Apply for a loan to get started, or check your matches to
-                  accept a loan you’ve applied for.
-                </Text>
-              </TouchableOpacity>
+              {currentLoan && currentLoan.length > 0 ? (
+                currentLoan.map((loan: any, index: number) => (
+                  <TouchableOpacity key={index}>
+                    <Text style={styles.manageContainerText1}>
+                      Loan Breakdown:
+                    </Text>
+                    <Text style={styles.manageContainerText2}>
+                      Amount: ${loan.amount}
+                    </Text>
+                    <Text style={styles.manageContainerText2}>
+                      Interest Rate: {loan.interest_rate}%
+                    </Text>
+                    <Text style={styles.manageContainerText2}>
+                      Remaining Amount: ${loan.amount_remaining}
+                    </Text>
+                    <Text style={styles.manageContainerText2}>
+                      Payment Frequency: {loan.payment_freq}
+                    </Text>
+                    <Text style={styles.manageContainerText2}>
+                      Status: {loan.loan_status}
+                    </Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <TouchableOpacity>
+                  <Text style={styles.manageContainerText1}>
+                    You currently have no loan history with Growthly.
+                  </Text>
+                  <Text
+                    style={[
+                      styles.manageContainerText1,
+                      styles.manageContainerText2,
+                    ]}
+                  >
+                    Apply for a loan to get started, or check your matches to
+                    accept a loan you’ve applied for.
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
             <View style={[styles.keyline, styles.keyline4]} />
           </>
-        ) : null}
+        )}
 
         <NavBar />
       </View>

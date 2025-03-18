@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { 
+  View, 
+  Text 
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/Settings/secondary/edit-bank-styles';
 import Banner from '@/app/components/Banner/Banner';
@@ -18,13 +21,13 @@ export default function EditEmailScreen() {
     <View style={styles.screenContainer}>
       {/* logo + cancel button banner */}
       <Banner
-        subheading="Do you have a question or concern?"
-        heading="Contact Us"
+        subheading='Do you have a question or concern?'
+        heading='Contact Us'
         onPress={navigateBackToSettings}
       ></Banner>
 
-      <Input style={{ height: 250 }} placeholder="Enter inquiry here"></Input>
-      <TestButton title="Submit" onPress={navigateBackToSettings}></TestButton>
+      <Input style={{ height: 250 }} placeholder='Enter inquiry here'></Input>
+      <TestButton title='Submit' onPress={navigateBackToSettings}></TestButton>
       <NavBar />
     </View>
   );
