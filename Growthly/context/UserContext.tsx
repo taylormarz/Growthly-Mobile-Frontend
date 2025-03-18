@@ -7,9 +7,9 @@ import React, {
 } from 'react';
 import * as SecureStore from 'expo-secure-store';
 
-// NOTE: I'm going to create one of these to manage loan data too
 // props available inside user context (accessed via user model on backend)
 interface User {
+  _id: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -51,6 +51,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
   // func to update user data state
   const setUserData = async (userData: User) => {
+    console.log('Saving User Data:', userData);
     setUser(userData);
     await SecureStore.setItemAsync('userData', JSON.stringify(userData));
   };
@@ -64,7 +65,11 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     const loadUser = async () => {
       const storedUser = await SecureStore.getItemAsync('userData');
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser);
+        console.log('Loaded User from SecureStore:', parsedUser);
+        setUser(parsedUser);
+      } else {
+        console.log('No user data found in SecureStore');
       }
     };
     loadUser();

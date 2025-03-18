@@ -267,6 +267,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     padding: 25,
     fontSize: 18,
+    color: Colors.growthly_darkblue,
   },
 
   manageContainerText2: {
