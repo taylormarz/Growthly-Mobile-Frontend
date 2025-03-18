@@ -50,12 +50,13 @@ export default function EditEmailScreen() {
         throw new Error(`Error updating email/username: ${backendResponseText} `);
       }
 
-      // get the updated data from backend res
+      // convert res into js obj
       let updatedUser;
       try {
         updatedUser = JSON.parse(backendResponseText);
       } catch {
-        console.log('Response is not JSON, assuming success message.');
+        console.log('Response not JSON');
+        // manually updates user if res not JSON
         updatedUser = { ...user, email, username };
       }
 
