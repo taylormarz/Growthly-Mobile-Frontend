@@ -8,9 +8,6 @@ import InputField from '../../components/InputField/InputField';
 import styles from '../../../styles/Auth/create-account';
 import React from 'react';
 
-// I still need to add in proper validation for all the form fields,
-// but this works at a functional level as a minimum viable product
-
 export default function CreateAccountScreen() {
   const [formData, setFormData] = useState({
     first_name: '',
@@ -54,6 +51,7 @@ export default function CreateAccountScreen() {
     setCurrentStep(currentStep + 1);
   };
 
+  // submit button clicked, new user info sent to backend as POST creating new user in db
   const handleSubmit = async () => {
     try {
       const response = await fetch(
@@ -67,6 +65,7 @@ export default function CreateAccountScreen() {
         },
       );
 
+      // if the new user is created successfully (passes backend checks), user sees success alert
       if (response.ok) {
         Alert.alert(
           'New Account Created',
@@ -75,6 +74,7 @@ export default function CreateAccountScreen() {
             {
               text: 'Sign In',
               onPress: () => {
+                // user redirected to signin page
                 router.push('../');
               },
             },
