@@ -31,6 +31,10 @@ export default function SettingsScreen() {
     router.push('../secondary/Contact/ContactScreen');
   };
 
+  const navigateToDeleteAccount = () => {
+    router.push('../secondary/DeleteAccount/DeleteAccountScreen')
+  }
+
   return (
     <View style={styles.screenContainer}>
       <Header
@@ -71,8 +75,12 @@ export default function SettingsScreen() {
 
             {/* delete account button */}
             <View>
-              <TouchableOpacity style={styles.deleteButton}>
-                <Text style={styles.buttonText}>Delete Account</Text>
+              <TouchableOpacity 
+                style={styles.deleteButton}
+                onPress={navigateToDeleteAccount}>
+                <Text 
+                  style={styles.buttonText}>Delete Account
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

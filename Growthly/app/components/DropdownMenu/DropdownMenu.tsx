@@ -6,30 +6,28 @@ import styles from './DropdownMenu-styles';
 
 interface Props {
   data: { key: string; value: string }[];
+  value: string;
+  onSelect: (selected: { key: string; value: string }) => void;
   style?: object;
 }
 
-const DropdownMenu = ({ data, style }: Props) => {
-  const [selected, setSelected] = useState<string>('');
+const DropdownMenu = ({ data, value, onSelect, style }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const handleSelect = (value: string) => {
-    setSelected(value);
+  const handleSelect = (item: { key: string; value: string }) => {
+    onSelect(item);
     setIsOpen(false);
   };
 
   return (
     <>
-      {/* dropdown button, not active */}
-      <TouchableOpacity
-        style={[styles.dropdown, style]}
-        onPress={toggleDropdown}
-      >
-        <Text style={styles.text}>{selected || 'Province'}</Text>
+      {/* Dropdown button */}
+      <TouchableOpacity style={[styles.dropdown, style]} onPress={toggleDropdown}>
+        <Text style={styles.text}>{value || 'Province'}</Text>
         <Icon
           name={isOpen ? 'keyboard-arrow-up' : 'keyboard-arrow-down'}
           size={24}
@@ -38,7 +36,7 @@ const DropdownMenu = ({ data, style }: Props) => {
         />
       </TouchableOpacity>
 
-      {/* isOpen = true, dropdown list activated, shows options */}
+      {/* Dropdown list */}
       {isOpen && (
         <View style={[styles.dropdownOptions, style]}>
           <FlatList
@@ -47,7 +45,7 @@ const DropdownMenu = ({ data, style }: Props) => {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.option}
-                onPress={() => handleSelect(item.value)}
+                onPress={() => handleSelect(item)}
               >
                 <Text style={styles.optionText}>{item.value}</Text>
               </TouchableOpacity>
