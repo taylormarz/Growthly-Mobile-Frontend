@@ -126,8 +126,8 @@ const styles = StyleSheet.create({
 
   keyline4: {
     width: 300,
-    top: 390,
-    left: 65,
+    top: 105,
+    left: 25,
   },
 
   heading: {
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     left: 40,
     top: 245,
     width: 350,
-    height: 225,
+    height: 450,
     borderRadius: 15,
     backgroundColor: Colors.growthly_lightblue,
   },
@@ -271,8 +271,21 @@ const styles = StyleSheet.create({
   },
 
   manageContainerText2: {
+    fontFamily: 'Inter-Regular',
+    fontSize: 16,
     paddingTop: 0,
+    paddingLeft: 25,
+    paddingBottom: 10,
+    color: Colors.growthly_darkblue,
   },
+
+  line: {
+    height: 1,
+    backgroundColor: Colors.growthly_teal2,
+    marginHorizontal: 25,
+    marginTop: 35,
+  },
+  
 });
 
 export default styles;
