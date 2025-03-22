@@ -10,6 +10,7 @@ import { Colors } from '@/styles/ColorPalette/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { useUser } from '@/context/UserContext';
+import Toast from 'react-native-toast-message';
 import * as SecureStore from 'expo-secure-store';
 import InputField from '../app/components/InputField/InputField';
 import Button from '../app/components/Button/Button';
@@ -76,8 +77,52 @@ export default function SignInScreen() {
 
   // hook handles sign in for existing users
   const handleSignIn = async () => {
+    // validation check to make sure the user doesn't leave any fields blank
+    if (!emailOrUsername.trim() || !password.trim()) {
+      Toast.show({
+              type: 'error',
+              text1: 'Error:',
+              text2: 'Missing fields.',
+            });
+      return;
+    }
+
     try {
-      // Send login request
+
+      // fetches response from backend containing email or username + hashed password for comparison on login
+      const hashResponse = await fetch('https://growthly-backend.onrender.com/api/v1/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email_or_username: emailOrUsername }),
+      });
+
+      // store response from backend
+      const hashData = await hashResponse.json();
+
+      // check for username/email on sign in (if it doesn't match backend response, toast shows error)
+      if (!hashResponse.ok || !hashData?.stored_password) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error:',
+          text2: 'Invalid email or username.',
+        });
+        return;
+      }
+
+      // stores comparison for password
+      const isMatch = password === hashData.stored_password;
+
+      // if the password isn't a match, user sees toast telling them
+      if (!isMatch) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error:',
+          text2: 'Incorrect password.',
+        });
+        return;
+      }
+
+      // send login request
       const response = await fetch(
         'https://growthly-backend.onrender.com/api/v1/login/auth',
         {
