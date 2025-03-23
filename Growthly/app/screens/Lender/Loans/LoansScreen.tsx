@@ -15,19 +15,18 @@ import { useUser } from '@/context/UserContext';
 import { useLoanApp } from '@/context/LoanAppContext';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/styles/ColorPalette/colors';
+import Toast from 'react-native-toast-message';
 import styles from '@/styles/Loans/loan-screen-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function LoansScreen() {
 	const { user } = useUser();
-	const { saveLoanData } = useLoanApp()!;
 	const router = useRouter();
 
 	const [currentStep, setCurrentStep] = useState(1);
 	const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
 	const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
-	const [selectedCycle, setSelectedCycle] = useState<string | null>(null);
 	const [selectedInterestRate, setSelectedInterestRate] = useState<number | null>(null);
 	const [currentLoan, setCurrentLoan] = useState<any>(null);
 
@@ -56,43 +55,38 @@ export default function LoansScreen() {
 		12: { left: 295 },
 	};
 
-	// call to backend to check if user has any loans attached to them
+	// call to backend to check if user has any posted loans attached to them
 	const fetchCurrentLoan = async () => {
 		try {
 			const response = await fetch(
-				`https://growthly-backend.onrender.com/api/v1/borrower/loan/`,
+				`https://growthly-backend.onrender.com/api/v1/lender/loan/`
 			);
 
 			if (!response.ok) {
 				const errorText = await response.text();
-				console.error('error:', errorText);
-				throw new Error('Failed to fetch the current loans.');
+				console.error('Error:', errorText);
+				throw new Error('Failed to fetch posted loans.');
 			}
 
 			const data = await response.json();
 
-			// filter and show loans with borrow id that matches user id
-			const userLoans = data.filter(
-				(loan: any) => loan.borrower_id === user?._id,
-			);
+			// Show only loans posted by this lender
+			const userLoans = data.filter((loan: any) => loan.lender_id === user?._id);
 
-			if (userLoans.length > 0) {
-				setCurrentLoan(userLoans);
-			} else {
-				setCurrentLoan([]);
-			}
+			setCurrentLoan(userLoans);
 		} catch (error) {
-			console.error('Error checking user for existing loans:', error);
+			console.error('Error fetching lender loans:', error);
+			setCurrentLoan([]);
 		}
 	};
 
-	// hooks for switching between apply and manage
+	// hooks for switching between post and manage
 	const handleNextStep = () => {
 		setCurrentStep(2);
 		fetchCurrentLoan();
 	};
 
-	// goes back in the steps so user can toggle between apply and manage
+	// goes back in the steps so user can toggle between post and manage
 	const handleBackStep = () => {
 		setCurrentStep(currentStep - 1);
 		fetchCurrentLoan();
@@ -114,28 +108,64 @@ export default function LoansScreen() {
 		setSelectedInterestRate(rate);
 	};
 
-	// apply functionality for loan, saves data from loan params user chooses and stores in loan app context
-	const handleApply = () => {
+	// post functionality for creating a new loan
+	const handleCreateNewLoan = async () => {
 		if (
 			selectedAmount !== null &&
+			selectedInterestRate !== null &&
 			selectedDuration !== null &&
-			selectedCycle !== null
+			user?._id
 		) {
-			console.log('Saving loan with payment cycle:', selectedCycle);
-
-			// this is where the data is getting saved to the context
-			saveLoanData({
+			const payload = {
+				lender_id: user._id,
 				amount: selectedAmount,
+				interest_rate: selectedInterestRate,
 				length_of_loan: selectedDuration,
-				payment_cycle: selectedCycle.toUpperCase().trim(),
-			});
-			// popup to confirm to user loan application has been submitted
-			alert('Your loan application has been submitted!');
-			// lets user view available matches
-			router.push('/screens/Matches/MatchesScreen');
+				available: true,
+			};
+
+			try {
+				const response = await fetch(
+					'https://growthly-backend.onrender.com/api/v1/lender/loan/',
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(payload),
+					}
+				);
+
+				if (!response.ok) {
+					const errorText = await response.text();
+					console.error('Loan creation failed:', errorText);
+					Toast.show({
+						type: 'error',
+						text1: 'Error:',
+						text2: 'Could not create loan.',
+					});
+					return;
+				}
+
+				Toast.show({
+					type: 'success',
+					text1: 'Success:',
+					text2: 'Your loan was created.',
+				});
+			} catch (error) {
+				console.error('Error posting loan:', error);
+				Toast.show({
+					type: 'error',
+					text1: 'Error:',
+					text2: 'Could not create loan.',
+				});
+			}
 		} else {
-			// validation incase user leaves field blank
-			alert('Please complete all fields.');
+			Toast.show({
+				type: 'error',
+				text1: 'Error:',
+				text2: 'Missing fields.',
+			});
 		}
 	};
 
@@ -252,7 +282,7 @@ export default function LoansScreen() {
 							<View>
 								<TouchableOpacity
 									style={styles.applyButton}
-									onPress={handleApply}
+									onPress={handleCreateNewLoan}
 								>
 									<Text style={styles.applyButtonText}>Post Loan</Text>
 								</TouchableOpacity>
@@ -282,12 +312,11 @@ export default function LoansScreen() {
 								{currentLoan && currentLoan.length > 0 ? (
 									currentLoan.map((loan: any, index: number) => (
 										<TouchableOpacity key={index}>
-											<Text style={styles.manageContainerText1}>Loan Breakdown:</Text>
+											<Text style={styles.manageContainerText1}>Posted Loan Breakdown:</Text>
 											<Text style={styles.manageContainerText2}>Amount: ${loan.amount}</Text>
 											<Text style={styles.manageContainerText2}>Interest Rate: {loan.interest_rate}%</Text>
-											<Text style={styles.manageContainerText2}>Remaining Amount: ${loan.amount_remaining}</Text>
-											<Text style={styles.manageContainerText2}>Payment Frequency: {loan.payment_freq}</Text>
-											<Text style={styles.manageContainerText2}>Status: {loan.loan_status}</Text>
+											<Text style={styles.manageContainerText2}>Payback Period: {loan.length_of_loan}</Text>
+											<Text style={styles.manageContainerText2}>Status: {loan.available ? 'Not Claimed' : 'Claimed'}</Text>
 											<View style={styles.line} />
 										</TouchableOpacity>
 									))

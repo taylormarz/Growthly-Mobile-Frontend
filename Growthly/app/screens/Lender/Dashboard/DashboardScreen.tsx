@@ -1,6 +1,9 @@
 // DashboardScreen.tsx (LENDER)
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {
+	View,
+	Text,
+} from 'react-native';
 import { useUser } from '../../../../context/UserContext';
 import { useLenderNavigation } from '@/app/utils/navigation/lenderNavigation';
 import styles from '@/styles/Dashboard/dashboard-styles';
@@ -11,7 +14,6 @@ import OverviewComponent from '../../../components/OverviewComponent/OverviewCom
 const DashboardScreen = () => {
 	const { user } = useUser();
 	const {
-		navigateToOut,
 		navigateToLenderLoans,
 		navigateToLenderCredit,
 		navigateToLenderSettings
