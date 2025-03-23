@@ -24,10 +24,6 @@ const DashboardScreen = () => {
 				subtitle='Review account overview below.'
 			/>
 
-			<TouchableOpacity style={styles.logoutButton} onPress={navigateToOut}>
-				<Text style={styles.logoutText}>LOGOUT</Text>
-			</TouchableOpacity>
-
 			<Text style={styles.headerText}>Overview</Text>
 
 			<View style={styles.overviewContainer}>

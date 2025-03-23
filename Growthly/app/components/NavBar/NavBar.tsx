@@ -83,10 +83,10 @@ const NavBar = () => {
       {!isBorrower && (
         <TouchableOpacity
           style={styles.iconContainer}
-          onPress={lenderNav.navigateToLenderDashboard}
+          onPress={lenderNav.navigateToOut}
         >
           <Image
-            source={require('@/assets/images/icons/setting-icon.png')}
+            source={require('@/assets/images/icons/exit-icon.png')}
             style={styles.icon}
           />
           <Text style={styles.iconLabel}>Logout</Text>
