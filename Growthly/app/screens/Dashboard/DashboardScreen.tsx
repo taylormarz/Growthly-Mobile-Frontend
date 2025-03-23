@@ -1,4 +1,4 @@
-// DashboardScreen.tsx
+// DashboardScreen.tsx (BORROWER)
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useUser } from '../../../context/UserContext';
