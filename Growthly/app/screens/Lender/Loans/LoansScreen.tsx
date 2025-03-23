@@ -22,7 +22,6 @@ import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function LoansScreen() {
 	const { user } = useUser();
-	const router = useRouter();
 
 	const [currentStep, setCurrentStep] = useState(1);
 	const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -70,7 +69,7 @@ export default function LoansScreen() {
 
 			const data = await response.json();
 
-			// Show only loans posted by this lender
+			// filter to show loans posted by lender linked to account
 			const userLoans = data.filter((loan: any) => loan.lender_id === user?._id);
 
 			setCurrentLoan(userLoans);
