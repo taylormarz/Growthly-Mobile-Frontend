@@ -80,10 +80,10 @@ export default function SignInScreen() {
     // validation check to make sure the user doesn't leave any fields blank
     if (!emailOrUsername.trim() || !password.trim()) {
       Toast.show({
-              type: 'error',
-              text1: 'Error:',
-              text2: 'Missing fields.',
-            });
+        type: 'error',
+        text1: 'Error:',
+        text2: 'Missing fields.',
+      });
       return;
     }
 
@@ -140,32 +140,37 @@ export default function SignInScreen() {
 
       if (response.ok) {
         console.log('Sign-in successful');
-
-        const safeResDataStorage = {
-          _id: responseData._id,
-          first_name: responseData.first_name,
-          last_name: responseData.last_name,
-          email: responseData.email,
-          street_address: responseData.street_address,
-          phone_number: responseData.phone_number,
-          province: responseData.province,
-          postal_code: responseData.postal_code,
-          username: responseData.username,
-          user_type: responseData.user_type,
-        };
-
-        // store user data from api call with secure storage, to be used for user context
-        await SecureStore.setItemAsync(
-          'userData',
-          JSON.stringify(safeResDataStorage),
-        );
-        setUserData(safeResDataStorage);
-
-        // route user to dashboard screen if signin successful
-        router.push('/screens/Dashboard/DashboardScreen');
-      } else {
-        console.error('Sign-in failed: ', responseData);
       }
+
+      const safeResDataStorage = {
+        _id: responseData._id,
+        first_name: responseData.first_name,
+        last_name: responseData.last_name,
+        email: responseData.email,
+        street_address: responseData.street_address,
+        phone_number: responseData.phone_number,
+        province: responseData.province,
+        postal_code: responseData.postal_code,
+        username: responseData.username,
+        user_type: responseData.user_type,
+      };
+
+      // store user data from api call with secure storage, to be used for user context
+      await SecureStore.setItemAsync(
+        'userData',
+        JSON.stringify(safeResDataStorage),
+      );
+      setUserData(safeResDataStorage);
+
+      // route user to dashboard screen if signin successful
+      if (responseData.user_type === 'BORROWER') {
+        router.push('/screens/Dashboard/DashboardScreen');
+      } else if (responseData.user_type === 'LENDER') {
+        router.push('../screens/Lender/Dashboard/DashboardScreen');
+      } else {
+        console.error('Unknown user type: ', responseData.user_type);
+      }
+
     } catch (error) {
       console.error('Error during sign-in: ', error);
     }
