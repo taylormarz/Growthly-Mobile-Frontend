@@ -85,6 +85,8 @@ export default function MatchesScreen() {
         loan_status: 'GOOD',
       };
 
+      console.log('Creating newCurrentLoan:', JSON.stringify(newCurrentLoan, null, 2));
+
       // post req to db that adds new loan to currentloan table (table that holds loans that are assigned to borrower)
       const response = await fetch(
         'https://growthly-backend.onrender.com/api/v1/borrower/loan/',
@@ -158,7 +160,7 @@ export default function MatchesScreen() {
                 selectedLoanId === item._id && { backgroundColor: '#93BA43' },
               ]}
               onPress={() => {
-                console.log('Loan selected with ID:', item._id); // Debugging selection
+                console.log('Loan selected with ID:', item._id);
                 setSelectedLoanId(item._id);
               }}
             />

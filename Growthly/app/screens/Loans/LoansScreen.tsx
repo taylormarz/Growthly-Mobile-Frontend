@@ -1,4 +1,4 @@
-import React, { 
+import React, {
   useState,
   useEffect
 } from 'react';
@@ -49,10 +49,10 @@ export default function LoansScreen() {
 
   // styles for cycle button positioning
   const cyclePositions: { [key in 'Monthly' | 'Biweekly']: { left: number } } =
-    {
-      Monthly: { left: 20 },
-      Biweekly: { left: 185 },
-    };
+  {
+    Monthly: { left: 20 },
+    Biweekly: { left: 185 },
+  };
 
   // call to backend to check if user has any loans attached to them
   const fetchCurrentLoan = async () => {
@@ -119,11 +119,13 @@ export default function LoansScreen() {
       selectedDuration !== null &&
       selectedCycle !== null
     ) {
+      console.log('Saving loan with payment cycle:', selectedCycle);
+
       // this is where the data is getting saved to the context
       saveLoanData({
         amount: selectedAmount,
         length_of_loan: selectedDuration,
-        payment_cycle: selectedCycle,
+        payment_cycle: selectedCycle.toUpperCase().trim(),
       });
       // popup to confirm to user loan application has been submitted
       alert('Your loan application has been submitted!');
@@ -283,7 +285,7 @@ export default function LoansScreen() {
                       <Text style={styles.manageContainerText2}>Remaining Amount: ${loan.amount_remaining}</Text>
                       <Text style={styles.manageContainerText2}>Payment Frequency: {loan.payment_freq}</Text>
                       <Text style={styles.manageContainerText2}>Status: {loan.loan_status}</Text>
-                      <View style={styles.line}/>
+                      <View style={styles.line} />
                     </TouchableOpacity>
                   ))
                 ) : (
