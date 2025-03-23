@@ -28,7 +28,7 @@ const DashboardScreen = () => {
 				<Text style={styles.logoutText}>LOGOUT</Text>
 			</TouchableOpacity>
 
-			<Text style={styles.headerText}>LENDER</Text>
+			<Text style={styles.headerText}>Overview</Text>
 
 			<View style={styles.overviewContainer}>
 				<OverviewComponent
