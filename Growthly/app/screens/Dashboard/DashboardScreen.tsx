@@ -41,7 +41,7 @@ const DashboardScreen = () => {
     <View style={styles.screenContainer}>
       <Header
         title={`Welcome, ${user?.first_name || 'Guest'}!`}
-        subtitle="Review account overview below."
+        subtitle='Review account overview below.'
       />
 
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
@@ -52,28 +52,28 @@ const DashboardScreen = () => {
 
       <View style={styles.overviewContainer}>
         <OverviewComponent
-          title="Active Loans"
-          value="0 Active Loan" // hard coded this for now but i will switch out once i set up a context for loans
-          buttonText="View Loans >"
+          title='Active Loans'
+          value='0 Active Loan' // hard coded this for now but i will switch out once i set up a context for loans
+          buttonText='View Loans >'
           onPress={handleViewLoans}
         />
         <OverviewComponent
-          title="Matches"
-          value="0 Matches" // hard coded - same as above
-          buttonText="View Match >"
+          title='Matches'
+          value='0 Matches' // hard coded - same as above
+          buttonText='View Match >'
           onPress={handleViewMatch}
         />
         <OverviewComponent
-          title="Credit Score"
-          value="715 / 900" // hard coded - same as above
-          buttonText="View Details >"
+          title='Credit Score'
+          value='715 / 900'
+          buttonText='View Details >'
           onPress={handleViewCredit}
         />
         <OverviewComponent
           style={styles.componentLast}
-          title="Bank Account"
-          value="004-54689" // hard coded - same as above
-          buttonText="Update Info >"
+          title='Bank Account'
+          value='004-54689'
+          buttonText='Update Info >'
           onPress={handleViewBankInfo}
         />
       </View>

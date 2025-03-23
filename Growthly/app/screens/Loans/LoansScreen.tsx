@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect
+} from 'react';
 import {
   View,
   Text,
@@ -6,6 +9,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView
 } from 'react-native';
 import { useUser } from '../../../context/UserContext';
 import { useLoanApp } from '../../../context/LoanAppContext';
@@ -25,7 +29,10 @@ export default function LoansScreen() {
   const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
   const [selectedCycle, setSelectedCycle] = useState<string | null>(null);
   const [currentLoan, setCurrentLoan] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchCurrentLoan();
+  }, []);
 
   // storing values for duration period (payback)
   const duration: Array<1 | 3 | 6 | 9 | 12> = [1, 3, 6, 9, 12];
@@ -42,10 +49,10 @@ export default function LoansScreen() {
 
   // styles for cycle button positioning
   const cyclePositions: { [key in 'Monthly' | 'Biweekly']: { left: number } } =
-    {
-      Monthly: { left: 20 },
-      Biweekly: { left: 185 },
-    };
+  {
+    Monthly: { left: 20 },
+    Biweekly: { left: 185 },
+  };
 
   // call to backend to check if user has any loans attached to them
   const fetchCurrentLoan = async () => {
@@ -112,11 +119,13 @@ export default function LoansScreen() {
       selectedDuration !== null &&
       selectedCycle !== null
     ) {
+      console.log('Saving loan with payment cycle:', selectedCycle);
+
       // this is where the data is getting saved to the context
       saveLoanData({
         amount: selectedAmount,
         length_of_loan: selectedDuration,
-        payment_cycle: selectedCycle,
+        payment_cycle: selectedCycle.toUpperCase().trim(),
       });
       // popup to confirm to user loan application has been submitted
       alert('Your loan application has been submitted!');
@@ -132,7 +141,7 @@ export default function LoansScreen() {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.screenContainer}>
         <Header
-          title={`${user?.first_name || 'Guest'}, you have 0 active loan(s). `}
+          title={`${user?.first_name || 'Guest'}, you have you have ${currentLoan?.length || 0} active loan(s).`}
           subtitle="Apply for loans and manage them below."
         />
 
@@ -266,47 +275,32 @@ export default function LoansScreen() {
             </TouchableOpacity>
 
             <View style={styles.manageContainer}>
-              {currentLoan && currentLoan.length > 0 ? (
-                currentLoan.map((loan: any, index: number) => (
-                  <TouchableOpacity key={index}>
+              <ScrollView>
+                {currentLoan && currentLoan.length > 0 ? (
+                  currentLoan.map((loan: any, index: number) => (
+                    <TouchableOpacity key={index}>
+                      <Text style={styles.manageContainerText1}>Loan Breakdown:</Text>
+                      <Text style={styles.manageContainerText2}>Amount: ${loan.amount}</Text>
+                      <Text style={styles.manageContainerText2}>Interest Rate: {loan.interest_rate}%</Text>
+                      <Text style={styles.manageContainerText2}>Remaining Amount: ${loan.amount_remaining}</Text>
+                      <Text style={styles.manageContainerText2}>Payment Frequency: {loan.payment_freq}</Text>
+                      <Text style={styles.manageContainerText2}>Status: {loan.loan_status}</Text>
+                      <View style={styles.line} />
+                    </TouchableOpacity>
+                  ))
+                ) : (
+                  <TouchableOpacity>
                     <Text style={styles.manageContainerText1}>
-                      Loan Breakdown:
+                      You currently have no loan history with Growthly.
                     </Text>
-                    <Text style={styles.manageContainerText2}>
-                      Amount: ${loan.amount}
-                    </Text>
-                    <Text style={styles.manageContainerText2}>
-                      Interest Rate: {loan.interest_rate}%
-                    </Text>
-                    <Text style={styles.manageContainerText2}>
-                      Remaining Amount: ${loan.amount_remaining}
-                    </Text>
-                    <Text style={styles.manageContainerText2}>
-                      Payment Frequency: {loan.payment_freq}
-                    </Text>
-                    <Text style={styles.manageContainerText2}>
-                      Status: {loan.loan_status}
+                    <View style={[styles.keyline, styles.keyline4]} />
+                    <Text style={[styles.manageContainerText1, styles.manageContainerText2]}>
+                      Apply for a loan to get started, or check your matches to accept a loan you’ve applied for.
                     </Text>
                   </TouchableOpacity>
-                ))
-              ) : (
-                <TouchableOpacity>
-                  <Text style={styles.manageContainerText1}>
-                    You currently have no loan history with Growthly.
-                  </Text>
-                  <Text
-                    style={[
-                      styles.manageContainerText1,
-                      styles.manageContainerText2,
-                    ]}
-                  >
-                    Apply for a loan to get started, or check your matches to
-                    accept a loan you’ve applied for.
-                  </Text>
-                </TouchableOpacity>
-              )}
+                )}
+              </ScrollView>
             </View>
-            <View style={[styles.keyline, styles.keyline4]} />
           </>
         )}
 
