@@ -28,6 +28,7 @@ export default function LoansScreen() {
 	const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
 	const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
 	const [selectedCycle, setSelectedCycle] = useState<string | null>(null);
+	const [selectedInterestRate, setSelectedInterestRate] = useState<number | null>(null);
 	const [currentLoan, setCurrentLoan] = useState<any>(null);
 
 	useEffect(() => {
@@ -36,7 +37,7 @@ export default function LoansScreen() {
 
 	// storing values for duration period (payback)
 	const duration: Array<1 | 3 | 6 | 9 | 12> = [1, 3, 6, 9, 12];
-	const cycle: Array<'Monthly' | 'Biweekly'> = ['Monthly', 'Biweekly'];
+	const interestRates: Array<0 | 5 | 10 | 11 | 12> = [0, 5, 10, 11, 12];
 
 	// styles to position each duration button generated from loop
 	const positionStyles: { [key in 1 | 3 | 6 | 9 | 12]: { left: number } } = {
@@ -47,11 +48,12 @@ export default function LoansScreen() {
 		12: { left: 295 },
 	};
 
-	// styles for cycle button positioning
-	const cyclePositions: { [key in 'Monthly' | 'Biweekly']: { left: number } } =
-	{
-		Monthly: { left: 20 },
-		Biweekly: { left: 185 },
+	const interestRatePositions: { [key in 0 | 5 | 10 | 11 | 12]: { left: number } } = {
+		0: { left: 20 },
+		5: { left: 88.75 },
+		10: { left: 157.5 },
+		11: { left: 226.5 },
+		12: { left: 295 },
 	};
 
 	// call to backend to check if user has any loans attached to them
@@ -107,9 +109,9 @@ export default function LoansScreen() {
 		setSelectedDuration(duration);
 	};
 
-	// radio button hook for billing cycle
-	const handleCycleSelect = (cycle: string) => {
-		setSelectedCycle(cycle);
+	// radio button hook for interest rate
+	const handleInterestRateSelect = (rate: number) => {
+		setSelectedInterestRate(rate);
 	};
 
 	// apply functionality for loan, saves data from loan params user chooses and stores in loan app context
@@ -141,29 +143,29 @@ export default function LoansScreen() {
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<View style={styles.screenContainer}>
 				<Header
-					title={`${user?.first_name || 'Guest'}, you have you have ${currentLoan?.length || 0} active loan(s).`}
-					subtitle="Apply for loans and manage them below."
+					title={`${user?.first_name || 'Guest'}, you have ${currentLoan?.length || 0} posted loan(s).`}
+					subtitle="Post loans and manage them below."
 				/>
 
 				{/* step 1 - renders apply for loan tab */}
 				{currentStep === 1 ? (
 					<>
-						<Text style={styles.headerText}>Apply for Loan</Text>
+						<Text style={styles.headerText}>Post a Loan</Text>
 						<View style={styles.contentContainer}>
 							<Text style={[styles.regularText, styles.regularText2]}>
 								Warning:
 							</Text>
 							<Text style={styles.regularText}>
-								Active loans limit is: 2 - Total loan limit is: $2500
+								Once your loan is posted it will be visible.
 							</Text>
 							<Text style={styles.regularText}>
-								Fixed Monthly Interest: Determined by Match
+								Loans you post can not be remvoed once added.
 							</Text>
 						</View>
 
 						{/* tabs */}
 						<TouchableOpacity style={styles.applyButtonActive}>
-							<Text style={styles.buttonText}>APPLY</Text>
+							<Text style={styles.buttonText}>POST</Text>
 						</TouchableOpacity>
 
 						<TouchableOpacity
@@ -178,7 +180,7 @@ export default function LoansScreen() {
 							{/* loan total section */}
 							<View>
 								<Text style={[styles.heading, styles.h1]}>
-									Enter Total for Loan:
+									Enter Loan Amount for Posting:
 								</Text>
 								<TouchableOpacity
 									style={[styles.inputContainer, styles.fieldContainer1]}
@@ -197,34 +199,35 @@ export default function LoansScreen() {
 								<View style={styles.keyline} />
 							</View>
 
-							{/* billing cycle section */}
+							{/* interest rate selection */}
 							<View>
 								<Text style={[styles.heading, styles.h2]}>
-									Select Billing Cycle:
+									Interest Rate: (Charged Monthly [%] )
 								</Text>
-								{cycle.map((cycleOption) => (
+								{interestRates.map((rate) => (
 									<TouchableOpacity
-										key={cycleOption}
+										key={rate}
 										style={[
-											styles.cycleButton,
-											cyclePositions[cycleOption],
+											styles.durationButton,
+											interestRatePositions[rate],
 											{ top: 72 },
-											selectedCycle === cycleOption
+											selectedInterestRate === rate
 												? { backgroundColor: Colors.growthly_green }
 												: {},
 										]}
-										onPress={() => handleCycleSelect(cycleOption)}
+										onPress={() => handleInterestRateSelect(rate)}
 									>
-										<Text style={styles.cycleButtonText}>{cycleOption}</Text>
+										<Text style={styles.cycleButtonText}>{rate}</Text>
 									</TouchableOpacity>
 								))}
 								<View style={[styles.keyline, styles.keyline2]} />
 							</View>
 
-							{/* payback period section */}
+
+							{/* payback period (how long before user is paid back) */}
 							<View>
 								<Text style={[styles.heading, styles.h3]}>
-									Select Payback Duration:
+									Payback Period: (Months)
 								</Text>
 								{duration.map((dur) => (
 									<TouchableOpacity
@@ -251,7 +254,7 @@ export default function LoansScreen() {
 									style={styles.applyButton}
 									onPress={handleApply}
 								>
-									<Text style={styles.applyButtonText}>Apply</Text>
+									<Text style={styles.applyButtonText}>Post Loan</Text>
 								</TouchableOpacity>
 							</View>
 						</View>
