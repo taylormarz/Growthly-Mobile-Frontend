@@ -1,7 +1,6 @@
 import React from 'react';
-import { 
-  View, 
-  Text 
+import {
+  View,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/Settings/secondary/edit-bank-styles';

@@ -164,7 +164,7 @@ export default function SignInScreen() {
 
       // route user to dashboard screen if signin successful
       if (responseData.user_type === 'BORROWER') {
-        router.push('/screens/Dashboard/DashboardScreen');
+        router.push('/screens/Borrower/Dashboard/DashboardScreen');
       } else if (responseData.user_type === 'LENDER') {
         router.push('../screens/Lender/Dashboard/DashboardScreen');
       } else {

@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
   keyline: {
     position: 'absolute',
-    top: 105,
+    top: 125,
     left: 20,
     width: 310,
     borderWidth: 0.25,

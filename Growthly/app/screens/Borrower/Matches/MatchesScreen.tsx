@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Alert } from 'react-native';
-import { useUser } from '../../../context/UserContext';
+import { useUser } from '../../../../context/UserContext';
 import { useRouter } from 'expo-router';
-import { useLoanApp } from '../../../context/LoanAppContext';
+import { useLoanApp } from '../../../../context/LoanAppContext';
 import styles from '@/styles/Matches/matches-styles';
 import Header from '@/app/components/Header/Header';
 import TestButton from '@/app/components/TestButton/TestButton';
@@ -18,7 +18,7 @@ interface Loan {
 
 export default function MatchesScreen() {
   const { user } = useUser();
-  const { loanData } = useLoanApp()!;
+  const { loanData, clearLoanData } = useLoanApp()!;
   const router = useRouter();
 
   const [loans, setLoans] = useState<Loan[]>([]);
@@ -42,6 +42,9 @@ export default function MatchesScreen() {
   const filteredLoans = loans.filter(
     (loan) => loan.available && loan.amount === loanData?.amount,
   );
+
+  const showStep1 = !loanData || filteredLoans.length === 0;
+  const showStep2 = loanData && filteredLoans.length > 0
 
   const handleAcceptMatch = async () => {
     // was having issues getting this working so introduced some console logs to make sure data from context was being loaded in
@@ -123,6 +126,8 @@ export default function MatchesScreen() {
         return;
       }
 
+      clearLoanData();
+
       // let user know their loan got accepted
       Alert.alert('Success', 'Your loan was approved and can be found under the manage tab in the loan screen.');
       // move user to loans screen so they can view breakdown of loan
@@ -136,41 +141,75 @@ export default function MatchesScreen() {
     <View style={styles.screenContainer}>
       <Header
         title={`${user?.first_name || 'Guest'}, you have ${filteredLoans.length} potential match(es).`}
-        subtitle='Select a match below.'
+        subtitle="Select a match below."
       />
 
-      <FlatList
-        style={styles.availableContainer}
-        data={filteredLoans}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <View style={styles.loanContainer}>
-            <View>
-              <Text style={styles.loanText}>Amount: ${item.amount}</Text>
-              <Text style={styles.loanText}>
-                Interest Rate: {item.interest_rate}%
+      {/* Step 1: No matches or no loan applied */}
+      {showStep1 && (
+        <>
+          <Text style={styles.headerText}>Available Matches</Text>
+          <View style={styles.matchesContainer}>
+            <TouchableOpacity onPress={() => router.push('../Loans/LoansScreen')}>
+              <Text style={styles.matchesContainerText1}>
+                You currently have no matches on Growthly.
+                Apply for a loan to see your matches.
               </Text>
-              <Text style={styles.loanText}>
-                Duration: {item.length_of_loan} months
+              <Text
+                style={[
+                  styles.matchesContainerText1,
+                  styles.matchesContainerText2,
+                ]}
+              >
+                If you’ve already applied,
+                give us some more time to find you the best potential matches.
               </Text>
-            </View>
-            <TouchableOpacity
-              style={[
-                styles.loanSelectionButton,
-                selectedLoanId === item._id && { backgroundColor: '#93BA43' },
-              ]}
-              onPress={() => {
-                console.log('Loan selected with ID:', item._id);
-                setSelectedLoanId(item._id);
-              }}
-            />
+            </TouchableOpacity>
+            <View style={styles.keyline} />
           </View>
-        )}
-      />
-      <View>
-        <TestButton title='Accept Match' onPress={handleAcceptMatch} />
-      </View>
+        </>
+      )}
+
+      {/* Step 2: Matches available */}
+      {showStep2 && (
+        <>
+          <FlatList
+            style={styles.availableContainer}
+            data={filteredLoans}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <View style={styles.loanContainer}>
+                <View>
+                  <Text style={styles.loanText}>Amount: ${item.amount}</Text>
+                  <Text style={styles.loanText}>
+                    Interest Rate: {item.interest_rate}%
+                  </Text>
+                  <Text style={styles.loanText}>
+                    Duration: {item.length_of_loan} months
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  style={[
+                    styles.loanSelectionButton,
+                    selectedLoanId === item._id && {
+                      backgroundColor: '#93BA43',
+                    },
+                  ]}
+                  onPress={() => {
+                    console.log('Loan selected with ID:', item._id);
+                    setSelectedLoanId(item._id);
+                  }}
+                />
+              </View>
+            )}
+          />
+          <View>
+            <TestButton title="Accept Match" onPress={handleAcceptMatch} />
+          </View>
+        </>
+      )}
+
       <NavBar />
     </View>
+
   );
 }

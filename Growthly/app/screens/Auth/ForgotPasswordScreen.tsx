@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
-import { View, ActivityIndicator, Image, Text, StyleSheet } from 'react-native'; // stylesheet temp, remove after fixing comment below
+import { View, ActivityIndicator, Image, Text, StyleSheet } from 'react-native';
 import { Colors } from '@/styles/ColorPalette/colors';
-import styles from '@/styles/Auth/signin-styles'; // i need to convert / combine signin and create account styles to be just global styles
-//import styles from '@/styles/create-account';
+import styles from '@/styles/Auth/signin-styles';
 import InputField from '../../components/InputField/InputField';
 import Button from '../../components/Button/Button';
 
@@ -20,7 +19,6 @@ export default function ForgotPasswordScreen() {
   const { emailOrUsername } = forgotPassData;
   const [currentStep, setCurrentStep] = useState(1);
 
-  // ******Note for self: make into reusable code for each screen
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('@/assets/fonts/Inter_28pt-Bold.ttf'),
     'Inter-Medium': require('@/assets/fonts/Inter_28pt-Medium.ttf'),
@@ -30,7 +28,6 @@ export default function ForgotPasswordScreen() {
 
   const router = useRouter();
 
-  // This can also get made into reusable code
   if (!fontsLoaded) {
     return (
       <View style={styles.loaderContainer}>
@@ -39,7 +36,6 @@ export default function ForgotPasswordScreen() {
     );
   }
 
-  // used more than once create into reusable hook/move into independent file
   const handleEmailOrUsernameChange = (newInput: string) => {
     setForgotPassState((prevState) => ({
       ...prevState,
@@ -47,10 +43,6 @@ export default function ForgotPasswordScreen() {
     }));
   };
 
-  // ******** still thinking about how we are going to implement this
-  const handlePassReset = async () => {};
-
-  // ******* this can be made to be reusable too
   const handleNextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -70,7 +62,6 @@ export default function ForgotPasswordScreen() {
 
   return (
     <View style={styles.container}>
-      {/* this can definitely be made to be reusable (using on more than 1 page) */}
       <Image
         source={require('@/assets/images/logo/growthly-logo-color.png')}
         style={styles.growthlyLogo}
@@ -79,7 +70,6 @@ export default function ForgotPasswordScreen() {
 
       {currentStep === 1 ? (
         <>
-          {/* this can definitely be made to be reusable (using on more than 1 page) */}
           <Text style={styles.header}>Password Reset</Text>
 
           <InputField
@@ -113,7 +103,6 @@ export default function ForgotPasswordScreen() {
   );
 }
 
-// temporary until i fix the global styles file
 const textStyles = StyleSheet.create({
   descriptor: {
     position: 'absolute',

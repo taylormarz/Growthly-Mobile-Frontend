@@ -1,9 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { useUser } from '@/context/UserContext';
-import { router } from 'expo-router';
 import styles from '@/app/components/NavBar/NavBar.styles';
-
 import { useBorrowerNavigation } from '@/app/utils/navigation/borrowerNavigation';
 import { useLenderNavigation } from '@/app/utils/navigation/lenderNavigation';
 

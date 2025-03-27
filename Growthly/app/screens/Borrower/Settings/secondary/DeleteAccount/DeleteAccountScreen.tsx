@@ -39,7 +39,7 @@ export default function DeleteAccountScreen() {
   };
 
   const navigateBackToSettings = () => {
-    router.push('/screens/Lender/Settings/main/SettingsScreen');
+    router.push('../../main/SettingsScreen');
   };
 
   return (
