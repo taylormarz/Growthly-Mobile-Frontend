@@ -1,9 +1,15 @@
 // DashboardScreen.tsx (LENDER)
-import React from 'react';
+import React, {
+	useState,
+	useEffect,
+} from 'react';
 import {
 	View,
 	Text,
 } from 'react-native';
+import {
+	fetchLoansByUserId,
+} from '@/app/utils/loans/loanUtils';
 import { useUser } from '../../../../context/UserContext';
 import { useLenderNavigation } from '@/app/utils/navigation/lenderNavigation';
 import styles from '@/styles/Dashboard/dashboard-styles';
@@ -18,6 +24,22 @@ const DashboardScreen = () => {
 		navigateToLenderCredit,
 		navigateToLenderSettings
 	} = useLenderNavigation();
+	const [currentLoan, setCurrentLoan] = useState<any>(null);
+
+	useEffect(() => {
+		fetchCurrentLoan();
+	}, []);
+
+	// call to backend to check if user has any posted loans attached to them
+	const fetchCurrentLoan = async () => {
+		if (!user?._id) return;
+		const loans = await fetchLoansByUserId({
+			userId: user._id,
+			endpoint: 'https://growthly-backend.onrender.com/api/v1/lender/loan/',
+			idField: 'lender_id',
+		});
+		setCurrentLoan(loans);
+	};
 
 	return (
 		<View style={styles.screenContainer}>
@@ -31,20 +53,20 @@ const DashboardScreen = () => {
 			<View style={styles.overviewContainer}>
 				<OverviewComponent
 					title='Active Loans'
-					value='0 Active Loan' // hard coded this for now but i will switch out once i set up a context for loans
+					value={`${currentLoan?.length || 0} Active Loans`}
 					buttonText='View Loans >'
 					onPress={navigateToLenderLoans}
 				/>
 				<OverviewComponent
 					title='Credit Score'
-					value='715 / 900' // hard coded for mvp (we aren't actually checking credit scores)
+					value='715 / 900'
 					buttonText='View Details >'
 					onPress={navigateToLenderCredit}
 				/>
 				<OverviewComponent
 					style={styles.componentLast}
 					title='Bank Account'
-					value='004-54689' // hard coded for mvp (we don't want to hold real bank info)
+					value='004-54689'
 					buttonText='Update Info >'
 					onPress={navigateToLenderSettings}
 				/>

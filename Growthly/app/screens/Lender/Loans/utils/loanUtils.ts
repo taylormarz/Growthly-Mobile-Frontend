@@ -1,4 +1,4 @@
-// loan utils for LENDER only (global loan utils do not belong in this file)
+// Loan utils for LENDER only (global loan utils do not belong in this file)
 export const handleAmountChange = (
 	text: string,
 	setSelectedAmount: (val: number | null) => void

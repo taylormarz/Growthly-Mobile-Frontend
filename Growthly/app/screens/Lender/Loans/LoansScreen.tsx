@@ -12,7 +12,6 @@ import {
 	ScrollView
 } from 'react-native';
 import {
-	parseAmount,
 	fetchLoansByUserId,
 	handleStepChange,
 	postLenderLoan,

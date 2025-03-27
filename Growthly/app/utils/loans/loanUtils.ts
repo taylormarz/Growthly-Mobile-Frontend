@@ -1,10 +1,3 @@
-// utils/loanUtils.ts
-
-export const parseAmount = (text: string): number | null => {
-	const value = parseFloat(text);
-	return isNaN(value) ? null : value;
-};
-
 export interface FetchLoansParams {
 	userId: string;
 	endpoint: string;
