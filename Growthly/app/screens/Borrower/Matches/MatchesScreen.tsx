@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Alert } from 'react-native';
-import { useUser } from '../../../context/UserContext';
+import { useUser } from '../../../../context/UserContext';
 import { useRouter } from 'expo-router';
-import { useLoanApp } from '../../../context/LoanAppContext';
+import { useLoanApp } from '../../../../context/LoanAppContext';
 import styles from '@/styles/Matches/matches-styles';
 import Header from '@/app/components/Header/Header';
 import TestButton from '@/app/components/TestButton/TestButton';

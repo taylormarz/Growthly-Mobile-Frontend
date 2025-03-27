@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { useUser } from '../../../../context/UserContext';
+import { useUser } from '../../../../../context/UserContext';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/Settings/main/settings-styles';
 import Header from '@/app/components/Header/Header';
-import SettingButton from '../../../components/SecondaryButton/SettingButton';
+import SettingButton from '../../../../components/SecondaryButton/SettingButton';
 import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function SettingsScreen() {

@@ -11,8 +11,8 @@ import {
   Keyboard,
   ScrollView
 } from 'react-native';
-import { useUser } from '../../../context/UserContext';
-import { useLoanApp } from '../../../context/LoanAppContext';
+import { useUser } from '../../../../context/UserContext';
+import { useLoanApp } from '../../../../context/LoanAppContext';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/styles/ColorPalette/colors';
 import styles from '@/styles/Loans/loan-screen-styles';
@@ -130,7 +130,7 @@ export default function LoansScreen() {
       // popup to confirm to user loan application has been submitted
       alert('Your loan application has been submitted!');
       // lets user view available matches
-      router.push('/screens/Matches/MatchesScreen');
+      router.push('/screens/Borrower/Matches/MatchesScreen');
     } else {
       // validation incase user leaves field blank
       alert('Please complete all fields.');

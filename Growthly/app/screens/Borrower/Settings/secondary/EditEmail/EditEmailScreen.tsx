@@ -1,9 +1,9 @@
-import React, { 
+import React, {
   useState,
 } from 'react';
-import { 
-  View, 
-  Keyboard ,
+import {
+  View,
+  Keyboard,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useUser } from '@/context/UserContext';
@@ -46,7 +46,7 @@ export default function EditEmailScreen() {
       console.log(backendResponseText)
 
       // if backend response is not okay, show what the backend response way
-      if (!response.ok) { 
+      if (!response.ok) {
         throw new Error(`Error updating email/username: ${backendResponseText} `);
       }
 
@@ -96,11 +96,11 @@ export default function EditEmailScreen() {
       />
 
       {/* data for user coming from user context */}
-      <Input 
+      <Input
         placeholder={user?.email || 'Email'}
         onChangeText={setEmail}
       />
-      <Input 
+      <Input
         placeholder={user?.username || 'Username'}
         onChangeText={setUsername}
       />
