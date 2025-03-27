@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import {
 	View,
-	Keyboard,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useUser } from '@/context/UserContext';
