@@ -1,8 +1,17 @@
-import { View, Image, Text, ActivityIndicator, Alert } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  ActivityIndicator,
+  Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { useFonts } from 'expo-font';
 import { Colors } from '@/styles/ColorPalette/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import DropdownMenu from '../../components/DropdownMenu/DropdownMenu';
 import Button from '../../components/Button/Button';
 import InputField from '../../components/InputField/InputField';
 import styles from '../../../styles/Auth/create-account';
@@ -90,173 +99,186 @@ export default function CreateAccountScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../../../assets/images/logo/growthly-logo-color.png')}
-        style={styles.growthlyLogo}
-      />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+        <Image
+          source={require('../../../assets/images/logo/growthly-logo-color.png')}
+          style={styles.growthlyLogo}
+        />
 
-      {/* Cancel Button */}
-      <Text
-        onPress={navigateToSignInScreen}
-        style={[styles.createText, styles.forgotPass]}
-      >
-        Cancel
-      </Text>
+        {/* Cancel Button */}
+        <Text
+          onPress={navigateToSignInScreen}
+          style={[styles.createText, styles.forgotPass]}
+        >
+          Cancel
+        </Text>
 
-      {/* Step 1 of Form */}
-      {currentStep === 1 ? (
-        <>
-          <View style={styles.keyline1}></View>
-          <Text style={styles.descriptor}>
-            Welcome to Growthly! We have a few {'\n'}quick steps to get you set
-            up.
-          </Text>
-          <View style={styles.keyline2}></View>
-          <Text style={styles.subhead}>Step 1/3</Text>
-          <Text style={styles.header}>Basic Details</Text>
+        {/* Step 1 of Form */}
+        {currentStep === 1 ? (
+          <>
+            <View style={styles.keyline1}></View>
+            <Text style={styles.descriptor}>
+              Welcome to Growthly! We have a few {'\n'}quick steps to get you set
+              up.
+            </Text>
+            <View style={styles.keyline2}></View>
+            <Text style={styles.subhead}>Step 1/3</Text>
+            <Text style={styles.header}>Basic Details</Text>
 
-          {/* Form Fields */}
-          <InputField
-            placeholder="First Name"
-            value={formData.first_name}
-            onChangeText={(text) =>
-              setFormData({ ...formData, first_name: text })
-            }
-            style={{ position: 'absolute', top: 357, left: 58 }}
-          />
-          <InputField
-            placeholder="Last Name"
-            value={formData.last_name}
-            onChangeText={(text) =>
-              setFormData({ ...formData, last_name: text })
-            }
-            style={{ position: 'absolute', top: 447, left: 58 }}
-          />
-          <InputField
-            placeholder="Email"
-            value={formData.email}
-            onChangeText={(text) => setFormData({ ...formData, email: text })}
-            style={{ position: 'absolute', top: 537, left: 58 }}
-          />
-          <InputField
-            placeholder="Password"
-            value={formData.password}
-            secureTextEntry={true}
-            onChangeText={(text) =>
-              setFormData({ ...formData, password: text })
-            }
-            style={{ position: 'absolute', top: 627, left: 58 }}
-          />
+            {/* Form Fields */}
+            <InputField
+              placeholder="First Name"
+              value={formData.first_name}
+              onChangeText={(text) =>
+                setFormData({ ...formData, first_name: text })
+              }
+              style={{ position: 'absolute', top: 357, left: 58 }}
+            />
+            <InputField
+              placeholder="Last Name"
+              value={formData.last_name}
+              onChangeText={(text) =>
+                setFormData({ ...formData, last_name: text })
+              }
+              style={{ position: 'absolute', top: 447, left: 58 }}
+            />
+            <InputField
+              placeholder="Email"
+              value={formData.email}
+              onChangeText={(text) => setFormData({ ...formData, email: text })}
+              style={{ position: 'absolute', top: 537, left: 58 }}
+            />
+            <InputField
+              placeholder="Password"
+              value={formData.password}
+              secureTextEntry={true}
+              onChangeText={(text) =>
+                setFormData({ ...formData, password: text })
+              }
+              style={{ position: 'absolute', top: 627, left: 58 }}
+            />
 
-          {/* Button */}
-          <Button
-            title="Next Step >"
-            onPress={handleNextStep}
-            style={{ top: 747, left: 58 }}
-          />
-        </>
-      ) : null}
+            {/* Button */}
+            <Button
+              title="Next Step >"
+              onPress={handleNextStep}
+              style={{ top: 747, left: 58 }}
+            />
+          </>
+        ) : null}
 
-      {/* Step 2 of Form */}
-      {currentStep === 2 ? (
-        <>
-          <View style={styles.keyline1}></View>
-          <Text style={styles.descriptor}>
-            Almost there! We just need to ask a few {'\n'}more questions.
-          </Text>
-          <View style={styles.keyline2}></View>
-          <Text style={styles.subhead}>Step 2/3</Text>
-          <Text style={styles.header}>Address Details</Text>
+        {/* Step 2 of Form */}
+        {currentStep === 2 ? (
+          <>
+            <View style={styles.keyline1}></View>
+            <Text style={styles.descriptor}>
+              Almost there! We just need to ask a few {'\n'}more questions.
+            </Text>
+            <View style={styles.keyline2}></View>
+            <Text style={styles.subhead}>Step 2/3</Text>
+            <Text style={styles.header}>Address Details</Text>
 
-          {/* Form Fields */}
-          <InputField
-            placeholder="Address"
-            value={formData.street_address}
-            onChangeText={(text) =>
-              setFormData({ ...formData, street_address: text })
-            }
-            style={{ position: 'absolute', top: 357, left: 58 }}
-          />
-          <InputField
-            placeholder="Phone Number"
-            value={formData.phone_number}
-            onChangeText={(text) =>
-              setFormData({ ...formData, phone_number: text })
-            }
-            style={{ position: 'absolute', top: 447, left: 58 }}
-          />
-          <InputField
-            placeholder="Province"
-            value={formData.province}
-            onChangeText={(text) =>
-              setFormData({ ...formData, province: text })
-            }
-            style={{ position: 'absolute', top: 537, left: 58, width: 145 }}
-          />
-          <InputField
-            placeholder="Postal Code"
-            value={formData.postal_code}
-            onChangeText={(text) =>
-              setFormData({ ...formData, postal_code: text })
-            }
-            style={{ position: 'absolute', top: 537, left: 223, width: 145 }}
-          />
+            {/* Form Fields */}
+            <InputField
+              placeholder="Address"
+              value={formData.street_address}
+              onChangeText={(text) =>
+                setFormData({ ...formData, street_address: text })
+              }
+              style={{ position: 'absolute', top: 357, left: 58 }}
+            />
+            <InputField
+              placeholder="Phone Number"
+              value={formData.phone_number}
+              onChangeText={(text) =>
+                setFormData({ ...formData, phone_number: text })
+              }
+              style={{ position: 'absolute', top: 447, left: 58 }}
+            />
+            <DropdownMenu
+              data={[
+                { key: 'Alberta', value: 'AB' },
+                { key: 'British Columbia', value: 'BC' },
+                { key: 'Manitoba', value: 'MB' },
+                { key: 'New Brunswick', value: 'NB' },
+                { key: 'Nova Scotia', value: 'NS' },
+                { key: 'Ontario', value: 'ON' },
+                { key: 'Quebec', value: 'QC' },
+                { key: 'Prince Edward Island', value: 'PE' },
+                { key: 'Saskatchewan', value: 'SK' },
+                { key: 'Yukon', value: 'YK' },
+              ]}
+              value={formData.province}
+              onSelect={(selectedItem) =>
+                setFormData({ ...formData, province: selectedItem.value })
+              }
+              style={{ position: 'absolute', top: 537, left: 58, width: 145 }}
+            />
+            <InputField
+              placeholder="Postal Code"
+              value={formData.postal_code}
+              onChangeText={(text) =>
+                setFormData({ ...formData, postal_code: text })
+              }
+              style={{ position: 'absolute', top: 537, left: 223, width: 145 }}
+            />
 
-          {/* Button */}
-          <Button
-            title="Next Step >"
-            onPress={handleNextStep}
-            style={{ top: 657, left: 58 }}
-          />
-        </>
-      ) : null}
+            {/* Button */}
+            <Button
+              title="Next Step >"
+              onPress={handleNextStep}
+              style={{ top: 657, left: 58 }}
+            />
+          </>
+        ) : null}
 
-      {/* Step 3 of Form */}
-      {currentStep === 3 ? (
-        <>
-          <View style={styles.keyline1}></View>
-          <Text style={styles.descriptor}>
-            Last step! Let us know what kind of user {'\n'}you will be.
-          </Text>
-          <View style={styles.keyline2}></View>
-          <Text style={styles.subhead}>Step 3/3</Text>
-          <Text style={styles.header}>Account Details</Text>
+        {/* Step 3 of Form */}
+        {currentStep === 3 ? (
+          <>
+            <View style={styles.keyline1}></View>
+            <Text style={styles.descriptor}>
+              Last step! Let us know what kind of user {'\n'}you will be.
+            </Text>
+            <View style={styles.keyline2}></View>
+            <Text style={styles.subhead}>Step 3/3</Text>
+            <Text style={styles.header}>Account Details</Text>
 
-          {/* Form Fields */}
-          <InputField
-            placeholder="Username"
-            value={formData.username}
-            onChangeText={(text) =>
-              setFormData({ ...formData, username: text })
-            }
-            style={{ position: 'absolute', top: 357, left: 58 }}
-          />
-          <InputField
-            placeholder="Select a User Type"
-            value={formData.user_type}
-            onChangeText={(text) =>
-              setFormData({ ...formData, user_type: text })
-            }
-            style={{ position: 'absolute', top: 447, left: 58 }}
-          />
-          <InputField
-            placeholder="SIN"
-            value={formData.sin_number}
-            onChangeText={(text) =>
-              setFormData({ ...formData, sin_number: text })
-            }
-            style={{ position: 'absolute', top: 537, left: 58 }}
-          />
+            {/* Form Fields */}
+            <InputField
+              placeholder="Username"
+              value={formData.username}
+              onChangeText={(text) =>
+                setFormData({ ...formData, username: text })
+              }
+              style={{ position: 'absolute', top: 357, left: 58 }}
+            />
+            <InputField
+              placeholder="Select a User Type"
+              value={formData.user_type}
+              onChangeText={(text) =>
+                setFormData({ ...formData, user_type: text })
+              }
+              style={{ position: 'absolute', top: 447, left: 58 }}
+            />
+            <InputField
+              placeholder="SIN"
+              value={formData.sin_number}
+              onChangeText={(text) =>
+                setFormData({ ...formData, sin_number: text })
+              }
+              style={{ position: 'absolute', top: 537, left: 58 }}
+            />
 
-          {/* Button */}
-          <Button
-            title="Create Account"
-            onPress={handleSubmit}
-            style={{ top: 657, left: 58 }}
-          />
-        </>
-      ) : null}
-    </View>
+            {/* Button */}
+            <Button
+              title="Create Account"
+              onPress={handleSubmit}
+              style={{ top: 657, left: 58 }}
+            />
+          </>
+        ) : null}
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
