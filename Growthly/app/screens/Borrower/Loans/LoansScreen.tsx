@@ -1,3 +1,4 @@
+// BORROWER LOAN SCREEN
 import React, {
   useState,
   useEffect
@@ -11,18 +12,23 @@ import {
   Keyboard,
   ScrollView
 } from 'react-native';
+import {
+  fetchLoansByUserId,
+  handleStepChange,
+} from '@/app/utils/loans/loanUtils';
 import { useUser } from '../../../../context/UserContext';
 import { useLoanApp } from '../../../../context/LoanAppContext';
-import { useRouter } from 'expo-router';
 import { Colors } from '@/styles/ColorPalette/colors';
+import { handleApply, handleAmountChange, handleDurationSelect, handleCycleSelect } from './utils/loanUtils';
+import { useRouter } from 'expo-router';
 import styles from '@/styles/Loans/loan-screen-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function LoansScreen() {
   const { user } = useUser();
-  const { saveLoanData } = useLoanApp()!;
   const router = useRouter();
+  const { saveLoanData } = useLoanApp()!;
 
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -56,84 +62,27 @@ export default function LoansScreen() {
 
   // call to backend to check if user has any loans attached to them
   const fetchCurrentLoan = async () => {
-    try {
-      const response = await fetch(
-        `https://growthly-backend.onrender.com/api/v1/borrower/loan/`,
-      );
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('error:', errorText);
-        throw new Error('Failed to fetch the current loans.');
-      }
-
-      const data = await response.json();
-
-      // filter and show loans with borrow id that matches user id
-      const userLoans = data.filter(
-        (loan: any) => loan.borrower_id === user?._id,
-      );
-
-      if (userLoans.length > 0) {
-        setCurrentLoan(userLoans);
-      } else {
-        setCurrentLoan([]);
-      }
-    } catch (error) {
-      console.error('Error checking user for existing loans:', error);
-    }
+    if (!user?._id) return;
+    const loans = await fetchLoansByUserId({
+      userId: user._id,
+      endpoint: 'https://growthly-backend.onrender.com/api/v1/borrower/loan/',
+      idField: 'borrower_id',
+    });
+    setCurrentLoan(loans);
   };
 
-  // hooks for switching between apply and manage
-  const handleNextStep = () => {
-    setCurrentStep(2);
-    fetchCurrentLoan();
-  };
-
-  // goes back in the steps so user can toggle between apply and manage
-  const handleBackStep = () => {
-    setCurrentStep(currentStep - 1);
-    fetchCurrentLoan();
-  };
-
-  // lets user change value inside loan total + converts from string to float
-  const handleAmountChange = (text: string) => {
-    const value = parseFloat(text);
-    setSelectedAmount(isNaN(value) ? null : value);
-  };
-
-  // radio button hook for duration period
-  const handleDurationSelect = (duration: number) => {
-    setSelectedDuration(duration);
-  };
-
-  // radio button hook for billing cycle
-  const handleCycleSelect = (cycle: string) => {
-    setSelectedCycle(cycle);
-  };
+  const handleNextStep = () => handleStepChange('next', currentStep, setCurrentStep, fetchCurrentLoan);
+  const handleBackStep = () => handleStepChange('back', currentStep, setCurrentStep, fetchCurrentLoan);
+  const handleAmountChangeWrapper = (text: string) => handleAmountChange(text, setSelectedAmount);
+  const handleDurationSelectWrapper = (duration: number) => handleDurationSelect(duration, setSelectedDuration);
+  const handleCycleSelectWrapper = (cycle: string) => handleCycleSelect(cycle, setSelectedCycle);
 
   // apply functionality for loan, saves data from loan params user chooses and stores in loan app context
-  const handleApply = () => {
-    if (
-      selectedAmount !== null &&
-      selectedDuration !== null &&
-      selectedCycle !== null
-    ) {
-      console.log('Saving loan with payment cycle:', selectedCycle);
-
-      // this is where the data is getting saved to the context
-      saveLoanData({
-        amount: selectedAmount,
-        length_of_loan: selectedDuration,
-        payment_cycle: selectedCycle.toUpperCase().trim(),
-      });
-      // popup to confirm to user loan application has been submitted
-      alert('Your loan application has been submitted!');
-      // lets user view available matches
-      router.push('/screens/Borrower/Matches/MatchesScreen');
+  const handleSubmit = () => {
+    if (router) {
+      handleApply(selectedAmount, selectedDuration, selectedCycle, saveLoanData, router);
     } else {
-      // validation incase user leaves field blank
-      alert('Please complete all fields.');
+      console.error("Router is undefined");
     }
   };
 
@@ -191,7 +140,7 @@ export default function LoansScreen() {
                     style={styles.inputField}
                     keyboardType="numeric"
                     value={selectedAmount ? selectedAmount.toString() : ''}
-                    onChangeText={handleAmountChange}
+                    onChangeText={handleAmountChangeWrapper}
                   />
                 </TouchableOpacity>
                 <View style={styles.keyline} />
@@ -213,7 +162,7 @@ export default function LoansScreen() {
                         ? { backgroundColor: Colors.growthly_green }
                         : {},
                     ]}
-                    onPress={() => handleCycleSelect(cycleOption)}
+                    onPress={() => handleCycleSelectWrapper(cycleOption)}
                   >
                     <Text style={styles.cycleButtonText}>{cycleOption}</Text>
                   </TouchableOpacity>
@@ -237,7 +186,7 @@ export default function LoansScreen() {
                         ? { backgroundColor: Colors.growthly_green }
                         : {},
                     ]}
-                    onPress={() => handleDurationSelect(dur)}
+                    onPress={() => handleDurationSelectWrapper(dur)}
                   >
                     <Text style={styles.cycleButtonText}>{dur}</Text>
                   </TouchableOpacity>
@@ -249,7 +198,7 @@ export default function LoansScreen() {
               <View>
                 <TouchableOpacity
                   style={styles.applyButton}
-                  onPress={handleApply}
+                  onPress={handleSubmit}
                 >
                   <Text style={styles.applyButtonText}>Apply</Text>
                 </TouchableOpacity>
