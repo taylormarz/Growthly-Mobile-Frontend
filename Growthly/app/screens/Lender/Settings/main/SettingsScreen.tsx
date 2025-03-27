@@ -12,27 +12,27 @@ export default function SettingsScreen() {
 	const router = useRouter();
 
 	const navigateToBankAccount = () => {
-		router.push('../secondary/EditBank/EditBankScreen');
+		router.push('/screens/Lender/Settings/secondary/EditBank/EditBankScreen');
 	};
 
-	const navigateToSignInDetails = () => {
-		router.push('../secondary/EditEmail/EditEmailScreen');
+	const navigateToEditEmail = () => {
+		router.push('/screens/Lender/Settings/secondary/EditEmail/EditEmailScreen');
 	};
 
 	const navigateToEditAddress = () => {
-		router.push('../secondary/EditAddress/EditAddressScreen');
+		router.push('/screens/Lender/Settings/secondary/EditAddress/EditAddressScreen');
 	};
 
 	const navigateToChangePass = () => {
-		router.push('../secondary/ChangePass/ChangePassScreen');
+		router.push('/screens/Lender/Settings/secondary/ChangePass/ChangePass');
 	};
 
 	const navigateToContactUs = () => {
-		router.push('../secondary/Contact/ContactScreen');
+		router.push('/screens/Lender/Settings/secondary/Contact/ContactScreen');
 	};
 
 	const navigateToDeleteAccount = () => {
-		router.push('../secondary/DeleteAccount/DeleteAccountScreen')
+		router.push('/screens/Lender/Settings/secondary/DeleteAccount/DeleteAccountScreen')
 	}
 
 	return (
@@ -55,7 +55,7 @@ export default function SettingsScreen() {
 						<SettingButton
 							listItem="Edit Email"
 							buttonText="+"
-							onPress={navigateToSignInDetails}
+							onPress={navigateToEditEmail}
 						></SettingButton>
 						<SettingButton
 							listItem="Edit Address"

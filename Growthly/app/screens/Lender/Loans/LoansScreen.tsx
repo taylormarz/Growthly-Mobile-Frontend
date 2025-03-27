@@ -11,23 +11,35 @@ import {
 	Keyboard,
 	ScrollView
 } from 'react-native';
+import {
+	fetchLoansByUserId,
+	handleStepChange,
+	postLenderLoan,
+} from '@/app/utils/loans/loanUtils';
+import {
+	interestRates,
+	interestRatePositions,
+	durationOptions,
+	durationPositions,
+} from './utils/constants';
+import {
+	handleAmountChange,
+	handleDurationSelect,
+	handleInterestRateSelect,
+} from './utils/loanUtils';
 import { useUser } from '@/context/UserContext';
-import { useLoanApp } from '@/context/LoanAppContext';
-import { useRouter } from 'expo-router';
 import { Colors } from '@/styles/ColorPalette/colors';
+import Toast from 'react-native-toast-message';
 import styles from '@/styles/Loans/loan-screen-styles';
 import Header from '@/app/components/Header/Header';
 import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function LoansScreen() {
 	const { user } = useUser();
-	const { saveLoanData } = useLoanApp()!;
-	const router = useRouter();
 
 	const [currentStep, setCurrentStep] = useState(1);
 	const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
 	const [selectedDuration, setSelectedDuration] = useState<number | null>(null);
-	const [selectedCycle, setSelectedCycle] = useState<string | null>(null);
 	const [selectedInterestRate, setSelectedInterestRate] = useState<number | null>(null);
 	const [currentLoan, setCurrentLoan] = useState<any>(null);
 
@@ -35,107 +47,61 @@ export default function LoansScreen() {
 		fetchCurrentLoan();
 	}, []);
 
-	// storing values for duration period (payback)
-	const duration: Array<1 | 3 | 6 | 9 | 12> = [1, 3, 6, 9, 12];
-	const interestRates: Array<0 | 5 | 10 | 11 | 12> = [0, 5, 10, 11, 12];
-
-	// styles to position each duration button generated from loop
-	const positionStyles: { [key in 1 | 3 | 6 | 9 | 12]: { left: number } } = {
-		1: { left: 20 },
-		3: { left: 88.75 },
-		6: { left: 157.5 },
-		9: { left: 226.5 },
-		12: { left: 295 },
-	};
-
-	const interestRatePositions: { [key in 0 | 5 | 10 | 11 | 12]: { left: number } } = {
-		0: { left: 20 },
-		5: { left: 88.75 },
-		10: { left: 157.5 },
-		11: { left: 226.5 },
-		12: { left: 295 },
-	};
-
-	// call to backend to check if user has any loans attached to them
+	// call to backend to check if user has any posted loans attached to them
 	const fetchCurrentLoan = async () => {
-		try {
-			const response = await fetch(
-				`https://growthly-backend.onrender.com/api/v1/borrower/loan/`,
-			);
-
-			if (!response.ok) {
-				const errorText = await response.text();
-				console.error('error:', errorText);
-				throw new Error('Failed to fetch the current loans.');
-			}
-
-			const data = await response.json();
-
-			// filter and show loans with borrow id that matches user id
-			const userLoans = data.filter(
-				(loan: any) => loan.borrower_id === user?._id,
-			);
-
-			if (userLoans.length > 0) {
-				setCurrentLoan(userLoans);
-			} else {
-				setCurrentLoan([]);
-			}
-		} catch (error) {
-			console.error('Error checking user for existing loans:', error);
-		}
+		if (!user?._id) return;
+		const loans = await fetchLoansByUserId({
+			userId: user._id,
+			endpoint: 'https://growthly-backend.onrender.com/api/v1/lender/loan/',
+			idField: 'lender_id',
+		});
+		setCurrentLoan(loans);
 	};
 
-	// hooks for switching between apply and manage
-	const handleNextStep = () => {
-		setCurrentStep(2);
-		fetchCurrentLoan();
-	};
+	// used for switching between post and manage
+	const handleNextStep = () => handleStepChange('next', currentStep, setCurrentStep, fetchCurrentLoan);
+	const handleBackStep = () => handleStepChange('back', currentStep, setCurrentStep, fetchCurrentLoan);
 
-	// goes back in the steps so user can toggle between apply and manage
-	const handleBackStep = () => {
-		setCurrentStep(currentStep - 1);
-		fetchCurrentLoan();
-	};
+	// lender specific wrappers for user selection when creating a loan
+	const handleAmountChangeWrapper = (text: string) => handleAmountChange(text, setSelectedAmount);
+	const handleDurationSelectWrapper = (duration: number) => handleDurationSelect(duration, setSelectedDuration);
+	const handleInterestRateSelectWrapper = (rate: number) => handleInterestRateSelect(rate, setSelectedInterestRate);
 
-	// lets user change value inside loan total + converts from string to float
-	const handleAmountChange = (text: string) => {
-		const value = parseFloat(text);
-		setSelectedAmount(isNaN(value) ? null : value);
-	};
-
-	// radio button hook for duration period
-	const handleDurationSelect = (duration: number) => {
-		setSelectedDuration(duration);
-	};
-
-	// radio button hook for interest rate
-	const handleInterestRateSelect = (rate: number) => {
-		setSelectedInterestRate(rate);
-	};
-
-	// apply functionality for loan, saves data from loan params user chooses and stores in loan app context
-	const handleApply = () => {
+	// post functionality for creating a new loan
+	const handleCreateNewLoan = async () => {
 		if (
 			selectedAmount !== null &&
+			selectedInterestRate !== null &&
 			selectedDuration !== null &&
-			selectedCycle !== null
+			user?._id
 		) {
-			console.log('Saving loan with payment cycle:', selectedCycle);
-
-			// this is where the data is getting saved to the context
-			saveLoanData({
+			const success = await postLenderLoan({
+				lender_id: user._id,
 				amount: selectedAmount,
+				interest_rate: selectedInterestRate,
 				length_of_loan: selectedDuration,
-				payment_cycle: selectedCycle.toUpperCase().trim(),
 			});
-			// popup to confirm to user loan application has been submitted
-			alert('Your loan application has been submitted!');
-			// lets user view available matches
-			router.push('/screens/Matches/MatchesScreen');
+
+			if (success) {
+				Toast.show({
+					type: 'success',
+					text1: 'Success:',
+					text2: 'Your loan was created.',
+				});
+				fetchCurrentLoan();
+			} else {
+				Toast.show({
+					type: 'error',
+					text1: 'Error:',
+					text2: 'Could not create loan.',
+				});
+			}
 		} else {
-			// validation incase user leaves field blank
-			alert('Please complete all fields.');
+			Toast.show({
+				type: 'error',
+				text1: 'Error:',
+				text2: 'Missing fields.',
+			});
 		}
 	};
 
@@ -159,11 +125,10 @@ export default function LoansScreen() {
 								Once your loan is posted it will be visible.
 							</Text>
 							<Text style={styles.regularText}>
-								Loans you post can not be remvoed once added.
+								Loans you post can not be removed once added.
 							</Text>
 						</View>
 
-						{/* tabs */}
 						<TouchableOpacity style={styles.applyButtonActive}>
 							<Text style={styles.buttonText}>POST</Text>
 						</TouchableOpacity>
@@ -175,7 +140,6 @@ export default function LoansScreen() {
 							<Text style={styles.buttonText}>MANAGE</Text>
 						</TouchableOpacity>
 
-						{/* loan application container */}
 						<View style={styles.applyContainer}>
 							{/* loan total section */}
 							<View>
@@ -193,7 +157,7 @@ export default function LoansScreen() {
 										style={styles.inputField}
 										keyboardType="numeric"
 										value={selectedAmount ? selectedAmount.toString() : ''}
-										onChangeText={handleAmountChange}
+										onChangeText={handleAmountChangeWrapper}
 									/>
 								</TouchableOpacity>
 								<View style={styles.keyline} />
@@ -215,7 +179,7 @@ export default function LoansScreen() {
 												? { backgroundColor: Colors.growthly_green }
 												: {},
 										]}
-										onPress={() => handleInterestRateSelect(rate)}
+										onPress={() => handleInterestRateSelectWrapper(rate)}
 									>
 										<Text style={styles.cycleButtonText}>{rate}</Text>
 									</TouchableOpacity>
@@ -223,24 +187,23 @@ export default function LoansScreen() {
 								<View style={[styles.keyline, styles.keyline2]} />
 							</View>
 
-
-							{/* payback period (how long before user is paid back) */}
+							{/* payback period */}
 							<View>
 								<Text style={[styles.heading, styles.h3]}>
 									Payback Period: (Months)
 								</Text>
-								{duration.map((dur) => (
+								{durationOptions.map((dur) => (
 									<TouchableOpacity
 										key={dur}
 										style={[
 											styles.durationButton,
-											positionStyles[dur],
+											durationPositions[dur],
 											{ top: 105 },
 											selectedDuration === dur
 												? { backgroundColor: Colors.growthly_green }
 												: {},
 										]}
-										onPress={() => handleDurationSelect(dur)}
+										onPress={() => handleDurationSelectWrapper(dur)}
 									>
 										<Text style={styles.cycleButtonText}>{dur}</Text>
 									</TouchableOpacity>
@@ -248,11 +211,10 @@ export default function LoansScreen() {
 							</View>
 							<View style={[styles.keyline, styles.keyline3]} />
 
-							{/* apply button */}
 							<View>
 								<TouchableOpacity
 									style={styles.applyButton}
-									onPress={handleApply}
+									onPress={handleCreateNewLoan}
 								>
 									<Text style={styles.applyButtonText}>Post Loan</Text>
 								</TouchableOpacity>
@@ -282,23 +244,22 @@ export default function LoansScreen() {
 								{currentLoan && currentLoan.length > 0 ? (
 									currentLoan.map((loan: any, index: number) => (
 										<TouchableOpacity key={index}>
-											<Text style={styles.manageContainerText1}>Loan Breakdown:</Text>
+											<Text style={styles.manageContainerText1}>Posted Loan Breakdown:</Text>
 											<Text style={styles.manageContainerText2}>Amount: ${loan.amount}</Text>
 											<Text style={styles.manageContainerText2}>Interest Rate: {loan.interest_rate}%</Text>
-											<Text style={styles.manageContainerText2}>Remaining Amount: ${loan.amount_remaining}</Text>
-											<Text style={styles.manageContainerText2}>Payment Frequency: {loan.payment_freq}</Text>
-											<Text style={styles.manageContainerText2}>Status: {loan.loan_status}</Text>
+											<Text style={styles.manageContainerText2}>Payback Period: {loan.length_of_loan}</Text>
+											<Text style={styles.manageContainerText2}>Status: {loan.available ? 'Not Claimed' : 'Claimed'}</Text>
 											<View style={styles.line} />
 										</TouchableOpacity>
 									))
 								) : (
 									<TouchableOpacity>
 										<Text style={styles.manageContainerText1}>
-											You currently have no loan history with Growthly.
+											You currently have no posted loan history with Growthly.
 										</Text>
 										<View style={[styles.keyline, styles.keyline4]} />
 										<Text style={[styles.manageContainerText1, styles.manageContainerText2]}>
-											Apply for a loan to get started, or check your matches to accept a loan you’ve applied for.
+											Post a loan to get started. All posted loans can be managed in this tab.
 										</Text>
 									</TouchableOpacity>
 								)}
@@ -306,7 +267,6 @@ export default function LoansScreen() {
 						</View>
 					</>
 				)}
-
 				<NavBar />
 			</View>
 		</TouchableWithoutFeedback>

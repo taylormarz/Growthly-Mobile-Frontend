@@ -24,13 +24,13 @@ interface User {
 // context obj
 const UserContext = createContext<
   | {
-      // user obj or undefined if not signed in
-      user: User | undefined;
-      // func to set user data pulled in from user interface props
-      setUserData: (userData: User) => void;
-      clearUserData: () => void;
-      // context defaults to undefined if no user data passed in
-    }
+    // user obj or undefined if not signed in
+    user: User | undefined;
+    // func to set user data pulled in from user interface props
+    setUserData: (userData: User) => void;
+    clearUserData: () => void;
+    // context defaults to undefined if no user data passed in
+  }
   | undefined
 >(undefined);
 
