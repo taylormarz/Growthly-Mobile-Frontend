@@ -1,7 +1,11 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import {
+	View,
+	Text,
+	TouchableOpacity
+} from 'react-native';
 import { useUser } from '@/context/UserContext';
-import { useRouter } from 'expo-router';
+import { useLenderNavigation } from '@/app/utils/navigation/lenderNavigation';
 import styles from '@/styles/Settings/main/settings-styles';
 import Header from '@/app/components/Header/Header';
 import SettingButton from '@/app/components/SecondaryButton/SettingButton';
@@ -9,31 +13,7 @@ import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function SettingsScreen() {
 	const { user } = useUser();
-	const router = useRouter();
-
-	const navigateToBankAccount = () => {
-		router.push('/screens/Lender/Settings/secondary/EditBank/EditBankScreen');
-	};
-
-	const navigateToEditEmail = () => {
-		router.push('/screens/Lender/Settings/secondary/EditEmail/EditEmailScreen');
-	};
-
-	const navigateToEditAddress = () => {
-		router.push('/screens/Lender/Settings/secondary/EditAddress/EditAddressScreen');
-	};
-
-	const navigateToChangePass = () => {
-		router.push('/screens/Lender/Settings/secondary/ChangePass/ChangePass');
-	};
-
-	const navigateToContactUs = () => {
-		router.push('/screens/Lender/Settings/secondary/Contact/ContactScreen');
-	};
-
-	const navigateToDeleteAccount = () => {
-		router.push('/screens/Lender/Settings/secondary/DeleteAccount/DeleteAccountScreen')
-	}
+	const lenderNav = useLenderNavigation();
 
 	return (
 		<View style={styles.screenContainer}>
@@ -50,34 +30,34 @@ export default function SettingsScreen() {
 						<SettingButton
 							listItem="Edit Bank Account"
 							buttonText="+"
-							onPress={navigateToBankAccount}
+							onPress={lenderNav.navigateToLenderBankAccount}
 						></SettingButton>
 						<SettingButton
 							listItem="Edit Email"
 							buttonText="+"
-							onPress={navigateToEditEmail}
+							onPress={lenderNav.navigateToLenderEditEmail}
 						></SettingButton>
 						<SettingButton
 							listItem="Edit Address"
 							buttonText="+"
-							onPress={navigateToEditAddress}
+							onPress={lenderNav.navigateToLenderEditAddress}
 						></SettingButton>
 						<SettingButton
 							listItem="Change Password"
 							buttonText="+"
-							onPress={navigateToChangePass}
+							onPress={lenderNav.navigateToLenderChangePass}
 						></SettingButton>
 						<SettingButton
 							listItem="Contact Us"
 							buttonText="+"
-							onPress={navigateToContactUs}
+							onPress={lenderNav.navigateToLenderContactUs}
 						></SettingButton>
 
 						{/* delete account button */}
 						<View>
 							<TouchableOpacity
 								style={styles.deleteButton}
-								onPress={navigateToDeleteAccount}>
+								onPress={lenderNav.navigateToLenderDeleteAccount}>
 								<Text
 									style={styles.buttonText}>Delete Account
 								</Text>

@@ -1,4 +1,5 @@
 // Borrower>Loans>utils (this file is only for functions specific to borrower loan screen)
+
 export const handleApply = (
 	selectedAmount: number | null, 
 	selectedDuration: number | null, 
@@ -25,28 +26,26 @@ export const handleApply = (
 	} else {
 	  alert('Please complete all fields.');
 	}
-  };  
+};  
 
 export const handleAmountChange = (
 	text: string,
 	setSelectedAmount: React.Dispatch<React.SetStateAction<number | null>>
-  ) => {
+) => {
 	const value = parseFloat(text);
 	setSelectedAmount(isNaN(value) ? null : value);
-  };
+};
   
-  // Handle the selection of a duration
-  export const handleDurationSelect = (
+export const handleDurationSelect = (
 	duration: number,
 	setSelectedDuration: React.Dispatch<React.SetStateAction<number | null>>
-  ) => {
+) => {
 	setSelectedDuration(duration);
-  };
+};
   
-  // Handle the selection of a payment cycle
-  export const handleCycleSelect = (
+export const handleCycleSelect = (
 	cycle: string,
 	setSelectedCycle: React.Dispatch<React.SetStateAction<string | null>>
-  ) => {
+) => {
 	setSelectedCycle(cycle);
 };
