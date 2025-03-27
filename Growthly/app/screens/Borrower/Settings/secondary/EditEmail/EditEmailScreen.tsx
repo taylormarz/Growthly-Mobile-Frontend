@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useUser } from '@/context/UserContext';
 import { updateEmailUsername } from '@/app/utils/email-username/updateEmailUsername';
+import { validateEmailAndUsername } from '@/app/utils/validation/validationUtils';
 import styles from '@/styles/Settings/secondary/edit-bank-styles';
 import Banner from '@/app/components/Banner/Banner';
 import Input from '@/app/components/TestInput/TestInput';
@@ -15,15 +16,15 @@ import NavBar from '@/app/components/NavBar/NavBar';
 
 export default function EditEmailScreen() {
   const router = useRouter();
-  // user context
   const { user, setUserData } = useUser();
 
   // user input stored in these states
   const [email, setEmail] = useState(user?.email || '');
   const [username, setUsername] = useState(user?.username || '');
 
-  // function for updating user info
   const handleUserUpdate = () => {
+    if (!validateEmailAndUsername(email, username)) return;
+
     if (!user?._id) return;
 
     updateEmailUsername({
@@ -62,7 +63,6 @@ export default function EditEmailScreen() {
         title='Confirm Changes'
         onPress={handleUserUpdate}
       />
-
       <NavBar />
     </View>
   );

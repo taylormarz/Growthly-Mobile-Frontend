@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useUser } from '@/context/UserContext';
 import { updateUserAddress } from '@/app/utils/address/updateAddress';
+import { validateUserAddress } from '@/app/utils/validation/validationUtils';
 import styles from '@/styles/Settings/secondary/edit-address-styles';
 import Banner from '@/app/components/Banner/Banner';
 import Input from '@/app/components/TestInput/TestInput';
@@ -26,10 +27,11 @@ export default function EditAddressScreen() {
   const [province, setProvince] = useState(user?.province || '');
   const [postal_code, setPostalCode] = useState(user?.postal_code || '');
 
-  // function for updating user address info
   const handleUserUpdate = () => {
+    if (!validateUserAddress(street_address, phone_number, province, postal_code)) return;
+
     if (!user?._id) return;
-  
+
     updateUserAddress({
       userId: user._id,
       street_address,
@@ -39,7 +41,7 @@ export default function EditAddressScreen() {
       user,
       setUserData,
     });
-  };  
+  };
 
   // nav for cancel button (takes back to settings main screen)
   const navigateBackToSettings = () => {

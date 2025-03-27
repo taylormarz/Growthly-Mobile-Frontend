@@ -11,6 +11,14 @@ import { useFonts } from 'expo-font';
 import { Colors } from '@/styles/ColorPalette/colors';
 import { useState } from 'react';
 import { useRouter } from 'expo-router';
+import {
+  isNotBlank,
+  isValidSIN,
+  isValidEntry,
+  isValidEmail,
+  isValidPhone,
+} from '@/app/utils/validation/validation';
+import Toast from 'react-native-toast-message';
 import DropdownMenu from '../../components/DropdownMenu/DropdownMenu';
 import Button from '../../components/Button/Button';
 import InputField from '../../components/InputField/InputField';
@@ -57,11 +65,106 @@ export default function CreateAccountScreen() {
   };
 
   const handleNextStep = () => {
+    if (currentStep === 1) {
+      const { first_name, last_name, email, password } = formData;
+
+      if (!isValidEntry(first_name)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid First Name:',
+          text2: 'First name can only contain letters and spaces.',
+        });
+        return;
+      }
+
+      if (!isValidEntry(last_name)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid Last Name:',
+          text2: 'Last name can only contain letters and spaces.',
+        });
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid Email:',
+          text2: 'Please enter a valid email address.',
+        });
+        return;
+      }
+
+      if (
+        !isNotBlank(first_name) ||
+        !isNotBlank(last_name) ||
+        !isNotBlank(email) ||
+        !isNotBlank(password)
+      ) {
+        Toast.show({
+          type: 'error',
+          text1: 'Missing Fields:',
+          text2: 'Please fill in all required fields.',
+        });
+        return;
+      }
+    }
+
+    if (currentStep === 2) {
+      const { street_address, phone_number, province, postal_code } = formData;
+
+      if (
+        !isNotBlank(street_address) ||
+        !isNotBlank(phone_number) ||
+        !isNotBlank(province) ||
+        !isNotBlank(postal_code)
+      ) {
+        Toast.show({
+          type: 'error',
+          text1: 'Missing Fields:',
+          text2: 'Please complete your address information.',
+        });
+        return;
+      }
+
+      if (!isValidPhone(phone_number)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid Phone Number:',
+          text2: 'Phone number must be 9 digits.',
+        });
+        return;
+      }
+    }
     setCurrentStep(currentStep + 1);
   };
 
   // submit button clicked, new user info sent to backend as POST creating new user in db
   const handleSubmit = async () => {
+    const { username, user_type, sin_number } = formData;
+
+    if (
+      !isNotBlank(username) ||
+      !isNotBlank(user_type) ||
+      !isNotBlank(sin_number)
+    ) {
+      Toast.show({
+        type: 'error',
+        text1: 'Missing Fields:',
+        text2: 'Please complete all account details before submitting.',
+      });
+      return;
+    }
+
+    if (!isValidSIN(sin_number)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid SIN Number:',
+        text2: 'SIN number must be 9 digits.',
+      });
+      return;
+    }
+
     try {
       const response = await fetch(
         'https://growthly-backend.onrender.com/api/v1/users/register',
@@ -74,7 +177,6 @@ export default function CreateAccountScreen() {
         },
       );
 
-      // if the new user is created successfully (passes backend checks), user sees success alert
       if (response.ok) {
         Alert.alert(
           'New Account Created',
@@ -83,7 +185,6 @@ export default function CreateAccountScreen() {
             {
               text: 'Sign In',
               onPress: () => {
-                // user redirected to signin page
                 router.push('../');
               },
             },
