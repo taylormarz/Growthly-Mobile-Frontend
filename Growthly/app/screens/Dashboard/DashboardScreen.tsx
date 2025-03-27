@@ -1,6 +1,16 @@
 // DashboardScreen.tsx (BORROWER)
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
+import {
+  fetchLoansByUserId,
+} from '@/app/utils/loans/loanUtils';
+import {
+  View,
+  Text,
+  TouchableOpacity
+} from 'react-native';
 import { useUser } from '../../../context/UserContext';
 import { useRouter } from 'expo-router';
 import styles from '@/styles/Dashboard/dashboard-styles';
@@ -11,6 +21,7 @@ import OverviewComponent from '../../components/OverviewComponent/OverviewCompon
 const DashboardScreen = () => {
   const { user } = useUser();
   const router = useRouter();
+  const [currentLoan, setCurrentLoan] = useState<any>(null);
 
   // hook for logout button
   const handleLogout = () => {
@@ -37,6 +48,21 @@ const DashboardScreen = () => {
     router.push('../Settings/main/SettingsScreen');
   };
 
+  useEffect(() => {
+    fetchCurrentLoan();
+  }, []);
+
+  // call to backend to check if user has any posted loans attached to them
+  const fetchCurrentLoan = async () => {
+    if (!user?._id) return;
+    const loans = await fetchLoansByUserId({
+      userId: user._id,
+      endpoint: 'https://growthly-backend.onrender.com/api/v1/borrower/loan/',
+      idField: 'borrower_id',
+    });
+    setCurrentLoan(loans);
+  };
+
   return (
     <View style={styles.screenContainer}>
       <Header
@@ -53,7 +79,7 @@ const DashboardScreen = () => {
       <View style={styles.overviewContainer}>
         <OverviewComponent
           title='Active Loans'
-          value='0 Active Loan' // hard coded this for now but i will switch out once i set up a context for loans
+          value={`${currentLoan?.length || 0} Active Loans`}
           buttonText='View Loans >'
           onPress={handleViewLoans}
         />
