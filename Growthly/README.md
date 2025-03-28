@@ -8,7 +8,7 @@ Growthly is a full-stack peer-to-peer lending platform that connects borrowers a
 
 ---
 
-### Getting EXPO GO App:
+### Install the EXPO GO App:
 
 Locate the app store on your mobile device. Search for the 'Expo Go' application. You don't need to create an account to open Growthly.
 
@@ -16,32 +16,39 @@ Locate the app store on your mobile device. Search for the 'Expo Go' application
 
 ### Installation Instructions:
 
-##### Clone Growthly-Mobile-Frontend Repository
+1. **Clone Growthly-Mobile-Frontend Repository**  
+Clone the repository to your local machine by running the following command:
 
+```bash
 git clone https://github.com/taylormarz/Growthly-Mobile-Frontend.git
+```
 
-##### Navigate to New Local Repo
 
+2. **Navigate to New Local Repo**
+After cloning the repo, navigate into the project directory:
+```bash
 cd Growthly-Mobile-Frontend
+```
 
-##### Open Project is VS Code
-
+3. **Open Project is VS Code**
+```bash
 code .
+```
 
-##### Open Terminal
-
+4. **Open Terminal**
 ctrl+~
 
-##### Navigate into Growthly directory
-
+5. **Navigate into Growthly Directory**
+```bash
 cd Growthly
+```
 
-##### Start Project
-
+6. **Start Project**
+```bash
 npm start
+```
 
-### Open with Expo Go
-
+6. **Open with Expo Go**
 Open the camera on your phone and scan the QR code that is generated in the terminal. This will open the 'Expo Go' app on your phone. You will be asked about accepting a network, accept it. The app will then open.
 
 ---
