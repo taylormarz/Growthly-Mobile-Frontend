@@ -35,7 +35,7 @@ cd Growthly-Mobile-Frontend
 code .
 ```
 
-4. **Open Terminal**
+4. **Open Terminal**  
 ctrl+~
 
 5. **Navigate into Growthly Directory**
@@ -48,7 +48,7 @@ cd Growthly
 npm start
 ```
 
-6. **Open with Expo Go**
+6. **Open with Expo Go**  
 Open the camera on your phone and scan the QR code that is generated in the terminal. This will open the 'Expo Go' app on your phone. You will be asked about accepting a network, accept it. The app will then open.
 
 ---
