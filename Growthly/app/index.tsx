@@ -51,7 +51,6 @@ export default function SignInScreen() {
     );
   }
 
-  // ********** NOTE FOR SELF: i still need to update this to actually remember user info *********
   const radioSelect = () => {
     setState((prevState) => ({
       ...prevState,
@@ -155,7 +154,7 @@ export default function SignInScreen() {
         user_type: responseData.user_type,
       };
 
-      // store user data from api call with secure storage, to be used for user context
+      // [USER CONTEXT IN USE] store user data from api call with secure storage
       await SecureStore.setItemAsync(
         'userData',
         JSON.stringify(safeResDataStorage),

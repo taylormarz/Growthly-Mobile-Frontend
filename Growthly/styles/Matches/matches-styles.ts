@@ -14,6 +14,20 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter-Bold',
   },
 
+  contentContainer: {
+    color: Colors.growthly_darkblue,
+    left: 40,
+    top: 240,
+  },
+
+  regularText: {
+    color: Colors.growthly_darkblue,
+  },
+
+  regularText2: {
+    fontFamily: 'Inter-Bold',
+  },
+
   matchesContainer: {
     left: 40,
     marginTop: '60%',
@@ -35,6 +49,10 @@ const styles = StyleSheet.create({
     paddingTop: 0,
   },
 
+  inputContainer2: {
+    top: '1%',
+  },
+
   keyline: {
     position: 'absolute',
     top: 125,
@@ -51,7 +69,7 @@ const styles = StyleSheet.create({
 
   availableContainer: {
     width: '81%',
-    maxHeight: '35%',
+    maxHeight: '40%',
     marginTop: '60%',
     alignSelf: 'center',
     paddingVertical: '5%',
@@ -79,6 +97,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.growthly_white,
   },
+
+  breakdown: {
+    paddingBottom: 15,
+  }
 });
 
 export default styles;
