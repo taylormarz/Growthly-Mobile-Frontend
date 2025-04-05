@@ -23,6 +23,7 @@ export default function MatchesScreen() {
 
   const [loans, setLoans] = useState<Loan[]>([]);
   const [selectedLoanId, setSelectedLoanId] = useState<string | null>(null);
+  const [goToConfirmation, setGoToConfirmation] = useState(false);
 
   useEffect(() => {
     const fetchLoans = async () => {
@@ -44,7 +45,8 @@ export default function MatchesScreen() {
   );
 
   const showStep1 = !loanData || filteredLoans.length === 0;
-  const showStep2 = loanData && filteredLoans.length > 0
+  const showStep2 = loanData && filteredLoans.length > 0 && !goToConfirmation;
+  const showStep3 = loanData && filteredLoans.length > 0 && goToConfirmation;
 
   const handleAcceptMatch = async () => {
     // was having issues getting this working so introduced some console logs to make sure data from context was being loaded in
@@ -73,13 +75,16 @@ export default function MatchesScreen() {
         return;
       }
 
+      const interest = selectedLoan.amount * (selectedLoan.interest_rate / 100);
+      const totalLoan = selectedLoan.amount + interest;
+
       // currentloan obj that will be sent to db with data associated to user choices
       const newCurrentLoan = {
         loan_id: selectedLoan._id,
         borrower_id: user._id,
-        amount: selectedLoan.amount,
+        amount: totalLoan,
         amount_paid: 0,
-        amount_remaining: selectedLoan.amount,
+        amount_remaining: totalLoan,
         interest_rate: selectedLoan.interest_rate,
         interest_paid: 0,
         length_of_loan: selectedLoan.length_of_loan,
@@ -172,6 +177,7 @@ export default function MatchesScreen() {
       {/* Step 2: Matches available */}
       {showStep2 && (
         <>
+          <Text style={styles.headerText}>Available Matches</Text>
           <FlatList
             style={styles.availableContainer}
             data={filteredLoans}
@@ -203,13 +209,82 @@ export default function MatchesScreen() {
             )}
           />
           <View>
-            <TestButton title="Accept Match" onPress={handleAcceptMatch} />
+            <TestButton
+              title="Accept Match"
+              onPress={() => {
+                if (!selectedLoanId) {
+                  Alert.alert('Please select a loan before continuing.');
+                  return;
+                }
+                setGoToConfirmation(true);
+              }}
+            />
           </View>
         </>
       )}
 
+      {showStep3 && selectedLoanId && (
+        <>
+          <FlatList
+            data={[loans.find((loan) => loan._id === selectedLoanId)]}
+            keyExtractor={(item) => item?._id || 'default'}
+            renderItem={({ item }) => {
+              if (!item) return null;
+
+              const interest = item.amount * (item.interest_rate / 100);
+              const totalLoan = item.amount + interest;
+              const monthlyPayment = totalLoan / item.length_of_loan;
+
+              return (
+                <>
+                  <Text style={styles.headerText}>Match Confirmation</Text>
+
+                  <View style={styles.contentContainer}>
+                    <Text style={[styles.regularText, styles.regularText2]}>
+                      Warning:
+                    </Text>
+                    <Text style={styles.regularText}>
+                      By accepting a match, you are consenting to a loan.
+                    </Text>
+                    <Text style={[styles.breakdown, styles.regularText]}>
+                      This cannot be reversed. Interest is a one-time charge.
+                    </Text>
+                    <Text style={styles.regularText}>
+                      Please review the terms below before confirming:
+                    </Text>
+                  </View>
+
+                  <View style={styles.availableContainer}>
+                    <Text style={[styles.breakdown, styles.loanText]}>
+                      Borrowed Amount: ${item.amount}
+                    </Text>
+                    <Text style={[styles.breakdown, styles.loanText]}>
+                      Interest Rate: {item.interest_rate}%
+                    </Text>
+                    <Text style={[styles.breakdown, styles.loanText]}>
+                      Loan Length: {item.length_of_loan} months
+                    </Text>
+                    <Text style={[styles.breakdown, styles.loanText]}>
+                      Monthly Payment: ${monthlyPayment.toFixed(2)}
+                    </Text>
+                    <Text style={[styles.breakdown, styles.loanText]}>
+                      Total Interest: ${interest.toFixed(2)}
+                    </Text>
+                    <Text style={styles.loanText}>Total Loan: ${totalLoan.toFixed(2)}</Text>
+                  </View>
+                  <View>
+                    <TestButton
+                      title="Confirm Loan"
+                      onPress={handleAcceptMatch}
+                    />
+                  </View>
+                </>
+              );
+            }}
+          />
+        </>
+      )}
       <NavBar />
     </View>
-
   );
 }

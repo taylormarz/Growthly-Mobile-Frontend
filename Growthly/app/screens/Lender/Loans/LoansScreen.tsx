@@ -247,7 +247,7 @@ export default function LoansScreen() {
 											<Text style={styles.manageContainerText1}>Posted Loan Breakdown:</Text>
 											<Text style={styles.manageContainerText2}>Amount: ${loan.amount}</Text>
 											<Text style={styles.manageContainerText2}>Interest Rate: {loan.interest_rate}%</Text>
-											<Text style={styles.manageContainerText2}>Payback Period: {loan.length_of_loan}</Text>
+											<Text style={styles.manageContainerText2}>Payback Period: {loan.length_of_loan} months</Text>
 											<Text style={styles.manageContainerText2}>Status: {loan.available ? 'Not Claimed' : 'Claimed'}</Text>
 											<View style={styles.line} />
 										</TouchableOpacity>
@@ -258,8 +258,8 @@ export default function LoansScreen() {
 											You currently have no posted loan history with Growthly.
 										</Text>
 										<View style={[styles.keyline, styles.keyline4]} />
-										<Text style={[styles.manageContainerText1, styles.manageContainerText2]}>
-											Post a loan to get started. All posted loans can be managed in this tab.
+										<Text style={[styles.manageContainerText2, styles.manageContainerText1]}>
+											Post a loan to get started. All posted loans can be viewed in this tab.
 										</Text>
 									</TouchableOpacity>
 								)}

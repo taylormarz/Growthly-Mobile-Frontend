@@ -106,7 +106,7 @@ export default function LoansScreen() {
                 Active loans limit is: 2 - Total loan limit is: $2500
               </Text>
               <Text style={styles.regularText}>
-                Fixed Monthly Interest: Determined by Match
+                Fixed Interest: Determined by Lender
               </Text>
             </View>
 
@@ -226,17 +226,22 @@ export default function LoansScreen() {
             <View style={styles.manageContainer}>
               <ScrollView>
                 {currentLoan && currentLoan.length > 0 ? (
-                  currentLoan.map((loan: any, index: number) => (
-                    <TouchableOpacity key={index}>
-                      <Text style={styles.manageContainerText1}>Loan Breakdown:</Text>
-                      <Text style={styles.manageContainerText2}>Amount: ${loan.amount}</Text>
-                      <Text style={styles.manageContainerText2}>Interest Rate: {loan.interest_rate}%</Text>
-                      <Text style={styles.manageContainerText2}>Remaining Amount: ${loan.amount_remaining}</Text>
-                      <Text style={styles.manageContainerText2}>Payment Frequency: {loan.payment_freq}</Text>
-                      <Text style={styles.manageContainerText2}>Status: {loan.loan_status}</Text>
-                      <View style={styles.line} />
-                    </TouchableOpacity>
-                  ))
+                  currentLoan.map((loan: any, index: number) => {
+                    const interest = loan.amount * (loan.interest_rate / 100);
+                    const totalLoan = loan.amount + interest;
+
+                    return (
+                      <TouchableOpacity key={index}>
+                        <Text style={styles.manageContainerText1}>Loan Breakdown:</Text>
+                        <Text style={styles.manageContainerText2}>Total: ${totalLoan.toFixed(2)}</Text>
+                        <Text style={styles.manageContainerText2}>Interest Rate: {loan.interest_rate}%</Text>
+                        <Text style={styles.manageContainerText2}>Remaining Amount: ${totalLoan.toFixed(2)}</Text>
+                        <Text style={styles.manageContainerText2}>Payment Frequency: {loan.payment_freq}</Text>
+                        <Text style={styles.manageContainerText2}>Status: {loan.loan_status}</Text>
+                        <View style={styles.line} />
+                      </TouchableOpacity>
+                    );
+                  })
                 ) : (
                   <TouchableOpacity>
                     <Text style={styles.manageContainerText1}>

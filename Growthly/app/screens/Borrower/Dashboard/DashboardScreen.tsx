@@ -85,7 +85,7 @@ const DashboardScreen = () => {
         />
         <OverviewComponent
           title='Matches'
-          value='0 Matches' // hard coded - same as above
+          value='0 Matches'
           buttonText='View Match >'
           onPress={handleViewMatch}
         />
