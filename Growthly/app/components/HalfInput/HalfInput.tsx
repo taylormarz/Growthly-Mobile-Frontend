@@ -15,6 +15,7 @@ const HalfInput = ({ placeholder, onChangeText }: Props) => {
       placeholder={placeholder}
       placeholderTextColor={Colors.growthly_white}
       onChangeText={onChangeText}
+      autoCorrect={false}
     />
   );
 };
