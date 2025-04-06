@@ -19,6 +19,7 @@ const Input = ({ placeholder, style, secureTextEntry, onChangeText }: Props) => 
         placeholderTextColor={Colors.growthly_white}
         secureTextEntry={secureTextEntry}
         onChangeText={onChangeText}
+        autoCorrect={false}
       />
     </View>
   );

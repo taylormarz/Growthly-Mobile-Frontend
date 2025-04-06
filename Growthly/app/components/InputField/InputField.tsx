@@ -11,7 +11,6 @@ interface Props {
   secureTextEntry?: boolean;
 }
 
-// i keep reading about avoiding React.FC so i think i will refactor all components with a recommended alternative
 const InputField: React.FC<Props> = ({
   style,
   placeholder,
@@ -28,6 +27,7 @@ const InputField: React.FC<Props> = ({
       value={value}
       onChangeText={onChangeText}
       secureTextEntry={secureTextEntry}
+      autoCorrect={false}
     />
   );
 };
